@@ -25,7 +25,12 @@
 		}).addTo(map);
 
 		new L.Toolbar.Control([
-			new L.ToolbarAction(function() { console.log('my first action'); })
+			new L.ToolbarAction(function(map) {
+				new L.Draw.Polyline(map).enable();
+			}),
+			new L.ToolbarAction(function(map) {
+				new L.Draw.Polygon(map).enable();
+			})
 		], { position: 'topleft' }).addTo(map);
 
 		map.on('draw:created', function(evt) {
