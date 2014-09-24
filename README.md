@@ -6,7 +6,7 @@ Extensible, flexible toolbar class for Leaflet maps.
 Why Leaflet.Toolbar?
 ---------------
 
-Leaflet.draw exports an `L.Toolbar` class, but one look at it is enough to tell that it wasn't designed to serve as a general-purpose constructor for Leaflet toolbars.  For example:
+Leaflet.draw exports an `L.Toolbar` class, but it wasn't designed to serve as a general-purpose constructor for Leaflet toolbars.  For example:
 * Icons for all toolbar actions are given CSS classes prefixed with `leaflet-draw`.  Plugin developers aren't able to customize the CSS classes associated with each action.
 
 What is a toolbar?

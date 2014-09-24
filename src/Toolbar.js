@@ -13,6 +13,8 @@ L.Toolbar = L.Class.extend({
 	},
 
 	addTo: function(map) {
+		this._arguments = [].slice.call(arguments);
+
 		map.addLayer(this);
 	},
 
@@ -48,7 +50,7 @@ L.Toolbar = L.Class.extend({
 		var icon = event.target,
 			action = icon._action;
 
-		action.trigger();
+		action.trigger(this._arguments);
 	}
 
 });

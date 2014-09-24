@@ -19,8 +19,8 @@ L.ToolbarAction = L.Class.extend({
 
 	},
 
-	trigger: function() {
-		this._action();
+	trigger: function(args) {
+		this._action.apply(undefined, args);
 	}
 
 });
