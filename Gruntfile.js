@@ -58,13 +58,21 @@ module.exports = function(grunt) {
                 }
             },
             source: {
-                src: [ 'src/**', 'Gruntfile.js', 'package.json' ]
+                src: [ 'src/*.js', 'Gruntfile.js', 'package.json' ]
             },
             test: {
                 src: [ 'test/SpecHelper.js', 'test/src/**' ],
             },
             grunt: {
                 src: [ 'Gruntfile.js' ]
+            }
+        },
+
+        less: {
+            source: {
+                files: {
+                    'dist/Leaflet.Toolbar.css': 'src/Toolbar.less'
+                }
             }
         },
 
@@ -92,12 +100,17 @@ module.exports = function(grunt) {
             },
             source: {
                 files: [
-                    'src/**',
+                    'src/*.js',
                     'test/**',
                     'Gruntfile.js'
                 ],
-                tasks: [ 'build' ]
+                tasks: [ 'build:js' ]
+            },
+            css: {
+                files: [ 'src/*.less' ],
+                tasks: [ 'build:css' ]
             }
+
         },
 
         concat: {
@@ -123,12 +136,14 @@ module.exports = function(grunt) {
     /* Default (development): Watch files and lint, test, and build on change. */
     grunt.registerTask('default', ['karma:development:start', 'watch']);
 
-    grunt.registerTask('build', [
+    grunt.registerTask('build:js', [
         'jshint',
         'karma:development:run',
         'coverage',
-        'concat:dist',
+        'concat:dist'
     ]);
+
+    grunt.registerTask('build:css', [ 'less' ]);
 
     grunt.registerTask('coverage', 'Custom commmand-line reporter for karma-coverage', function() {
         var coverageReports = grunt.file.expand('coverage/*/coverage.txt'),

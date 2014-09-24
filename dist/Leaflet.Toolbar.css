@@ -1,0 +1,9 @@
+ul.leaflet-toolbar {
+  list-style: none;
+  padding-left: 0;
+}
+ul.leaflet-toolbar li {
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+}
