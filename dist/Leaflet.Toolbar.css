@@ -1,9 +1,25 @@
 ul.leaflet-toolbar {
   list-style: none;
   padding-left: 0;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
 }
-ul.leaflet-toolbar li {
+ul.leaflet-toolbar a {
+  display: block;
   width: 26px;
   height: 26px;
+  line-height: 26px;
+  text-align: center;
+  text-decoration: none;
   background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+ul.leaflet-toolbar a:hover {
+  background-color: #f4f4f4;
+}
+ul.leaflet-toolbar li:first-child a {
+  border-radius: 4px 4px 0 0;
+}
+ul.leaflet-toolbar li:last-child a {
+  border-radius: 0 0 4px 4px;
+  border-bottom-width: 0;
 }

@@ -1,9 +1,27 @@
+@leaflet-toolbar-action-size: 26px;
+
 ul.leaflet-toolbar {
 	list-style: none;
 	padding-left: 0;
-	li {
-		width: 26px;
-		height: 26px;
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	a {
+		display: block;
+
+		width: @leaflet-toolbar-action-size;
+		height: @leaflet-toolbar-action-size;
+		line-height: @leaflet-toolbar-action-size;
+
+		text-align: center;
+		text-decoration: none;
+
 		background-color: #fff;
+		&:hover { background-color: #f4f4f4; }
+
+		border-bottom: 1px solid #ccc;
+	}
+	li:first-child a { border-radius: 4px 4px 0 0; }
+	li:last-child a { 
+		border-radius: 0 0 4px 4px;
+		border-bottom-width: 0;
 	}
 }
