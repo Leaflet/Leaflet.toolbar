@@ -11,14 +11,6 @@ L.ToolbarAction = L.Class.extend({
 		this._action = action;
 	},
 
-	onAdd: function() {
-
-	},
-
-	onRemove: function() {
-
-	},
-
 	trigger: function(args) {
 		this._action.apply(undefined, args);
 	}

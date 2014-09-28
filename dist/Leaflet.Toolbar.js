@@ -15,14 +15,6 @@ L.ToolbarAction = L.Class.extend({
 		this._action = action;
 	},
 
-	onAdd: function() {
-
-	},
-
-	onRemove: function() {
-
-	},
-
 	trigger: function(args) {
 		this._action.apply(undefined, args);
 	}
@@ -61,10 +53,14 @@ L.Toolbar = L.Class.extend({
 			container = L.DomUtil.create('ul', className);
 
 		for (var i = 0, l = this._actions.length; i < l; i++) {
-			var icon = L.DomUtil.create('li', this._actions[i].options.className, container);
+			var action = this._actions[i],
+				actionClassName = 'leaflet-toolbar-action ' + action.options.className,
+				icon = L.DomUtil.create('li', actionClassName, container),
+				link = L.DomUtil.create('a', 'TODO', icon);
 
-			icon.innerHTML = this._actions[i].options.html;
-			icon._action = this._actions[i];
+			link.innerHTML = action.options.html;
+			link.setAttribute('href', '#');
+			link._action = action;
 
 			L.DomEvent.on(icon, 'click', this._onClick, this);
 		}
