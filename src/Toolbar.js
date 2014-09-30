@@ -46,8 +46,16 @@ L.Toolbar = L.Class.extend({
 		this._toolbar = container;
 	},
 
-	getContainer: function() {
+	getHTML: function() {
 		return this._toolbar;
+	},
+
+	getHTMLString: function() {
+		var tmp = L.DomUtil.create('div');
+
+		tmp.appendChild(this._toolbar);
+
+		return tmp.innerHTML;
 	},
 
 	_onClick: function(event) {

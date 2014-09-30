@@ -8,7 +8,7 @@ L.Toolbar.Control = L.Toolbar.extend({
 	},
 
 	onAdd: function(map) {
-		var toolbar = this.getContainer();
+		var toolbar = this.getHTML();
 
 		this._container
 			.addTo(map)

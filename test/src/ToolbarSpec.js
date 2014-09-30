@@ -14,9 +14,9 @@ describe("L.Toolbar", function() {
 		});
 	});
 
-	describe("#getContainer", function() {
+	describe("#getHTML", function() {
 		it("Should set the HTML content of the container correctly.", function() {
-			var container = toolbar.getContainer();
+			var container = toolbar.getHTML();
 
 			expect(container.tagName).to.equal("UL");
 			expect(container.children.length).to.equal(toolbar._actions.length);

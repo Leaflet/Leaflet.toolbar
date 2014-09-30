@@ -4,19 +4,23 @@ L.Toolbar = L.Toolbar || {};
 
 L.Toolbar.Popup = L.Toolbar.extend({
 
-	initialize: function(actions, options) {
+	initialize: function(latlng, actions, options) {
 		L.Toolbar.prototype.initialize.call(this, actions, options);
 
-		var toolbar = this.getContainer();
+		var	toolbarOptions = L.extend(this.options, {
+				icon: new L.DivIcon({
+					html: this.getHTMLString(),
+					className: this.options.className
+				})
+			});
 
-		this._container = new L.Popup()
-			.setContent(toolbar);
+		this._container = new L.Marker(latlng, toolbarOptions);
 	},
 
 	onAdd: function(map) {
 		this._map = map;
 
-		this._container.openOn(map);
+		this._container.addTo(map);
 	},
 
 	onRemove: function(map) {
