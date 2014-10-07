@@ -13,6 +13,8 @@ L.Toolbar.Control = L.Toolbar.extend({
 		this._container
 			.addTo(map)
 			.setContent(toolbar);
+
+		this.attachHandlers(this._container.getContainer().childNodes[0]);
 	},
 
 	onRemove: function(map) {

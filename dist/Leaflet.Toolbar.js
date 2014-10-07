@@ -23,15 +23,17 @@ L.ToolbarAction = L.Class.extend({
 L.Toolbar = L.Class.extend({
 	
 	options: {
-		className: ''
+		className: '',
+		filter: function() { return true; }
 	},
 
 	initialize: function(actions, options) {
 		L.setOptions(this, options);
 
+		// actions should be an array
 		this._actions = actions;
 
-		this._initToolbar();
+		this._initToolbarContainer();
 	},
 
 	addTo: function(map) {
@@ -40,44 +42,30 @@ L.Toolbar = L.Class.extend({
 		map.addLayer(this);
 	},
 
-	onAdd: function() {
-
-	},
-
-	onRemove: function() {
-
-	},
-
-	_initToolbar: function() {
+	_initToolbarContainer: function() {
 		var className = 'leaflet-toolbar ' + this.options.className,
-			container = L.DomUtil.create('ul', className);
+			tmp = L.DomUtil.create('div'),
+			container = L.DomUtil.create('ul', className, tmp),
+			actionClassName,
+			actionButton;
 
-		for (var i = 0, l = this._actions.length; i < l; i++) {
-			var action = this._actions[i],
-				actionClassName = 'leaflet-toolbar-action ' + action.options.className,
-				icon = L.DomUtil.create('li', actionClassName, container),
-				link = L.DomUtil.create('a', 'TODO', icon);
-
-			link.innerHTML = action.options.html;
-			link.setAttribute('href', '#');
-			link._action = action;
-
-			L.DomEvent.on(icon, 'click', this._onClick, this);
+		for (var actionName in this._actions) {
+			if (this._actions.hasOwnProperty(actionName)) {
+				actionClassName = actionName ? 'leaflet-toolbar-action leaflet-toolbar-action-' + actionName : 'leaflet-toolbar-action';
+				actionButton = L.DomUtil.create('li', actionClassName, container);
+				actionButton.setAttribute('data-leaflet-toolbar-action', actionName);
+			}
 		}
 
-		this._toolbar = container;
+		this._htmlString = tmp.innerHTML;
+	},
+
+	attachHandlers: function() {
+
 	},
 
 	getHTML: function() {
-		return this._toolbar;
-	},
-
-	getHTMLString: function() {
-		var tmp = L.DomUtil.create('div');
-
-		tmp.appendChild(this._toolbar);
-
-		return tmp.innerHTML;
+		return this._htmlString;
 	},
 
 	_onClick: function(event) {
@@ -108,6 +96,8 @@ L.Toolbar.Control = L.Toolbar.extend({
 		this._container
 			.addTo(map)
 			.setContent(toolbar);
+
+		this.attachHandlers(this._container.getContainer().childNodes[0]);
 	},
 
 	onRemove: function(map) {
@@ -143,7 +133,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		var	toolbarOptions = L.extend(this.options, {
 				icon: new L.DivIcon({
-					html: this.getHTMLString(),
+					html: this.getHTML(),
 					className: this.options.className
 				})
 			});
@@ -155,10 +145,12 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._map = map;
 
 		this._container.addTo(map);
+
+		this.attachHandlers(this._container._icon);
 	},
 
-	onRemove: function(map) {
-		map.closePopup(this._container);
+	onRemove: function() {
+		// TODO
 
 		delete this._map;
 	},

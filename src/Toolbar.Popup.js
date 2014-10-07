@@ -9,7 +9,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		var	toolbarOptions = L.extend(this.options, {
 				icon: new L.DivIcon({
-					html: this.getHTMLString(),
+					html: this.getHTML(),
 					className: this.options.className
 				})
 			});
@@ -21,10 +21,12 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._map = map;
 
 		this._container.addTo(map);
+
+		this.attachHandlers(this._container._icon);
 	},
 
-	onRemove: function(map) {
-		map.closePopup(this._container);
+	onRemove: function() {
+		// TODO
 
 		delete this._map;
 	},

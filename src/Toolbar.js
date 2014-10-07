@@ -1,15 +1,22 @@
 L.Toolbar = L.Class.extend({
 	
 	options: {
-		className: ''
+		className: '',
+		filter: function() { return true; }
 	},
 
 	initialize: function(actions, options) {
+		var i, l, id;
+
 		L.setOptions(this, options);
 
-		this._actions = actions;
+		/* Add toolbar actions to an actions object. */
+		for (i = 0, l = actions.length; i < l; i++) {
+			id = L.stamp(actions[i]);
+			this._actions[id] = actions[i];
+		}
 
-		this._initToolbar();
+		this._initToolbarContainer();
 	},
 
 	addTo: function(map) {
@@ -18,44 +25,35 @@ L.Toolbar = L.Class.extend({
 		map.addLayer(this);
 	},
 
-	onAdd: function() {
-
-	},
-
-	onRemove: function() {
-
-	},
-
-	_initToolbar: function() {
+	_initToolbarContainer: function() {
 		var className = 'leaflet-toolbar ' + this.options.className,
-			container = L.DomUtil.create('ul', className);
+			tmp = L.DomUtil.create('div'),
+			container = L.DomUtil.create('ul', className, tmp),
+			actionButton;
 
-		for (var i = 0, l = this._actions.length; i < l; i++) {
-			var action = this._actions[i],
-				actionClassName = 'leaflet-toolbar-action ' + action.options.className,
-				icon = L.DomUtil.create('li', actionClassName, container),
-				link = L.DomUtil.create('a', 'TODO', icon);
-
-			link.innerHTML = action.options.html;
-			link.setAttribute('href', '#');
-			link._action = action;
-
-			L.DomEvent.on(icon, 'click', this._onClick, this);
+		for (var id in this._actions) {
+			if (this._actions.hasOwnProperty(id)) {
+				actionButton = L.DomUtil.create('li', 'leaflet-toolbar-action', container);
+				actionButton.setAttribute('data-leaflet-toolbar-action', id);
+			}
 		}
 
-		this._toolbar = container;
+		this._htmlString = tmp.innerHTML;
+	},
+
+	attachHandlers: function(domNode) {
+		var actionContainers = domNode.childNodes,
+			id,
+			i, l;
+
+		for (i = 0, l = actionContainers.length; i < l; i++) {
+			id = actionContainers[i].getAttribute('data-leaflet-toolbar-action');
+			L.DomUtil.on(actionContainers[i], 'click', this._actions[id], undefined);
+		}
 	},
 
 	getHTML: function() {
-		return this._toolbar;
-	},
-
-	getHTMLString: function() {
-		var tmp = L.DomUtil.create('div');
-
-		tmp.appendChild(this._toolbar);
-
-		return tmp.innerHTML;
+		return this._htmlString;
 	},
 
 	_onClick: function(event) {
