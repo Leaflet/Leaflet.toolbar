@@ -40,7 +40,7 @@
 			'draw-polyline': 	new L.ToolbarAction(function(map) {
 									new L.Draw.Polyline(map).enable();
 								}, { className: 'leaflet-draw-polyline' }),
-			
+
 			'draw-polygon': 	new L.ToolbarAction(function(map) {
 									new L.Draw.Polygon(map).enable();
 								}, { className: 'leaflet-draw-polygon' }),
@@ -48,7 +48,7 @@
 			'edit': 			new L.ToolbarAction(function(map, featureGroup) {
 									new L.EditToolbar.Edit(map, { featureGroup: featureGroup }).enable();
 								}, { className: 'leaflet-draw-edit' }),
-
+			
 			'delete': 			new L.ToolbarAction(function(map, featureGroup) {
 									new L.EditToolbar.Delete(map, { featureGroup: featureGroup }).enable();
 								}, { className: 'leaflet-draw-delete' })

@@ -1,11 +1,14 @@
 L.ToolbarAction = L.Class.extend({
 	
 	options: {
-		className: '',
+		className: 'leaflet-toolbar-action',
 		html: ''
 	},
 
 	initialize: function(action, options) {
+		if (options && options.className) {
+			options.className = this.options.className + ' ' + options.className;
+		}
 		L.setOptions(this, options);
 
 		this._action = action;

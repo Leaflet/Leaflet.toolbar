@@ -5,11 +5,14 @@
 L.ToolbarAction = L.Class.extend({
 	
 	options: {
-		className: '',
+		className: 'leaflet-toolbar-action',
 		html: ''
 	},
 
 	initialize: function(action, options) {
+		if (options && options.className) {
+			options.className = this.options.className + ' ' + options.className;
+		}
 		L.setOptions(this, options);
 
 		this._action = action;
@@ -30,7 +33,6 @@ L.Toolbar = L.Class.extend({
 	initialize: function(actions, options) {
 		L.setOptions(this, options);
 
-		// actions should be an array
 		this._actions = actions;
 
 		this._initToolbarContainer();
@@ -46,22 +48,35 @@ L.Toolbar = L.Class.extend({
 		var className = 'leaflet-toolbar ' + this.options.className,
 			tmp = L.DomUtil.create('div'),
 			container = L.DomUtil.create('ul', className, tmp),
-			actionClassName,
-			actionButton;
+			action,
+			actionButton, link;
 
+		/* TODO: Is it a problem that the order of toolbar actions will not be guaranteed? */
 		for (var actionName in this._actions) {
 			if (this._actions.hasOwnProperty(actionName)) {
-				actionClassName = actionName ? 'leaflet-toolbar-action leaflet-toolbar-action-' + actionName : 'leaflet-toolbar-action';
-				actionButton = L.DomUtil.create('li', actionClassName, container);
-				actionButton.setAttribute('data-leaflet-toolbar-action', actionName);
+				action = this._actions[actionName];
+
+				actionButton = L.DomUtil.create('li', 'leaflet-toolbar-action', container);
+				L.DomUtil.addClass(actionButton, action.options.className);
+
+				link = L.DomUtil.create('a', '', actionButton);
+				link.innerHTML = action.options.html;
+				link.setAttribute('href', '#');
+				link.setAttribute('data-leaflet-toolbar-action', actionName);
+
 			}
 		}
 
 		this._htmlString = tmp.innerHTML;
 	},
 
-	attachHandlers: function() {
+	attachHandlers: function(domNode) {
+		var actionButtons = domNode.querySelectorAll('.leaflet-toolbar-action a'),
+			i, l;
 
+		for (i = 0, l = actionButtons.length; i < l; i++) {
+			L.DomEvent.on(actionButtons[i], 'click', this._onClick, this);
+		}
 	},
 
 	getHTML: function() {
@@ -70,7 +85,10 @@ L.Toolbar = L.Class.extend({
 
 	_onClick: function(event) {
 		var icon = event.target,
-			action = icon._action;
+			actionName = icon.getAttribute('data-leaflet-toolbar-action'),
+			action = this._actions[actionName];
+
+		console.log(event.target);
 
 		action.trigger(this._arguments);
 	}
