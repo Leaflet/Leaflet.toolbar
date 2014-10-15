@@ -8,12 +8,15 @@ describe("L.ToolbarAction", function() {
 		fn = sinon.spy();
 
 		action = new L.ToolbarAction(fn, {});
-		toolbar = new L.Toolbar([action]);
+		toolbar = new L.Toolbar({ 'test-action': action });
 	});
 
 	describe("#trigger", function() {
 		it("Should call the appropriate toolbar action.", function() {
-			toolbar._onClick({ target: { _action: action }});
+			var target = L.DomUtil.create('div');
+			target.setAttribute('data-leaflet-toolbar-action', 'test-action');
+			
+			toolbar._onClick({ target: target });
 
 			expect(fn.called).to.equal(true);
 		});

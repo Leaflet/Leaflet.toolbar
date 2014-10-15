@@ -1,23 +1,38 @@
 describe("L.Toolbar", function() {
-	var toolbar,
+	var map,
+		toolbar,
 		action = sinon.spy(),
-		actions = [
-			new L.ToolbarAction(action, {})
-		];
+		actions = {
+			'test-action': new L.ToolbarAction(action, {})
+		};
 
 	beforeEach(function() {
+		map = new L.Map(L.DomUtil.create('div'));
 		toolbar = new L.Toolbar(actions);
 	});
 
 	describe("#initialize", function() {
 		it("Should store the array of actions.", function() {
-			expect(toolbar._actions.length).to.equal(actions.length);
+
 		});
 	});
 
 	describe("#attachHandlers", function() {
-		it("Should bind each action to a corresponding button with a click handler.", function() {
+		it("Should attach actions by name to the corresponding buttons.", function() {
+			var actionNames = [],
+				testContainer = L.DomUtil.create('div'),
+				actionButtons;
 
+			toolbar.addTo(map);
+			testContainer.innerHTML = toolbar.getHTML();
+			toolbar.attachHandlers(testContainer);
+			actionButtons = testContainer.querySelectorAll('.leaflet-toolbar-action a');
+
+			for (var i = 0, l = actionButtons.length; i < l; i++) {
+				actionNames.push(actionButtons[i].getAttribute('data-leaflet-toolbar-action'));
+			}
+
+			expect(actionNames).to.deep.equal(Object.keys(actions));
 		});
 	});
 
@@ -31,9 +46,9 @@ describe("L.Toolbar", function() {
 			dom = tmp.childNodes[0];
 
 			expect(container).to.be.a('string');
-
 			expect(dom.tagName).to.equal("UL");
-			expect(dom.children.length).to.equal(toolbar._actions.length);
+			expect(dom.children.length).to.equal(Object.keys(actions).length);
+
 			for (var i = 0, l = dom.children.length; i < l; i++) {
 				expect(dom.children[i].tagName).to.equal("LI");
 			}
