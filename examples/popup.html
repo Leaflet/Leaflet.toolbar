@@ -23,10 +23,10 @@
 			background-image: url('../node_modules/leaflet-draw/dist/images/spritesheet.png');
 			background-repeat: no-repeat;
 		}
-		.leaflet-draw-polyline a { background-position: -2px -2px; }
-		.leaflet-draw-polygon a { background-position: -31px -2px; }
-		.leaflet-draw-edit a { background-position: -152px -2px; }
-		.leaflet-draw-delete a { background-position: -182px -2px; }
+		a.leaflet-draw-polyline { background-position: -2px -2px; }
+		a.leaflet-draw-polygon { background-position: -31px -2px; }
+		a.leaflet-draw-edit { background-position: -152px -2px; }
+		a.leaflet-draw-delete { background-position: -182px -2px; }
 	</style>	
 	<script>
 		var map = L.map('map').setView([41.7896,-87.5996], 15),
@@ -44,6 +44,20 @@
 					new L.Draw.Polygon(map).enable();
 				}, { className: 'leaflet-draw-polygon' })
 		};
+		
+		L.Edit = L.Edit || {};
+		L.Edit.TOOLBAR = {
+			'edit': new L.ToolbarAction(function(map, shape) {
+					new L.EditToolbar.Edit(map, { 
+						featureGroup: new L.FeatureGroup().addLayer(layer) 
+					}).enable();
+				}),
+			'delete': new L.ToolbarAction(function(map, shape) {
+					new L.EditToolbar.Delete(map, {
+						featureGroup: new L.FeatureGroup().addLayer(layer)
+					})
+				})
+		};
 
 		new L.Toolbar.Control(L.Draw.TOOLBAR, { position: 'topleft', className: 'leaflet-draw-toolbar' }).addTo(map, drawnItems);
 
@@ -56,13 +70,7 @@
 			layer.on('click', function(event) {
 				var latlng = event.latlng;
 
-				new L.Toolbar.Popup(latlng, {
-					'edit': new L.ToolbarAction(function(map, shape) {
-							new L.EditToolbar.Edit(map, { 
-								featureGroup: new L.FeatureGroup().addLayer(layer) 
-							}).enable();
-						})
-				}).addTo(map, layer);
+				new L.Toolbar.Popup(latlng, L.Edit.TOOLBAR).addTo(map, layer);
 			});
 		});
 	</script>
