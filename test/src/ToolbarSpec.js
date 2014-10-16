@@ -26,7 +26,7 @@ describe("L.Toolbar", function() {
 			toolbar.addTo(map);
 			testContainer.innerHTML = toolbar.getHTML();
 			toolbar.attachHandlers(testContainer);
-			actionButtons = testContainer.querySelectorAll('.leaflet-toolbar-action a');
+			actionButtons = testContainer.querySelectorAll('a.leaflet-toolbar-action');
 
 			for (var i = 0, l = actionButtons.length; i < l; i++) {
 				actionNames.push(actionButtons[i].getAttribute('data-leaflet-toolbar-action'));

@@ -2,6 +2,7 @@ L.Toolbar = L.Class.extend({
 	
 	options: {
 		className: '',
+		baseClassName: 'leaflet-toolbar',
 		filter: function() { return true; }
 	},
 
@@ -20,7 +21,7 @@ L.Toolbar = L.Class.extend({
 	},
 
 	_initToolbarContainer: function() {
-		var className = 'leaflet-toolbar ' + this.options.className,
+		var className = this.options.baseClassName + ' ' + this.options.className,
 			tmp = L.DomUtil.create('div'),
 			container = L.DomUtil.create('ul', className, tmp),
 			action,
@@ -31,13 +32,15 @@ L.Toolbar = L.Class.extend({
 			if (this._actions.hasOwnProperty(actionName)) {
 				action = this._actions[actionName];
 
-				actionButton = L.DomUtil.create('li', 'leaflet-toolbar-action', container);
-				L.DomUtil.addClass(actionButton, action.options.className);
+				actionButton = L.DomUtil.create('li', '', container);
 
 				link = L.DomUtil.create('a', '', actionButton);
 				link.innerHTML = action.options.html;
 				link.setAttribute('href', '#');
 				link.setAttribute('data-leaflet-toolbar-action', actionName);
+
+				L.DomUtil.addClass(link, 'leaflet-toolbar-action');
+				L.DomUtil.addClass(link, action.options.className);
 
 			}
 		}
@@ -46,7 +49,7 @@ L.Toolbar = L.Class.extend({
 	},
 
 	attachHandlers: function(domNode) {
-		var actionButtons = domNode.querySelectorAll('.leaflet-toolbar-action a'),
+		var actionButtons = domNode.querySelectorAll('a.leaflet-toolbar-action'),
 			i, l;
 
 		for (i = 0, l = actionButtons.length; i < l; i++) {
