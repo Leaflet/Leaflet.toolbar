@@ -25,9 +25,12 @@ L.ToolbarAction = L.Class.extend({
 });
 L.Toolbar = L.Class.extend({
 	
+	statics: {
+		baseClass: 'leaflet-toolbar'
+	},
+
 	options: {
 		className: '',
-		baseClassName: 'leaflet-toolbar',
 		filter: function() { return true; }
 	},
 
@@ -46,7 +49,7 @@ L.Toolbar = L.Class.extend({
 	},
 
 	_initToolbarContainer: function() {
-		var className = this.options.baseClassName + ' ' + this.options.className,
+		var className = this.constructor.baseClass + ' ' + this.options.className,
 			tmp = L.DomUtil.create('div'),
 			container = L.DomUtil.create('ul', className, tmp),
 			action,
@@ -106,8 +109,8 @@ L.Toolbar = L.Toolbar || {};
 
 L.Toolbar.Control = L.Toolbar.extend({
 
-	options: {
-		baseClassName: L.Toolbar.prototype.options.baseClassName + ' leaflet-control-toolbar'
+	statics: {
+		baseClass: L.Toolbar.baseClass + ' leaflet-control-toolbar'
 	},
 
 	initialize: function(actions, options) {
@@ -154,8 +157,8 @@ L.Toolbar = L.Toolbar || {};
 
 L.Toolbar.Popup = L.Toolbar.extend({
 
-	options: {
-		baseClassName: L.Toolbar.prototype.options.baseClassName + ' leaflet-popup-toolbar',
+	statics: {
+		baseClass: L.Toolbar.baseClass + ' leaflet-popup-toolbar'
 	},
 
 	initialize: function(latlng, actions, options) {

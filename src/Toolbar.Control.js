@@ -2,8 +2,8 @@ L.Toolbar = L.Toolbar || {};
 
 L.Toolbar.Control = L.Toolbar.extend({
 
-	options: {
-		baseClassName: L.Toolbar.prototype.options.baseClassName + ' leaflet-control-toolbar'
+	statics: {
+		baseClass: L.Toolbar.baseClass + ' leaflet-control-toolbar'
 	},
 
 	initialize: function(actions, options) {

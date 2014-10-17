@@ -4,8 +4,8 @@ L.Toolbar = L.Toolbar || {};
 
 L.Toolbar.Popup = L.Toolbar.extend({
 
-	options: {
-		baseClassName: L.Toolbar.prototype.options.baseClassName + ' leaflet-popup-toolbar',
+	statics: {
+		baseClass: L.Toolbar.baseClass + ' leaflet-popup-toolbar'
 	},
 
 	initialize: function(latlng, actions, options) {

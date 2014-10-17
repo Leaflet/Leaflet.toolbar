@@ -1,8 +1,11 @@
 L.Toolbar = L.Class.extend({
 	
+	statics: {
+		baseClass: 'leaflet-toolbar'
+	},
+
 	options: {
 		className: '',
-		baseClassName: 'leaflet-toolbar',
 		filter: function() { return true; }
 	},
 
@@ -21,7 +24,7 @@ L.Toolbar = L.Class.extend({
 	},
 
 	_initToolbarContainer: function() {
-		var className = this.options.baseClassName + ' ' + this.options.className,
+		var className = this.constructor.baseClass + ' ' + this.options.className,
 			tmp = L.DomUtil.create('div'),
 			container = L.DomUtil.create('ul', className, tmp),
 			action,
