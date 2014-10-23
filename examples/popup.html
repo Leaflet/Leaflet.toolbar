@@ -53,9 +53,7 @@
 					}).enable();
 				}),
 			'delete': new L.ToolbarAction(function(map, shape) {
-					new L.EditToolbar.Delete(map, {
-						featureGroup: new L.FeatureGroup().addLayer(shape)
-					})
+					map.removeLayer(shape);
 				})
 		};
 
