@@ -5,7 +5,8 @@ describe("L.Toolbar.Popup", function() {
 	beforeEach(function() {
 		var latlng = new L.LatLng(0, 0);
 
-		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
+		// need to add the <div> to document.body in order for external CSS stylesheets to be applied.
+		map = new L.Map(L.DomUtil.create('div', 'map', document.body)).setView([41.7896,-87.5996], 15);
 		toolbar = new L.Toolbar.Popup(latlng, {
 			'einsatz': new L.ToolbarAction(function() {}),
 			'kunst': new L.ToolbarAction(function() {})
@@ -13,7 +14,7 @@ describe("L.Toolbar.Popup", function() {
 	});
 
 	describe("#onAdd", function() {
-		it.skip("Sets the width of the toolbar to a nonzero value if there are toolbar actions.", function() {
+		it("Sets the width of the toolbar to a nonzero value if there are toolbar actions.", function() {
 			var actionsLength = Object.keys(toolbar._actions).length,
 				toolbarContainer,
 				toolbarButtons,
@@ -35,6 +36,14 @@ describe("L.Toolbar.Popup", function() {
 
 			/* TODO: Works in the example, but not during tests. */
 			expect(toolbarWidth).to.be.above(buttonWidth);
+		});
+	});
+
+	describe("#onRemove", function() {
+		it("Removes the toolbar from the map.", function() {
+			map.removeLayer(toolbar);
+
+			expect(toolbar._map).to.equal(undefined);
 		});
 	});
 });
