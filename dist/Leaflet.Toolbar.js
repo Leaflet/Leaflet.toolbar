@@ -180,6 +180,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this._setStyles();
 
+		L.DomEvent.off(this._container._icon, 'click', this._container._onMouseClick, this._container);
 		this.attachHandlers(this._container._icon);
 
 		map.on('click', function() {
@@ -187,8 +188,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		});
 	},
 
-	onRemove: function() {
-		// TODO
+	onRemove: function(map) {
+		map.removeLayer(this._container);
 
 		delete this._map;
 	},
@@ -197,6 +198,12 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._container.setLatLng(latlng);
 
 		return this;
+	},
+
+	_onClick: function(event) {
+		L.Toolbar.prototype._onClick.call(this, event);
+
+		this._map.removeLayer(this);
 	},
 
 	_setStyles: function() {
