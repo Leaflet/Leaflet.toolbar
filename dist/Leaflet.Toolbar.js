@@ -180,7 +180,9 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this._setStyles();
 
+		// an existing listener on the marker icon throws errors when the toolbar is removed if not disabled.
 		L.DomEvent.off(this._container._icon, 'click', this._container._onMouseClick, this._container);
+
 		this.attachHandlers(this._container._icon);
 
 		map.on('click', function() {
@@ -209,20 +211,33 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	_setStyles: function() {
 		var toolbar = this._container._icon.querySelectorAll('.leaflet-toolbar')[0],
 			buttons = this._container._icon.querySelectorAll('.leaflet-toolbar-action'),
-			toolbarHeight = L.DomUtil.getStyle(toolbar, 'height'),
+			buttonHeights = [],
 			toolbarWidth = 0,
+			toolbarHeight,
+			tipSize,
 			anchor;
 
 		for (var i = 0, l = buttons.length; i < l; i++) {
+			buttonHeights.push(parseInt(L.DomUtil.getStyle(buttons[i], 'height'), 10));
 			toolbarWidth += parseInt(L.DomUtil.getStyle(buttons[i], 'width'), 10);
 		}
-
 		toolbar.style.width = toolbarWidth + 'px';
-		anchor = new L.Point(toolbarWidth/2, toolbarHeight);
+
+		/* Create and place the toolbar tip. */
+		this._tipContainer = L.DomUtil.create('div', 'leaflet-toolbar-tip-container', this._container._icon);
+		this._tipContainer.style.width = toolbarWidth + 'px';
+
+		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
+
+		/* Set the anchor point. */
+		toolbarHeight = Math.max.apply(undefined, buttonHeights);
+		tipSize = parseInt(L.DomUtil.getStyle(this._tip, 'width'), 10);
+
+		anchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
+
 		this._container._icon.style.marginLeft = (-anchor.x) + 'px';
 		this._container._icon.style.marginTop = (-anchor.y) + 'px';
 	}
-	
 });
 
 }(window, document));

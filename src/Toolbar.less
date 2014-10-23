@@ -1,9 +1,17 @@
+/* Variables and Mixins */
 @leaflet-toolbar-action-size: 26px;
+@leaflet-toolbar-background-color: #fff;
+@leaflet-toolbar-tip-size: 12px;
 
+.leaflet-toolbar-box-shadow() {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+}
+
+/* Generic L.Toolbar */
 ul.leaflet-toolbar {
 	list-style: none;
 	padding-left: 0;
-	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	.leaflet-toolbar-box-shadow();
 	.leaflet-toolbar-action {
 		display: block;
 
@@ -14,13 +22,34 @@ ul.leaflet-toolbar {
 		text-align: center;
 		text-decoration: none;
 
-		background-color: #fff;
+		background-color: @leaflet-toolbar-background-color;
 		&:hover { background-color: #f4f4f4; }
-
-		border-bottom: 1px solid #ccc;
 	}
 }
+
+.leaflet-toolbar-tip-container {
+	margin: 0 auto;
+	height: @leaflet-toolbar-tip-size;
+	position: relative;
+	overflow: hidden;
+}
+
+.leaflet-toolbar-tip {
+	width: @leaflet-toolbar-tip-size;
+	height: @leaflet-toolbar-tip-size;
+
+	margin: -@leaflet-toolbar-tip-size/2 auto 0;
+
+	background-color: @leaflet-toolbar-background-color;
+	.leaflet-toolbar-box-shadow();
+
+	transform: rotate(45deg);
+}
+
+/* L.Toolbar.Control */
 .leaflet-control-toolbar {
+	.leaflet-toolbar-action { border-bottom: 1px solid #ccc; }
+
 	li:first-child .leaflet-toolbar-action { 
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px; 
@@ -31,6 +60,8 @@ ul.leaflet-toolbar {
 		border-bottom-width: 0;
 	}	
 }
+
+/* L.Toolbar.Popup */
 .leaflet-popup-toolbar {
 	a {
 		float: left;
