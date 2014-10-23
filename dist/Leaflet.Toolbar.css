@@ -3,7 +3,7 @@ ul.leaflet-toolbar {
   padding-left: 0;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
 }
-ul.leaflet-toolbar a {
+ul.leaflet-toolbar .leaflet-toolbar-action {
   display: block;
   width: 26px;
   height: 26px;
@@ -13,14 +13,14 @@ ul.leaflet-toolbar a {
   background-color: #fff;
   border-bottom: 1px solid #ccc;
 }
-ul.leaflet-toolbar a:hover {
+ul.leaflet-toolbar .leaflet-toolbar-action:hover {
   background-color: #f4f4f4;
 }
-.leaflet-control-toolbar li:first-child a {
+.leaflet-control-toolbar li:first-child .leaflet-toolbar-action {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
-.leaflet-control-toolbar li:last-child a {
+.leaflet-control-toolbar li:last-child .leaflet-toolbar-action {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom-width: 0;
@@ -28,11 +28,11 @@ ul.leaflet-toolbar a:hover {
 .leaflet-popup-toolbar a {
   float: left;
 }
-.leaflet-popup-toolbar li:first-child a {
+.leaflet-popup-toolbar li:first-child .leaflet-toolbar-action {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-.leaflet-popup-toolbar li:last-child a {
+.leaflet-popup-toolbar li:last-child .leaflet-toolbar-action {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   border-bottom-width: 0;

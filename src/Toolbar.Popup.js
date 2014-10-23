@@ -46,15 +46,6 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		return this;
 	},
 
-	_getToolbarActionWidth: function() {
-		// var mockToolbar = L.DomUtil.create('ul', 'leaflet-toolbar'),
-		// 	mockToolbarAction = L.DomUtil.create('a', 'leaflet-toolbar-action', mockToolbar);
-
-		// TODO: Figure out why this isn't returning a value.
-		// return L.DomUtil.getStyle(mockToolbarAction, 'width');
-		return 26;
-	},
-
 	_setStyles: function() {
 		var toolbar = this._container._icon.querySelectorAll('.leaflet-toolbar')[0],
 			buttons = this._container._icon.querySelectorAll('.leaflet-toolbar-action'),
@@ -63,10 +54,10 @@ L.Toolbar.Popup = L.Toolbar.extend({
 			anchor;
 
 		for (var i = 0, l = buttons.length; i < l; i++) {
-			toolbarWidth += L.DomUtil.getStyle(buttons[i], 'width');
+			toolbarWidth += parseInt(L.DomUtil.getStyle(buttons[i], 'width'), 10);
 		}
 
-		toolbar.style.width = toolbarWidth;
+		toolbar.style.width = toolbarWidth + 'px';
 		anchor = new L.Point(toolbarWidth/2, toolbarHeight);
 		this._container._icon.style.marginLeft = (-anchor.x) + 'px';
 		this._container._icon.style.marginTop = (-anchor.y) + 'px';
