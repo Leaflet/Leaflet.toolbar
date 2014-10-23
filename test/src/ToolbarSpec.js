@@ -3,17 +3,17 @@ describe("L.Toolbar", function() {
 		toolbar,
 		action = sinon.spy(),
 		actions = {
-			'test-action': new L.ToolbarAction(action, {})
+			'test-action': new L.ToolbarAction(action)
 		};
 
 	beforeEach(function() {
-		map = new L.Map(L.DomUtil.create('div'));
+		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		toolbar = new L.Toolbar(actions);
 	});
 
 	describe("#initialize", function() {
 		it("Should store the array of actions.", function() {
-
+			expect(toolbar._actions).to.deep.equal(actions);
 		});
 	});
 

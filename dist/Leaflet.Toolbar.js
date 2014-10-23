@@ -48,6 +48,8 @@ L.Toolbar = L.Class.extend({
 		map.addLayer(this);
 	},
 
+	onAdd: function() {},
+
 	_initToolbarContainer: function() {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
 			tmp = L.DomUtil.create('div'),
@@ -93,8 +95,6 @@ L.Toolbar = L.Class.extend({
 		var icon = event.target,
 			actionName = icon.getAttribute('data-leaflet-toolbar-action'),
 			action = this._actions[actionName];
-
-		console.log(event.target);
 
 		action.trigger(this._arguments);
 	}
@@ -181,6 +181,10 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._setStyles();
 
 		this.attachHandlers(this._container._icon);
+
+		map.on('click', function() {
+			map.removeLayer(this);
+		});
 	},
 
 	onRemove: function() {
@@ -206,12 +210,17 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 	_setStyles: function() {
 		var toolbar = this._container._icon.querySelectorAll('.leaflet-toolbar')[0],
-			actionWidth = this._getToolbarActionWidth(),
+			buttons = this._container._icon.querySelectorAll('.leaflet-toolbar-action'),
+			toolbarHeight = L.DomUtil.getStyle(toolbar, 'height'),
+			toolbarWidth = 0,
 			anchor;
 
-		toolbar.style.width = Object.keys(this._actions).length*actionWidth + 'px';
+		for (var i = 0, l = buttons.length; i < l; i++) {
+			toolbarWidth += L.DomUtil.getStyle(buttons[i], 'width');
+		}
 
-		anchor = new L.Point(Object.keys(this._actions).length*actionWidth/2, actionWidth);
+		toolbar.style.width = toolbarWidth;
+		anchor = new L.Point(toolbarWidth/2, toolbarHeight);
 		this._container._icon.style.marginLeft = (-anchor.x) + 'px';
 		this._container._icon.style.marginTop = (-anchor.y) + 'px';
 	}

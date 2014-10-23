@@ -49,12 +49,12 @@
 		L.Edit.TOOLBAR = {
 			'edit': new L.ToolbarAction(function(map, shape) {
 					new L.EditToolbar.Edit(map, { 
-						featureGroup: new L.FeatureGroup().addLayer(layer) 
+						featureGroup: new L.FeatureGroup().addLayer(shape) 
 					}).enable();
 				}),
 			'delete': new L.ToolbarAction(function(map, shape) {
 					new L.EditToolbar.Delete(map, {
-						featureGroup: new L.FeatureGroup().addLayer(layer)
+						featureGroup: new L.FeatureGroup().addLayer(shape)
 					})
 				})
 		};

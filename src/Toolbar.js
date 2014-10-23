@@ -23,6 +23,8 @@ L.Toolbar = L.Class.extend({
 		map.addLayer(this);
 	},
 
+	onAdd: function() {},
+
 	_initToolbarContainer: function() {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
 			tmp = L.DomUtil.create('div'),
@@ -68,8 +70,6 @@ L.Toolbar = L.Class.extend({
 		var icon = event.target,
 			actionName = icon.getAttribute('data-leaflet-toolbar-action'),
 			action = this._actions[actionName];
-
-		console.log(event.target);
 
 		action.trigger(this._arguments);
 	}
