@@ -96,6 +96,8 @@ L.Toolbar = L.Class.extend({
 			actionName = icon.getAttribute('data-leaflet-toolbar-action'),
 			action = this._actions[actionName];
 
+		L.DomEvent.stopPropagation(event);
+
 		action.trigger(this._arguments);
 	}
 
@@ -179,9 +181,6 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._container.addTo(map);
 
 		this._setStyles();
-
-		// an existing listener on the marker icon throws errors when the toolbar is removed if not disabled.
-		L.DomEvent.off(this._container._icon, 'click', this._container._onMouseClick, this._container);
 
 		this.attachHandlers(this._container._icon);
 

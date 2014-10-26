@@ -27,9 +27,6 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this._setStyles();
 
-		// an existing listener on the marker icon throws errors when the toolbar is removed if not disabled.
-		L.DomEvent.off(this._container._icon, 'click', this._container._onMouseClick, this._container);
-
 		this.attachHandlers(this._container._icon);
 
 		map.on('click', function() {

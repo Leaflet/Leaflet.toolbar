@@ -71,6 +71,8 @@ L.Toolbar = L.Class.extend({
 			actionName = icon.getAttribute('data-leaflet-toolbar-action'),
 			action = this._actions[actionName];
 
+		L.DomEvent.stopPropagation(event);
+
 		action.trigger(this._arguments);
 	}
 

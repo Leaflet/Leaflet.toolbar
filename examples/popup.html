@@ -49,14 +49,24 @@
 		
 		L.Edit = L.Edit || {};
 		L.Edit.TOOLBAR = {
+
 			'edit': new L.ToolbarAction(function(map, shape) {
-					new L.EditToolbar.Edit(map, { 
+
+					var editing = new L.EditToolbar.Edit(map, { 
 						featureGroup: new L.FeatureGroup().addLayer(shape) 
-					}).enable();
+					});
+
+					editing.enable();
+
+					map.on('click', function() { editing.disable(); });
+
 				}, { className: 'leaflet-draw-edit' }),
+
+
 			'delete': new L.ToolbarAction(function(map, shape) {
 					map.removeLayer(shape);
 				}, { className: 'leaflet-draw-delete' })
+
 		};
 
 		new L.Toolbar.Control(L.Draw.TOOLBAR, { position: 'topleft', className: 'leaflet-draw-toolbar' }).addTo(map, drawnItems);
