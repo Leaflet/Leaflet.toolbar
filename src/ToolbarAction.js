@@ -2,7 +2,8 @@ L.ToolbarAction = L.Class.extend({
 	
 	options: {
 		className: 'leaflet-toolbar-action',
-		html: ''
+		html: '',
+		tooltip: ''
 	},
 
 	initialize: function(action, options) {

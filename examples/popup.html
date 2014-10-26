@@ -39,33 +39,46 @@
 		}).addTo(map);
 
 		L.Draw.TOOLBAR = {
-			'draw-polyline': new L.ToolbarAction(function(map) {
-					new L.Draw.Polyline(map).enable();
-				}, { className: 'leaflet-draw-polyline' }),
-			'draw-polygon': new L.ToolbarAction(function(map) {
-					new L.Draw.Polygon(map).enable();
-				}, { className: 'leaflet-draw-polygon' })
+			
+			'draw-polyline': 	new L.ToolbarAction(function(map) {
+									new L.Draw.Polyline(map).enable();
+								}, { 
+									className: 'leaflet-draw-polyline',
+									tooltip: L.drawLocal.draw.toolbar.buttons.polyline 
+								}),
+
+
+			'draw-polygon': 	new L.ToolbarAction(function(map) {
+									new L.Draw.Polygon(map).enable();
+								}, { 
+									className: 'leaflet-draw-polygon',
+									tooltip: L.drawLocal.draw.toolbar.buttons.polygon
+								})
+
 		};
 		
 		L.Edit = L.Edit || {};
 		L.Edit.TOOLBAR = {
 
-			'edit': new L.ToolbarAction(function(map, shape) {
+			'edit': 	new L.ToolbarAction(function(map, shape) {
+							var editing = new L.EditToolbar.Edit(map, { 
+								featureGroup: new L.FeatureGroup().addLayer(shape) 
+							});
 
-					var editing = new L.EditToolbar.Edit(map, { 
-						featureGroup: new L.FeatureGroup().addLayer(shape) 
-					});
-
-					editing.enable();
-
-					map.on('click', function() { editing.disable(); });
-
-				}, { className: 'leaflet-draw-edit' }),
+							editing.enable();
+							map.on('click', function() { editing.disable(); });
+						}, { 
+							className: 'leaflet-draw-edit',
+							tooltip: L.drawLocal.edit.toolbar.buttons.edit
+						}),
 
 
-			'delete': new L.ToolbarAction(function(map, shape) {
-					map.removeLayer(shape);
-				}, { className: 'leaflet-draw-delete' })
+			'delete': 	new L.ToolbarAction(function(map, shape) {
+							map.removeLayer(shape);
+						}, { 
+							className: 'leaflet-draw-delete',
+							tooltip: L.drawLocal.edit.toolbar.buttons.remove
+						})
 
 		};
 

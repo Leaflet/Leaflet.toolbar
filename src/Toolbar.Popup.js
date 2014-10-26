@@ -61,6 +61,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 			tipSize,
 			anchor;
 
+		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = buttons.length; i < l; i++) {
 			buttonHeights.push(parseInt(L.DomUtil.getStyle(buttons[i], 'height'), 10));
 			toolbarWidth += parseInt(L.DomUtil.getStyle(buttons[i], 'width'), 10);

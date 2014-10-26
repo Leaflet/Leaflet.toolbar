@@ -43,6 +43,7 @@ L.Toolbar = L.Class.extend({
 				link.innerHTML = action.options.html;
 				link.setAttribute('href', '#');
 				link.setAttribute('data-leaflet-toolbar-action', actionName);
+				link.setAttribute('title', action.options.tooltip);
 
 				L.DomUtil.addClass(link, 'leaflet-toolbar-action');
 				L.DomUtil.addClass(link, action.options.className);

@@ -6,7 +6,8 @@ L.ToolbarAction = L.Class.extend({
 	
 	options: {
 		className: 'leaflet-toolbar-action',
-		html: ''
+		html: '',
+		tooltip: ''
 	},
 
 	initialize: function(action, options) {
@@ -68,6 +69,7 @@ L.Toolbar = L.Class.extend({
 				link.innerHTML = action.options.html;
 				link.setAttribute('href', '#');
 				link.setAttribute('data-leaflet-toolbar-action', actionName);
+				link.setAttribute('title', action.options.tooltip);
 
 				L.DomUtil.addClass(link, 'leaflet-toolbar-action');
 				L.DomUtil.addClass(link, action.options.className);
@@ -216,6 +218,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 			tipSize,
 			anchor;
 
+		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = buttons.length; i < l; i++) {
 			buttonHeights.push(parseInt(L.DomUtil.getStyle(buttons[i], 'height'), 10));
 			toolbarWidth += parseInt(L.DomUtil.getStyle(buttons[i], 'width'), 10);
