@@ -16,7 +16,11 @@ L.ToolbarAction = L.Class.extend({
 		this._action = action;
 	},
 
-	_addButton: function(container, actionName) {
+	setArguments: function(args) {
+		this._arguments = args;
+	},
+
+	_addButton: function(container) {
 		var actionButton, link;
 
 		actionButton = L.DomUtil.create('li', '', container);
@@ -24,23 +28,19 @@ L.ToolbarAction = L.Class.extend({
 		link = L.DomUtil.create('a', '', actionButton);
 		link.innerHTML = this.options.html;
 		link.setAttribute('href', '#');
-		link.setAttribute('data-leaflet-toolbar-action', actionName); // TODO: Remove this
 		link.setAttribute('title', this.options.tooltip);
 
 		L.DomUtil.addClass(link, 'leaflet-toolbar-action');
 		L.DomUtil.addClass(link, this.options.className);
+
+		L.DomEvent.on(link, 'click', this._onClick, this);
+
+		return actionButton;
 	},
 
-	_onClick: function(event) {
-		L.DomEvent.stopPropagation(event);
-
+	_onClick: function() {
 		this._context = {};
 		this._action.apply(this._context, this._arguments);
-	},
-
-	_attachHandler: function(button, args) {
-		this._arguments = args;
-		L.DomEvent.on(button, 'click', this._onClick, this);
 	},
 
 	_attachSecondaryHandlers: function() {

@@ -20,7 +20,11 @@ L.ToolbarAction = L.Class.extend({
 		this._action = action;
 	},
 
-	_addButton: function(container, actionName) {
+	setArguments: function(args) {
+		this._arguments = args;
+	},
+
+	_addButton: function(container) {
 		var actionButton, link;
 
 		actionButton = L.DomUtil.create('li', '', container);
@@ -28,23 +32,19 @@ L.ToolbarAction = L.Class.extend({
 		link = L.DomUtil.create('a', '', actionButton);
 		link.innerHTML = this.options.html;
 		link.setAttribute('href', '#');
-		link.setAttribute('data-leaflet-toolbar-action', actionName); // TODO: Remove this
 		link.setAttribute('title', this.options.tooltip);
 
 		L.DomUtil.addClass(link, 'leaflet-toolbar-action');
 		L.DomUtil.addClass(link, this.options.className);
+
+		L.DomEvent.on(link, 'click', this._onClick, this);
+
+		return actionButton;
 	},
 
-	_onClick: function(event) {
-		L.DomEvent.stopPropagation(event);
-
+	_onClick: function() {
 		this._context = {};
 		this._action.apply(this._context, this._arguments);
-	},
-
-	_attachHandler: function(button, args) {
-		this._arguments = args;
-		L.DomEvent.on(button, 'click', this._onClick, this);
 	},
 
 	_attachSecondaryHandlers: function() {
@@ -73,6 +73,8 @@ L.Toolbar = L.Class.extend({
 		baseClass: 'leaflet-toolbar'
 	},
 
+	includes: [L.Mixin.Events],
+
 	options: {
 		className: '',
 		filter: function() { return true; }
@@ -93,32 +95,25 @@ L.Toolbar = L.Class.extend({
 	onAdd: function(map, container) {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
 			toolbarContainer = L.DomUtil.create('ul', className, container),
-			action;
+			action, button;
 
 		/* TODO: Is it a problem that the order of toolbar actions will not be guaranteed? */
 		for (var actionName in this._actions) {
 			if (this._actions.hasOwnProperty(actionName)) {
 				action = this._actions[actionName];
-				action._addButton(toolbarContainer, actionName);
+				action.setArguments(this._arguments);
+				
+				button = action._addButton(toolbarContainer, actionName);
+
+				/* Fire toolbar's _onClick method. */
+				L.DomEvent.on(button, 'click', this._onClick, this);
 			}
 		}
 	},
 
-	/* TODO: Move this functionality into L.ToolbarAction*/
-	attachHandlers: function(container) {
-		var actionButtons = container.querySelectorAll('a.leaflet-toolbar-action'),
-			l = actionButtons.length,
-			actionName,
-			action, i;
-
-		for (i = 0; i < l; i++) {
-			actionName = actionButtons[i].getAttribute('data-leaflet-toolbar-action');
-			action = this._actions[actionName];
-
-			action._attachHandler(actionButtons[i], this._arguments);
-		}
+	_onClick: function(event) {
+		L.DomEvent.stopPropagation(event);
 	}
-
 });
 
 L.toolbar = function(actions) {
@@ -136,17 +131,21 @@ L.Toolbar.Control = L.Toolbar.extend({
 	initialize: function(actions, options) {
 		L.Toolbar.prototype.initialize.call(this, actions, options);
 
-		this._container = new L.Control.Toolbar(options);
+		this._leaflet_obj = new L.Control.Toolbar(this.options);
 	},
 
 	onAdd: function(map) {
-		this._container.addTo(map);
+		this._leaflet_obj.addTo(map);
 
-		L.Toolbar.prototype.onAdd.call(this, map, this._container.getContainer());
+		L.Toolbar.prototype.onAdd.call(this, map, this.getContainer());
 	},
 
 	onRemove: function(map) {
-		map.removeLayer(this._container);
+		map.removeLayer(this._leaflet_obj);
+	},
+
+	getContainer: function() {
+		return this._leaflet_obj.getContainer();
 	}
 });
 
@@ -175,42 +174,45 @@ L.Toolbar.Popup = L.Toolbar.extend({
 				})
 			});
 
-		this._marker = new L.Marker(latlng, toolbarOptions);
+		this._leaflet_obj = new L.Marker(latlng, toolbarOptions);
 	},
 
 	onAdd: function(map) {
 		this._map = map;
-		this._marker.addTo(map);
+		this._leaflet_obj.addTo(map);
 
 		map.on('click', function() {
 			map.removeLayer(this);
 		});
 
-		L.Toolbar.prototype.onAdd.call(this, map, this._marker._icon);
+		L.Toolbar.prototype.onAdd.call(this, map, this.getContainer());
 
 		this._setStyles();
 	},
 
 	onRemove: function(map) {
-		map.removeLayer(this._container);
+		map.removeLayer(this._leaflet_obj);
 
 		delete this._map;
 	},
 
 	setLatLng: function(latlng) {
-		this._container.setLatLng(latlng);
+		this._leaflet_obj.setLatLng(latlng);
 
 		return this;
 	},
 
+	getContainer: function() {
+		return this._map ? this._leaflet_obj._icon : undefined;
+	},
+
 	_onClick: function(event) {
 		L.Toolbar.prototype._onClick.call(this, event);
-
 		this._map.removeLayer(this);
 	},
 
 	_setStyles: function() {
-		var container = this._getContainer(),
+		var container = this.getContainer(),
 			toolbar = container.querySelectorAll('.leaflet-toolbar')[0],
 			buttons = container.querySelectorAll('.leaflet-toolbar-action'),
 			buttonHeights = [],
@@ -240,10 +242,6 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		container.style.marginLeft = (-anchor.x) + 'px';
 		container.style.marginTop = (-anchor.y) + 'px';
-	},
-
-	_getContainer: function() {
-		return this._marker._icon;
 	}
 });
 
