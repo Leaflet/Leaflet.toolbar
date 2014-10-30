@@ -13,25 +13,25 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		var	toolbarOptions = L.extend(this.options, {
 				icon: new L.DivIcon({
-					html: this.getHTML(),
+					html: '',
 					className: this.options.className
 				})
 			});
 
-		this._container = new L.Marker(latlng, toolbarOptions);
+		this._marker = new L.Marker(latlng, toolbarOptions);
 	},
 
 	onAdd: function(map) {
 		this._map = map;
-		this._container.addTo(map);
-
-		this._setStyles();
-
-		this.attachHandlers(this._container._icon);
+		this._marker.addTo(map);
 
 		map.on('click', function() {
 			map.removeLayer(this);
 		});
+
+		L.Toolbar.prototype.onAdd.call(this, map, this._marker._icon);
+
+		this._setStyles();
 	},
 
 	onRemove: function(map) {
@@ -53,8 +53,9 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	},
 
 	_setStyles: function() {
-		var toolbar = this._container._icon.querySelectorAll('.leaflet-toolbar')[0],
-			buttons = this._container._icon.querySelectorAll('.leaflet-toolbar-action'),
+		var container = this._getContainer(),
+			toolbar = container.querySelectorAll('.leaflet-toolbar')[0],
+			buttons = container.querySelectorAll('.leaflet-toolbar-action'),
 			buttonHeights = [],
 			toolbarWidth = 0,
 			toolbarHeight,
@@ -69,7 +70,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		toolbar.style.width = toolbarWidth + 'px';
 
 		/* Create and place the toolbar tip. */
-		this._tipContainer = L.DomUtil.create('div', 'leaflet-toolbar-tip-container', this._container._icon);
+		this._tipContainer = L.DomUtil.create('div', 'leaflet-toolbar-tip-container', container);
 		this._tipContainer.style.width = toolbarWidth + 'px';
 
 		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
@@ -80,7 +81,11 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		anchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
 
-		this._container._icon.style.marginLeft = (-anchor.x) + 'px';
-		this._container._icon.style.marginTop = (-anchor.y) + 'px';
+		container.style.marginLeft = (-anchor.x) + 'px';
+		container.style.marginTop = (-anchor.y) + 'px';
+	},
+
+	_getContainer: function() {
+		return this._marker._icon;
 	}
 });

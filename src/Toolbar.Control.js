@@ -13,13 +13,9 @@ L.Toolbar.Control = L.Toolbar.extend({
 	},
 
 	onAdd: function(map) {
-		var toolbar = this.getHTML();
+		this._container.addTo(map);
 
-		this._container
-			.addTo(map)
-			.setContent(toolbar);
-
-		this.attachHandlers(this._container.getContainer().childNodes[0]);
+		L.Toolbar.prototype.onAdd.call(this, map, this._container.getContainer());
 	},
 
 	onRemove: function(map) {
@@ -30,17 +26,5 @@ L.Toolbar.Control = L.Toolbar.extend({
 L.Control.Toolbar = L.Control.extend({
 	onAdd: function() {
 		return L.DomUtil.create('div', '');
-	},
-
-	setContent: function(html) {
-		var container = this.getContainer();
-
-		if (typeof html === 'string') {
-			container.innerHTML = html;
-		} else {
-			container.appendChild(html);
-		}
-
-		return this;
 	}
 });
