@@ -13,7 +13,7 @@ describe("L.Toolbar.Popup", function() {
 		});
 	});
 
-	describe("#onAdd", function() {
+	describe("#_setStyles", function() {
 		it("Sets the width of the toolbar to a nonzero value if there are toolbar actions.", function() {
 			var actionsLength = Object.keys(toolbar._actions).length,
 				toolbarContainer,
@@ -26,8 +26,8 @@ describe("L.Toolbar.Popup", function() {
 
 			toolbar.addTo(map);
 
-			toolbarContainer = toolbar._getContainer().querySelectorAll('.leaflet-toolbar')[0];
-			toolbarButtons = toolbar._getContainer().querySelectorAll('.leaflet-toolbar-action');
+			toolbarContainer = toolbar.getContainer().querySelectorAll('.leaflet-toolbar')[0];
+			toolbarButtons = toolbar.getContainer().querySelectorAll('.leaflet-toolbar-action');
 
 			expect(toolbarButtons.length).to.equal(actionsLength);
 
@@ -39,11 +39,21 @@ describe("L.Toolbar.Popup", function() {
 		});
 	});
 
-	describe("#onRemove", function() {
+	describe("setLatLng", function() {
+		it("Should change the latlng of the popup", function() {
+			var latlng = new L.LatLng(1, 2);
+
+			toolbar.setLatLng(latlng);
+		});
+	});
+
+	describe("_onClick", function() {
 		it("Removes the toolbar from the map.", function() {
-			map.removeLayer(toolbar);
+			toolbar.addTo(map);
+			toolbar._onClick({});
 
 			expect(toolbar._map).to.equal(undefined);
+			expect(toolbar.getContainer()).to.equal(undefined);
 		});
 	});
 });

@@ -3,7 +3,6 @@ describe("L.ToolbarAction", function() {
 		action,
 		toolbar;
 
-
 	beforeEach(function() {
 		fn = sinon.spy();
 
@@ -11,14 +10,16 @@ describe("L.ToolbarAction", function() {
 		toolbar = new L.Toolbar({ 'test-action': action });
 	});
 
-	describe("#trigger", function() {
-		it("Should call the appropriate toolbar action.", function() {
-			var target = L.DomUtil.create('div');
-			target.setAttribute('data-leaflet-toolbar-action', 'test-action');
-			
+	describe("#_onClick", function() {
+		it("Should call the toolbar action.", function() {
 			action._onClick({});
-
 			expect(fn.called).to.equal(true);
+		});
+	});
+
+	describe("#_addButton", function() {
+		it("Should create an <a> inside a <li> element and attach an event listener.", function() {
+			
 		});
 	});
 });

@@ -17,41 +17,26 @@ describe("L.Toolbar", function() {
 		});
 	});
 
-	describe("#attachHandlers", function() {
-		it.skip("Should attach actions by name to the corresponding buttons.", function() {
-			var actionNames = [],
-				testContainer = L.DomUtil.create('div'),
+	describe("#onAdd", function() {
+		it("Should create an <a/> element for each toolbar action.", function() {
+			var container = L.DomUtil.create('div'),
 				actionButtons;
 
-			toolbar.addTo(map);
-			testContainer.innerHTML = toolbar.getHTML();
-			toolbar.attachHandlers(testContainer);
-			actionButtons = testContainer.querySelectorAll('a.leaflet-toolbar-action');
+			toolbar.onAdd(map, container);
+			actionButtons = container.querySelectorAll('.leaflet-toolbar-action');
 
-			for (var i = 0, l = actionButtons.length; i < l; i++) {
-				actionNames.push(actionButtons[i].getAttribute('data-leaflet-toolbar-action'));
-			}
-
-			expect(actionNames).to.deep.equal(Object.keys(actions));
+			expect(actionButtons.length).to.equal(Object.keys(actions).length);
 		});
 	});
 
-	describe("#getHTML", function() {
-		it.skip("Should set the HTML content of the container correctly.", function() {
-			var tmp = L.DomUtil.create('div'),
-				container = toolbar.getHTML(),
-				dom;
+	describe("#_onClick", function() {
+		it("Should prevent click events from propagating up to the map", function() {
+			var mapClicked = false;
 
-			tmp.innerHTML = container;
-			dom = tmp.childNodes[0];
+			map.on('click', function() { mapClicked = true; });
 
-			expect(container).to.be.a('string');
-			expect(dom.tagName).to.equal("UL");
-			expect(dom.children.length).to.equal(Object.keys(actions).length);
-
-			for (var i = 0, l = dom.children.length; i < l; i++) {
-				expect(dom.children[i].tagName).to.equal("LI");
-			}
+			toolbar._onClick({});
+			expect(mapClicked).to.equal(false);
 		});
 	});
 });
