@@ -16,7 +16,7 @@ describe("L.ToolbarAction", function() {
 			var target = L.DomUtil.create('div');
 			target.setAttribute('data-leaflet-toolbar-action', 'test-action');
 			
-			toolbar._onClick({ target: target });
+			action._onClick({});
 
 			expect(fn.called).to.equal(true);
 		});
