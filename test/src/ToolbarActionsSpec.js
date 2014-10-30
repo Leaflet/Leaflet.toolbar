@@ -22,3 +22,12 @@ describe("L.ToolbarAction", function() {
 		});
 	});
 });
+
+/* Factory function */
+describe("L.toolbarAction", function() {
+	it("Should return an instance of L.ToolbarAction", function() {
+		var action = L.toolbarAction();
+
+		expect(action).to.be.an.instanceof(L.ToolbarAction);
+	});
+});

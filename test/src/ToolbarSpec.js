@@ -55,3 +55,12 @@ describe("L.Toolbar", function() {
 		});
 	});
 });
+
+/* Factory function */
+describe("L.toolbar", function() {
+	it("Should return an instance of L.Toolbar", function() {
+		var toolbar = L.toolbar();
+
+		expect(toolbar).to.be.an.instanceof(L.Toolbar);
+	});
+});
