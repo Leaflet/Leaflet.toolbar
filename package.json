@@ -3,8 +3,7 @@
   "version": "0.0.2",
   "description": "Rich annotation plugin for Leaflet.",
   "scripts": {
-    "test": "grunt travis",
-    "coveralls": "PHANTOM=`ls ./coverage | grep PhantomJS` && cat \"coverage/$PHANTOM/lcov.info\" | coveralls"
+    "test": "grunt travis"
   },
   "devDependencies": {
     "jshint": "2.5.x",
