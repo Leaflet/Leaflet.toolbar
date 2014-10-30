@@ -18,42 +18,45 @@ L.Toolbar.Popup = L.Toolbar.extend({
 				})
 			});
 
-		this._marker = new L.Marker(latlng, toolbarOptions);
+		this._leaflet_obj = new L.Marker(latlng, toolbarOptions);
 	},
 
 	onAdd: function(map) {
 		this._map = map;
-		this._marker.addTo(map);
+		this._leaflet_obj.addTo(map);
 
 		map.on('click', function() {
 			map.removeLayer(this);
 		});
 
-		L.Toolbar.prototype.onAdd.call(this, map, this._marker._icon);
+		L.Toolbar.prototype.onAdd.call(this, map, this.getContainer());
 
 		this._setStyles();
 	},
 
 	onRemove: function(map) {
-		map.removeLayer(this._container);
+		map.removeLayer(this._leaflet_obj);
 
 		delete this._map;
 	},
 
 	setLatLng: function(latlng) {
-		this._container.setLatLng(latlng);
+		this._leaflet_obj.setLatLng(latlng);
 
 		return this;
 	},
 
+	getContainer: function() {
+		return this._map ? this._leaflet_obj._icon : undefined;
+	},
+
 	_onClick: function(event) {
 		L.Toolbar.prototype._onClick.call(this, event);
-
 		this._map.removeLayer(this);
 	},
 
 	_setStyles: function() {
-		var container = this._getContainer(),
+		var container = this.getContainer(),
 			toolbar = container.querySelectorAll('.leaflet-toolbar')[0],
 			buttons = container.querySelectorAll('.leaflet-toolbar-action'),
 			buttonHeights = [],
@@ -83,9 +86,5 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		container.style.marginLeft = (-anchor.x) + 'px';
 		container.style.marginTop = (-anchor.y) + 'px';
-	},
-
-	_getContainer: function() {
-		return this._marker._icon;
 	}
 });

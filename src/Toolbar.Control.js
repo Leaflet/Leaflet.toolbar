@@ -9,17 +9,21 @@ L.Toolbar.Control = L.Toolbar.extend({
 	initialize: function(actions, options) {
 		L.Toolbar.prototype.initialize.call(this, actions, options);
 
-		this._container = new L.Control.Toolbar(options);
+		this._leaflet_obj = new L.Control.Toolbar(this.options);
 	},
 
 	onAdd: function(map) {
-		this._container.addTo(map);
+		this._leaflet_obj.addTo(map);
 
-		L.Toolbar.prototype.onAdd.call(this, map, this._container.getContainer());
+		L.Toolbar.prototype.onAdd.call(this, map, this.getContainer());
 	},
 
 	onRemove: function(map) {
-		map.removeLayer(this._container);
+		map.removeLayer(this._leaflet_obj);
+	},
+
+	getContainer: function() {
+		return this._leaflet_obj.getContainer();
 	}
 });
 
