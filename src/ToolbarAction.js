@@ -7,13 +7,13 @@ L.ToolbarAction = L.Class.extend({
 		secondaryActions: []
 	},
 
-	initialize: function(action, options) {
+	initialize: function(Handler, options) {
 		if (options && options.className) {
 			options.className = this.options.className + ' ' + options.className;
 		}
 		L.setOptions(this, options);
 
-		this._action = action;
+		this._Handler = Handler;
 	},
 
 	setArguments: function(args) {
@@ -33,28 +33,43 @@ L.ToolbarAction = L.Class.extend({
 		L.DomUtil.addClass(link, 'leaflet-toolbar-action');
 		L.DomUtil.addClass(link, this.options.className);
 
+		this._addSecondaryActions(actionButton);
+
 		L.DomEvent.on(link, 'click', this._onClick, this);
 
 		return actionButton;
 	},
 
 	_onClick: function() {
-		this._context = {};
-		this._action.apply(this._context, this._arguments);
+		var H = this._Handler,
+			args = this._arguments;
+
+		/* Hack to create a variadic constructor. */
+		function Handler() {
+			return H.apply(this, args);
+		}
+		Handler.prototype = H.prototype;
+
+		this._action = new Handler();
+		this._action.enable();
+
+		/* Show secondary actions */
+		this._secondaryActions.style.display = 'block';
 	},
 
-	_attachSecondaryHandlers: function() {
-
-	},
-
+	/* TODO: Add tests for this function. */
 	_addSecondaryActions: function(container) {
 		var l = this.options.secondaryActions.length,
-			secondaryActions = L.DomUtil.create('ul', container);
+			secondaryAction;
 
-		L.DomUtil.addClass(secondaryActions, 'leaflet-toolbar-secondary');
+		this._secondaryActions = L.DomUtil.create('ul', '', container);
+
+		L.DomUtil.addClass(this._secondaryActions, 'leaflet-toolbar-secondary');
 
 		for (var i = 0; i < l; i++) {
-			L.DomUtil.create('li', '', secondaryActions);
+			console.log(this.options.secondaryActions[i]);
+			secondaryAction = L.DomUtil.create('li', '', this._secondaryActions);
+			secondaryAction.innerHTML = this.options.secondaryActions[i];
 		}
 	}
 

@@ -40,17 +40,14 @@
 
 		L.Draw.TOOLBAR = {
 			
-			'draw-polyline': 	new L.ToolbarAction(function(map) {
-									new L.Draw.Polyline(map).enable();
-								}, { 
+			'draw-polyline': 	new L.ToolbarAction(L.Draw.Polyline, { 
 									className: 'leaflet-draw-polyline',
-									tooltip: L.drawLocal.draw.toolbar.buttons.polyline 
+									tooltip: L.drawLocal.draw.toolbar.buttons.polyline,
+									secondaryActions: [ 'Cancel' ]
 								}),
 
 
-			'draw-polygon': 	new L.ToolbarAction(function(map) {
-									new L.Draw.Polygon(map).enable();
-								}, { 
+			'draw-polygon': 	new L.ToolbarAction(L.Draw.Polygon, { 
 									className: 'leaflet-draw-polygon',
 									tooltip: L.drawLocal.draw.toolbar.buttons.polygon
 								})
@@ -60,29 +57,27 @@
 		L.Edit = L.Edit || {};
 		L.Edit.TOOLBAR = {
 
-			'edit': 	new L.ToolbarAction(function(map, shape) {
-							var editing = new L.EditToolbar.Edit(map, { 
-								featureGroup: new L.FeatureGroup().addLayer(shape) 
-							});
-
-							editing.enable();
-							map.on('click', function() { editing.disable(); });
-						}, { 
+			'edit': 	new L.ToolbarAction(L.EditToolbar.Edit, { 
 							className: 'leaflet-draw-edit',
 							tooltip: L.drawLocal.edit.toolbar.buttons.edit
 						}),
 
 
-			'delete': 	new L.ToolbarAction(function(map, shape) {
-							map.removeLayer(shape);
-						}, { 
+			'delete': 	new L.ToolbarAction(L.EditToolbar.Delete, { 
 							className: 'leaflet-draw-delete',
 							tooltip: L.drawLocal.edit.toolbar.buttons.remove
 						})
 
 		};
 
-		new L.Toolbar.Control(L.Draw.TOOLBAR, { position: 'topleft', className: 'leaflet-draw-toolbar' }).addTo(map, drawnItems);
+		new L.Toolbar.Control(L.Draw.TOOLBAR, { 
+			position: 'topleft', 
+			className: 'leaflet-draw-toolbar',
+			parameters: function(map, drawnItems) {
+				console.log(map);
+				return [map, { featureGroup: drawnItems }];
+			}			 
+		}).addTo(map, drawnItems);
 
 		map.on('draw:created', function(evt) {
 			var	type = evt.layerType,
@@ -93,8 +88,12 @@
 			layer.on('click', function(event) {
 				var latlng = event.latlng;
 
-				new L.Toolbar.Popup(latlng, L.Edit.TOOLBAR, { className: 'leaflet-draw-toolbar' })
-					.addTo(map, layer);
+				new L.Toolbar.Popup(latlng, L.Edit.TOOLBAR, { 
+					className: 'leaflet-draw-toolbar',
+					parameters: function(map, layer) {
+						return [map, { featureGroup: new L.FeatureGroup().addLayer(layer) }];
+					}
+				}).addTo(map, layer);
 			});
 		});
 	</script>

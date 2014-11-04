@@ -8,7 +8,8 @@ L.Toolbar = L.Class.extend({
 
 	options: {
 		className: '',
-		filter: function() { return true; }
+		filter: function() { return true; },
+		parameters: function() { return arguments; }
 	},
 
 	initialize: function(actions, options) {
@@ -18,7 +19,9 @@ L.Toolbar = L.Class.extend({
 	},
 
 	addTo: function(map) {
-		this._arguments = [].slice.call(arguments);
+		var args = [].slice.call(arguments);
+
+		this._arguments = this.options.parameters.apply(undefined, args);
 
 		map.addLayer(this);
 	},
@@ -32,12 +35,15 @@ L.Toolbar = L.Class.extend({
 		for (var actionName in this._actions) {
 			if (this._actions.hasOwnProperty(actionName)) {
 				action = this._actions[actionName];
-				action.setArguments(this._arguments);
-				
-				button = action._addButton(toolbarContainer, actionName);
 
-				/* Fire toolbar's _onClick method. */
-				L.DomEvent.on(button, 'click', this._onClick, this);
+				if (this.options.filter(action)) {
+					action.setArguments(this._arguments);
+					
+					button = action._addButton(toolbarContainer, actionName);
+
+					/* Fire toolbar-wide events on click. */
+					L.DomEvent.on(button, 'click', this._onClick, this);
+				}
 			}
 		}
 	},

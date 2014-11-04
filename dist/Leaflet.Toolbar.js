@@ -11,13 +11,13 @@ L.ToolbarAction = L.Class.extend({
 		secondaryActions: []
 	},
 
-	initialize: function(action, options) {
+	initialize: function(Handler, options) {
 		if (options && options.className) {
 			options.className = this.options.className + ' ' + options.className;
 		}
 		L.setOptions(this, options);
 
-		this._action = action;
+		this._Handler = Handler;
 	},
 
 	setArguments: function(args) {
@@ -37,28 +37,43 @@ L.ToolbarAction = L.Class.extend({
 		L.DomUtil.addClass(link, 'leaflet-toolbar-action');
 		L.DomUtil.addClass(link, this.options.className);
 
+		this._addSecondaryActions(actionButton);
+
 		L.DomEvent.on(link, 'click', this._onClick, this);
 
 		return actionButton;
 	},
 
 	_onClick: function() {
-		this._context = {};
-		this._action.apply(this._context, this._arguments);
+		var H = this._Handler,
+			args = this._arguments;
+
+		/* Hack to create a variadic constructor. */
+		function Handler() {
+			return H.apply(this, args);
+		}
+		Handler.prototype = H.prototype;
+
+		this._action = new Handler();
+		this._action.enable();
+
+		/* Show secondary actions */
+		this._secondaryActions.style.display = 'block';
 	},
 
-	_attachSecondaryHandlers: function() {
-
-	},
-
+	/* TODO: Add tests for this function. */
 	_addSecondaryActions: function(container) {
 		var l = this.options.secondaryActions.length,
-			secondaryActions = L.DomUtil.create('ul', container);
+			secondaryAction;
 
-		L.DomUtil.addClass(secondaryActions, 'leaflet-toolbar-secondary');
+		this._secondaryActions = L.DomUtil.create('ul', '', container);
+
+		L.DomUtil.addClass(this._secondaryActions, 'leaflet-toolbar-secondary');
 
 		for (var i = 0; i < l; i++) {
-			L.DomUtil.create('li', '', secondaryActions);
+			console.log(this.options.secondaryActions[i]);
+			secondaryAction = L.DomUtil.create('li', '', this._secondaryActions);
+			secondaryAction.innerHTML = this.options.secondaryActions[i];
 		}
 	}
 
@@ -77,7 +92,8 @@ L.Toolbar = L.Class.extend({
 
 	options: {
 		className: '',
-		filter: function() { return true; }
+		filter: function() { return true; },
+		parameters: function() { return arguments; }
 	},
 
 	initialize: function(actions, options) {
@@ -87,7 +103,9 @@ L.Toolbar = L.Class.extend({
 	},
 
 	addTo: function(map) {
-		this._arguments = [].slice.call(arguments);
+		var args = [].slice.call(arguments);
+
+		this._arguments = this.options.parameters.apply(undefined, args);
 
 		map.addLayer(this);
 	},
@@ -101,12 +119,15 @@ L.Toolbar = L.Class.extend({
 		for (var actionName in this._actions) {
 			if (this._actions.hasOwnProperty(actionName)) {
 				action = this._actions[actionName];
-				action.setArguments(this._arguments);
-				
-				button = action._addButton(toolbarContainer, actionName);
 
-				/* Fire toolbar's _onClick method. */
-				L.DomEvent.on(button, 'click', this._onClick, this);
+				if (this.options.filter(action)) {
+					action.setArguments(this._arguments);
+					
+					button = action._addButton(toolbarContainer, actionName);
+
+					/* Fire toolbar-wide events on click. */
+					L.DomEvent.on(button, 'click', this._onClick, this);
+				}
 			}
 		}
 	},

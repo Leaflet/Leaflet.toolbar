@@ -54,7 +54,13 @@
 								}, { className: 'leaflet-draw-delete' })
 		};
 
-		new L.Toolbar.Control(L.Draw.TOOLBAR, { position: 'topleft', className: 'leaflet-draw-toolbar' }).addTo(map, drawnItems);
+		new L.Toolbar.Control(L.Draw.TOOLBAR, { 
+			position: 'topleft', 
+			className: 'leaflet-draw-toolbar',
+			parameters: function(map, drawnItems) {
+				return [map, { featureGroup: drawnItems }];
+			} 
+		}).addTo(map, drawnItems);
 
 		map.on('draw:created', function(evt) {
 			var type = evt.layerType,
