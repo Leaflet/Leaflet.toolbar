@@ -12,44 +12,32 @@ L.Toolbar = L.Class.extend({
 		parameters: function() { return arguments; }
 	},
 
-	initialize: function(actions, options) {
+	initialize: function(options) {
 		L.setOptions(this, options);
-
-		this._actions = actions;
 	},
 
 	addTo: function(map) {
-		var args = [].slice.call(arguments);
-
-		this._arguments = this.options.parameters.apply(undefined, args);
+		this._arguments = [].slice.call(arguments);
 
 		map.addLayer(this);
 	},
 
-	onAdd: function(map, container) {
+	onAdd: function() {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
-			toolbarContainer = L.DomUtil.create('ul', className, container),
-			action, button;
+			toolbarContainer = L.DomUtil.create('ul', className, this.getContainer()),
+			actions = this.actions.apply(undefined, this._arguments),
+			l = actions.length,
+			icon,
+			i;
 
-		/* TODO: Is it a problem that the order of toolbar actions will not be guaranteed? */
-		for (var actionName in this._actions) {
-			if (this._actions.hasOwnProperty(actionName)) {
-				action = this._actions[actionName];
-
-				if (this.options.filter(action)) {
-					action.setArguments(this._arguments);
-					
-					button = action._addButton(toolbarContainer, actionName);
-
-					/* Fire toolbar-wide events on click. */
-					L.DomEvent.on(button, 'click', this._onClick, this);
-				}
-			}
+		for (i = 0; i < l; i++) {
+			icon = actions[i].options.toolbarIcon || new L.ToolbarIcon();
+			icon.onAdd(toolbarContainer, actions[i]);
 		}
 	},
 
-	_onClick: function(event) {
-		L.DomEvent.stopPropagation(event);
+	actions: function() {
+		return [];
 	}
 });
 

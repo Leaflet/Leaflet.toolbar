@@ -14,7 +14,7 @@ ul.leaflet-toolbar {
 	list-style: none;
 	padding-left: 0;
 	.leaflet-toolbar-box-shadow();
-	.leaflet-toolbar-action {
+	.leaflet-toolbar-icon {
 		display: block;
 
 		width: @toolbar-action-size;
@@ -50,7 +50,7 @@ ul.leaflet-toolbar {
 
 /* L.Toolbar.Control */
 .leaflet-control-toolbar {
-	.leaflet-toolbar-action { border-bottom: 1px solid #ccc; }
+	.leaflet-toolbar-icon { border-bottom: 1px solid #ccc; }
 
 	.leaflet-toolbar-secondary {
 		display: none;
@@ -65,11 +65,11 @@ ul.leaflet-toolbar {
 		li { display: inline-block;	}
 	}
 
-	li:first-child .leaflet-toolbar-action { 
+	li:first-child .leaflet-toolbar-icon { 
 		border-top-left-radius: @toolbar-action-radius;
 		border-top-right-radius: @toolbar-action-radius; 
 	}
-	li:last-child .leaflet-toolbar-action { 
+	li:last-child .leaflet-toolbar-icon { 
 		border-bottom-left-radius: @toolbar-action-radius;
 		border-bottom-right-radius: @toolbar-action-radius;
 		border-bottom-width: 0;
@@ -81,11 +81,11 @@ ul.leaflet-toolbar {
 	a {
 		float: left;
 	}
-	li:first-child .leaflet-toolbar-action { 
+	li:first-child .leaflet-toolbar-icon { 
 		border-top-left-radius: @toolbar-action-radius;
 		border-bottom-left-radius: @toolbar-action-radius; 
 	}
-	li:last-child .leaflet-toolbar-action { 
+	li:last-child .leaflet-toolbar-icon { 
 		border-top-right-radius: @toolbar-action-radius;
 		border-bottom-right-radius: @toolbar-action-radius;
 		border-bottom-width: 0;

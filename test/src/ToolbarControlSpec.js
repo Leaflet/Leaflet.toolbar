@@ -3,10 +3,13 @@ describe("L.Toolbar.Control", function() {
 		toolbar;
 
 	beforeEach(function() {
+		var Handler = L.Handler.extend({ options: {} }),
+			TestToolbar = L.Toolbar.Control.extend({
+				actions: function() { return [new Handler()]; }
+			});
+
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		toolbar = new L.Toolbar.Control({
-			'einsatz': new L.ToolbarAction(function() {})
-		});
+		toolbar = new TestToolbar();
 	});
 
 	describe("#onAdd", function() {
