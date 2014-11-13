@@ -38,7 +38,7 @@ describe("L.Toolbar.Popup", function() {
 			buttonWidth = parseInt(L.DomUtil.getStyle(toolbarButtons[0], 'width'), 10);
 
 			/* TODO: Works in the example, but not during tests. */
-			// expect(toolbarWidth).to.be.above(buttonWidth);
+			expect(toolbarWidth).to.be.above(buttonWidth);
 		});
 	});
 
@@ -47,16 +47,6 @@ describe("L.Toolbar.Popup", function() {
 			var latlng = new L.LatLng(1, 2);
 
 			toolbar.setLatLng(latlng);
-		});
-	});
-
-	describe("_onClick", function() {
-		it.skip("Removes the toolbar from the map.", function() {
-			toolbar.addTo(map);
-			toolbar._onClick({});
-
-			expect(toolbar._map).to.equal(undefined);
-			expect(toolbar.getContainer()).to.equal(undefined);
 		});
 	});
 });

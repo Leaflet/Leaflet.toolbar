@@ -1,6 +1,6 @@
 /* Variables and Mixins */
-@toolbar-action-size: 26px;
-@toolbar-action-radius: 4px;
+@toolbar-icon-size: 26px;
+@toolbar-icon-radius: 4px;
 
 @toolbar-background-color: #fff;
 @toolbar-tip-size: 12px;
@@ -17,9 +17,9 @@ ul.leaflet-toolbar {
 	.leaflet-toolbar-icon {
 		display: block;
 
-		width: @toolbar-action-size;
-		height: @toolbar-action-size;
-		line-height: @toolbar-action-size;
+		width: @toolbar-icon-size;
+		height: @toolbar-icon-size;
+		line-height: @toolbar-icon-size;
 
 		text-align: center;
 		text-decoration: none;
@@ -66,12 +66,12 @@ ul.leaflet-toolbar {
 	}
 
 	li:first-child .leaflet-toolbar-icon { 
-		border-top-left-radius: @toolbar-action-radius;
-		border-top-right-radius: @toolbar-action-radius; 
+		border-top-left-radius: @toolbar-icon-radius;
+		border-top-right-radius: @toolbar-icon-radius; 
 	}
 	li:last-child .leaflet-toolbar-icon { 
-		border-bottom-left-radius: @toolbar-action-radius;
-		border-bottom-right-radius: @toolbar-action-radius;
+		border-bottom-left-radius: @toolbar-icon-radius;
+		border-bottom-right-radius: @toolbar-icon-radius;
 		border-bottom-width: 0;
 	}
 }
@@ -82,12 +82,12 @@ ul.leaflet-toolbar {
 		float: left;
 	}
 	li:first-child .leaflet-toolbar-icon { 
-		border-top-left-radius: @toolbar-action-radius;
-		border-bottom-left-radius: @toolbar-action-radius; 
+		border-top-left-radius: @toolbar-icon-radius;
+		border-bottom-left-radius: @toolbar-icon-radius; 
 	}
 	li:last-child .leaflet-toolbar-icon { 
-		border-top-right-radius: @toolbar-action-radius;
-		border-bottom-right-radius: @toolbar-action-radius;
+		border-top-right-radius: @toolbar-icon-radius;
+		border-bottom-right-radius: @toolbar-icon-radius;
 		border-bottom-width: 0;
 	}
 }

@@ -11,6 +11,7 @@
 	<script src="../node_modules/leaflet/dist/leaflet-src.js"></script>
 	<script src="../node_modules/leaflet-draw/dist/leaflet.draw-src.js"></script>
 	<script src="../dist/Leaflet.Toolbar.js"></script>
+	<script src="./toolbars.js"></script>	
 	<style>
 		html, body, #map { margin: 0; height: 100%; width: 100%; }
 	</style>
@@ -35,20 +36,6 @@
 		L.tileLayer("http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg", {
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 		}).addTo(map);
-
-		L.Draw.DrawToolbar = L.Toolbar.Control.extend({
-			actions: function(map) { 
-				return [
-					new L.Draw.Polyline(map, {
-						toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polyline' })
-					}),
-
-					new L.Draw.Polygon(map, {
-						toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polygon' })
-					})
-				];
-			}
-		});
 
 		new L.Draw.DrawToolbar({
 			position: 'topleft',

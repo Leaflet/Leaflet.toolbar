@@ -25,14 +25,14 @@ L.Toolbar = L.Class.extend({
 	onAdd: function() {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
 			toolbarContainer = L.DomUtil.create('ul', className, this.getContainer()),
-			actions = this.actions.apply(undefined, this._arguments),
-			l = actions.length,
-			icon,
-			i;
+			icon, i, l;
+
+		this._actions = this.actions.apply(undefined, this._arguments);
+		l = this._actions.length;
 
 		for (i = 0; i < l; i++) {
-			icon = actions[i].options.toolbarIcon || new L.ToolbarIcon();
-			icon.onAdd(toolbarContainer, actions[i]);
+			icon = this._actions[i].options.toolbarIcon || new L.ToolbarIcon();
+			icon.onAdd(toolbarContainer, this._actions[i]);
 		}
 	},
 

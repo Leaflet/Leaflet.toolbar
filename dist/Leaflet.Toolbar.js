@@ -5,7 +5,8 @@
 L.ToolbarIcon = L.Class.extend({
 	options: {
 		html: '',
-		className: ''
+		className: '',
+		hideOnClick: false
 	},
 
 	initialize: function(options) {
@@ -61,14 +62,14 @@ L.Toolbar = L.Class.extend({
 	onAdd: function() {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
 			toolbarContainer = L.DomUtil.create('ul', className, this.getContainer()),
-			actions = this.actions.apply(undefined, this._arguments),
-			l = actions.length,
-			icon,
-			i;
+			icon, i, l;
+
+		this._actions = this.actions.apply(undefined, this._arguments);
+		l = this._actions.length;
 
 		for (i = 0; i < l; i++) {
-			icon = actions[i].options.toolbarIcon || new L.ToolbarIcon();
-			icon.onAdd(toolbarContainer, actions[i]);
+			icon = this._actions[i].options.toolbarIcon || new L.ToolbarIcon();
+			icon.onAdd(toolbarContainer, this._actions[i]);
 		}
 	},
 
@@ -144,7 +145,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		map.on('click', function() {
 			map.removeLayer(this);
-		});
+		}, this);
 
 		L.Toolbar.prototype.onAdd.call(this, map, this.getContainer());
 
@@ -167,15 +168,10 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		return this._map ? this._leaflet_obj._icon : undefined;
 	},
 
-	_onClick: function(event) {
-		L.Toolbar.prototype._onClick.call(this, event);
-		this._map.removeLayer(this);
-	},
-
 	_setStyles: function() {
 		var container = this.getContainer(),
 			toolbar = container.querySelectorAll('.leaflet-toolbar')[0],
-			buttons = container.querySelectorAll('.leaflet-toolbar-action'),
+			icons = container.querySelectorAll('.leaflet-toolbar-icon'),
 			buttonHeights = [],
 			toolbarWidth = 0,
 			toolbarHeight,
@@ -183,9 +179,9 @@ L.Toolbar.Popup = L.Toolbar.extend({
 			anchor;
 
 		/* Calculate the dimensions of the toolbar. */
-		for (var i = 0, l = buttons.length; i < l; i++) {
-			buttonHeights.push(parseInt(L.DomUtil.getStyle(buttons[i], 'height'), 10));
-			toolbarWidth += parseInt(L.DomUtil.getStyle(buttons[i], 'width'), 10);
+		for (var i = 0, l = icons.length; i < l; i++) {
+			buttonHeights.push(parseInt(L.DomUtil.getStyle(icons[i], 'height'), 10));
+			toolbarWidth += parseInt(L.DomUtil.getStyle(icons[i], 'width'), 10);
 		}
 		toolbar.style.width = toolbarWidth + 'px';
 

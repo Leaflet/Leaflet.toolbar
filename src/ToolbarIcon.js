@@ -1,7 +1,8 @@
 L.ToolbarIcon = L.Class.extend({
 	options: {
 		html: '',
-		className: ''
+		className: '',
+		hideOnClick: false
 	},
 
 	initialize: function(options) {
