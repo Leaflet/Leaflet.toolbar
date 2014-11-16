@@ -3,22 +3,19 @@ describe("L.Toolbar.Popup", function() {
 		toolbar;
 
 	beforeEach(function() {
-		var latlng = new L.LatLng(0, 0),
-			Handler = L.Handler.extend({ options: {} }),
-			TestToolbar = L.Toolbar.Popup.extend({
-				actions: function() {
-					return [ new Handler(), new Handler() ];
-				}
-			});
+		var latlng = new L.LatLng(0, 0);
 
 		/* need to add the <div> to document.body in order for external CSS stylesheets to be applied. */
 		map = new L.Map(L.DomUtil.create('div', 'map', document.body)).setView([41.7896,-87.5996], 15);
-		toolbar = new TestToolbar(latlng);
+		toolbar = new L.Toolbar.Popup(latlng, [
+			function() { return new L.ToolbarHandler(); },
+			function() { return new L.ToolbarHandler(); }
+		]);
 	});
 
 	describe("#_setStyles", function() {
 		it("Sets the width of the toolbar to a nonzero value if there are toolbar actions.", function() {
-			var actionsLength = toolbar.actions().length,
+			var actionsLength = toolbar._actions.length,
 				toolbarContainer,
 				toolbarButtons,
 				toolbarWidth,
@@ -37,7 +34,6 @@ describe("L.Toolbar.Popup", function() {
 			toolbarWidth = parseInt(L.DomUtil.getStyle(toolbarContainer, 'width'), 10);
 			buttonWidth = parseInt(L.DomUtil.getStyle(toolbarButtons[0], 'width'), 10);
 
-			/* TODO: Works in the example, but not during tests. */
 			expect(toolbarWidth).to.be.above(buttonWidth);
 		});
 	});

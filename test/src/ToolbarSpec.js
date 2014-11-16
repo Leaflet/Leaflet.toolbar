@@ -3,18 +3,11 @@ describe("L.Toolbar", function() {
 		toolbar;
 
 	beforeEach(function() {
-		var Handler = L.Handler.extend({ options: {} }),
-			TestToolbar = L.Toolbar.extend({
+		var	TestToolbar = L.Toolbar.extend({
 
 				initialize: function() {
 					L.Toolbar.prototype.initialize.apply(this, arguments);
 					this._container = L.DomUtil.create('div');
-				},
-
-				actions: function() {
-					return [
-						new Handler({ toolbarIcon: new L.ToolbarIcon() })
-					];
 				},
 
 				getContainer: function() { return this._container; }
@@ -22,12 +15,14 @@ describe("L.Toolbar", function() {
 			});
 
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		toolbar = new TestToolbar();
+		toolbar = new TestToolbar([
+			function() { return new L.ToolbarHandler(); }
+		]);
 	});
 
 	describe("#onAdd", function() {
 		it("Should create an <a/> element for each toolbar action.", function() {
-			var l = toolbar.actions().length,
+			var l = toolbar._actions.length,
 				actionButtons;
 
 			toolbar.onAdd(map);

@@ -39,9 +39,9 @@
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 		}).addTo(map);
 
-		new L.Draw.DrawToolbar({ 
-			position: 'topleft', 
-			className: 'leaflet-draw-toolbar'		 
+		new L.Draw.Toolbar.Control(L.Draw.DRAWTOOLBAR, { 
+			position: 'topleft',
+			className: 'leaflet-draw-toolbar'
 		}).addTo(map);
 
 		map.on('draw:created', function(evt) {
@@ -53,7 +53,7 @@
 			layer.on('click', function(event) {
 				var latlng = event.latlng;
 
-				new L.Draw.EditToolbar(latlng, { 
+				new L.Draw.Toolbar.Popup(L.Draw.EDITTOOLBAR, latlng, { 
 					className: 'leaflet-draw-toolbar',
 				}).addTo(map, layer);
 			});

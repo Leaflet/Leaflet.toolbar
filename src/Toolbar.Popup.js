@@ -25,7 +25,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._map = map;
 		this._leaflet_obj.addTo(map);
 
-		map.on('click', function() {
+		L.DomEvent.on(this.getContainer(), 'click', function(event) {
+			L.DomEvent.stopPropagation(event);
 			map.removeLayer(this);
 		}, this);
 

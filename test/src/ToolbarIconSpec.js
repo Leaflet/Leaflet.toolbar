@@ -3,24 +3,21 @@ describe("L.ToolbarIcon", function() {
 		toolbar;
 
 	beforeEach(function() {
-		var Handler = L.Handler.extend({ options: {} }),
-			TestToolbar = L.Toolbar.extend({
+		var	TestToolbar = L.Toolbar.extend({
+
 				initialize: function() {
 					L.Toolbar.prototype.initialize.apply(this, arguments);
 					this._container = L.DomUtil.create('div');
 				},
 
-				actions: function() {
-					return [
-						new Handler({ toolbarIcon: new L.ToolbarIcon() })
-					];
-				},
-				
-				getContainer: function() { return L.DomUtil.create('div'); }
+				getContainer: function() { return this._container; }
+
 			});
 
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		toolbar = new TestToolbar().addTo(map);
+		toolbar = new TestToolbar([
+			function() { return new L.ToolbarHandler(); }
+		]).addTo(map);
 	});
 
 	describe("#_onClick", function() {
