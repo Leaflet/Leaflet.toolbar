@@ -18,41 +18,37 @@ L.Toolbar.Popup = L.Toolbar.extend({
 				})
 			});
 
-		this._leaflet_obj = new L.Marker(latlng, toolbarOptions);
+		this._marker = new L.Marker(latlng, toolbarOptions);
 	},
 
 	onAdd: function(map) {
 		this._map = map;
-		this._leaflet_obj.addTo(map);
+		this._marker.addTo(map);
 
-		L.DomEvent.on(this.getContainer(), 'click', function(event) {
+		this.appendToContainer(this._marker._icon);
+
+		L.DomEvent.on(this._container, 'click', function(event) {
 			L.DomEvent.stopPropagation(event);
 			map.removeLayer(this);
 		}, this);
-
-		L.Toolbar.prototype.onAdd.call(this, map, this.getContainer());
 
 		this._setStyles();
 	},
 
 	onRemove: function(map) {
-		map.removeLayer(this._leaflet_obj);
+		map.removeLayer(this._marker);
 
 		delete this._map;
 	},
 
 	setLatLng: function(latlng) {
-		this._leaflet_obj.setLatLng(latlng);
+		this._marker.setLatLng(latlng);
 
 		return this;
 	},
 
-	getContainer: function() {
-		return this._map ? this._leaflet_obj._icon : undefined;
-	},
-
 	_setStyles: function() {
-		var container = this.getContainer(),
+		var container = this._container,
 			toolbar = container.querySelectorAll('.leaflet-toolbar')[0],
 			icons = container.querySelectorAll('.leaflet-toolbar-icon'),
 			buttonHeights = [],

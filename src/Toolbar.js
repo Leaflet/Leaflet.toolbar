@@ -8,8 +8,7 @@ L.Toolbar = L.Class.extend({
 
 	options: {
 		className: '',
-		filter: function() { return true; },
-		parameters: function() { return arguments; }
+		filter: function() { return true; }
 	},
 
 	initialize: function(actions, options) {
@@ -23,12 +22,13 @@ L.Toolbar = L.Class.extend({
 		map.addLayer(this);
 	},
 
-	/* TODO: Each toolbar icon should have a property pointing back to the toolbar (mostly for nested toolbars) */
-	onAdd: function() {
+	appendToContainer: function(container) {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
-			toolbarContainer = L.DomUtil.create('ul', className, this.getContainer()),
+			toolbarContainer = L.DomUtil.create('ul', className, container),
 			icon, action,
 			i, l;
+
+		this._container = container;
 
 		l = this._actions.length;
 

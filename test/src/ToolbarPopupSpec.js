@@ -26,8 +26,8 @@ describe("L.Toolbar.Popup", function() {
 
 			toolbar.addTo(map);
 
-			toolbarContainer = toolbar.getContainer().querySelectorAll('.leaflet-toolbar')[0];
-			toolbarButtons = toolbar.getContainer().querySelectorAll('.leaflet-toolbar-icon');
+			toolbarContainer = toolbar._container.querySelectorAll('.leaflet-toolbar')[0];
+			toolbarButtons = toolbar._container.querySelectorAll('.leaflet-toolbar-icon');
 
 			expect(toolbarButtons.length).to.equal(actionsLength);
 
