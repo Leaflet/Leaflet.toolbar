@@ -32,10 +32,13 @@ ul.leaflet-toolbar .leaflet-toolbar-icon:hover {
   transform: rotate(45deg);
 }
 /* L.Toolbar.Control */
+.leaflet-control-toolbar {
+  /* Secondary toolbar */
+}
 .leaflet-control-toolbar .leaflet-toolbar-icon {
   border-bottom: 1px solid #ccc;
 }
-.leaflet-control-toolbar .leaflet-toolbar-secondary {
+.leaflet-control-toolbar ul.leaflet-toolbar {
   display: none;
   list-style: none;
   margin: 0;
@@ -46,7 +49,7 @@ ul.leaflet-toolbar .leaflet-toolbar-icon:hover {
   top: 0;
   white-space: nowrap;
 }
-.leaflet-control-toolbar .leaflet-toolbar-secondary li {
+.leaflet-control-toolbar ul.leaflet-toolbar li {
   display: inline-block;
 }
 .leaflet-control-toolbar li:first-child .leaflet-toolbar-icon {

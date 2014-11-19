@@ -13,7 +13,7 @@ L.Toolbar = L.Class.extend({
 
 	initialize: function(actions, options) {
 		L.setOptions(this, options);
-		this._actions = actions;
+		this._actions = actions || [];
 	},
 
 	addTo: function(map) {
@@ -21,6 +21,8 @@ L.Toolbar = L.Class.extend({
 
 		map.addLayer(this);
 	},
+
+	onAdd: function() {},
 
 	appendToContainer: function(container) {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
@@ -35,7 +37,7 @@ L.Toolbar = L.Class.extend({
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
 			icon = action.options.toolbarIcon;
-			icon.onAdd(action, toolbarContainer);
+			icon.onAdd(action, toolbarContainer, this._arguments);
 		}
 	}
 });

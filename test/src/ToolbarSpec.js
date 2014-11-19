@@ -9,11 +9,13 @@ describe("L.Toolbar", function() {
 		]);
 	});
 
+	/* TODO: Fix this test. */
 	describe("#onAdd", function() {
 		it("Should create an <a/> element for each toolbar action.", function() {
 			// var l = toolbar._actions.length,
 			// 	actionButtons;
 
+			toolbar.addTo(map);
 			toolbar.appendToContainer(L.DomUtil.create('div'));
 			// actionButtons = toolbar.getContainer().querySelectorAll('.leaflet-toolbar-icon');
 

@@ -19,11 +19,9 @@ L.ToolbarIcon = L.Class.extend({
 		L.setOptions(this, options);
 	},
 
-	onAdd: function(action, container) {
+	onAdd: function(action, container, args) {
 		var actionButton, link,
-			childActions = action.options.childActions,
-			childIcon,
-			childActionContainer;
+			subToolbar = action.options.subToolbar;
 
 		actionButton = L.DomUtil.create('li', '', container);
 
@@ -40,13 +38,10 @@ L.ToolbarIcon = L.Class.extend({
 
 		L.DomEvent.on(link, 'click', action.enable, action);
 
-		/* Add child actions.  TODO - verify: does this.constructor work? */
-		childActionContainer = L.DomUtil.create('ul', this.constructor.baseClassSecondary, actionButton);
-
-		for (var i = 0, l = childActions.length; i < l; i++) {
-			childIcon = childActions[i].options.toolbarIcon;
-			childIcon.onAdd(childActions[i], childActionContainer);
-		}
+		/* Add secondary toolbar */
+		args.push(action);
+		subToolbar.addTo.apply(subToolbar, args);
+		subToolbar.appendToContainer(container);
 	}
 });
 
@@ -68,7 +63,7 @@ L.Toolbar = L.Class.extend({
 
 	initialize: function(actions, options) {
 		L.setOptions(this, options);
-		this._actions = actions;
+		this._actions = actions || [];
 	},
 
 	addTo: function(map) {
@@ -76,6 +71,8 @@ L.Toolbar = L.Class.extend({
 
 		map.addLayer(this);
 	},
+
+	onAdd: function() {},
 
 	appendToContainer: function(container) {
 		var className = this.constructor.baseClass + ' ' + this.options.className,
@@ -90,7 +87,7 @@ L.Toolbar = L.Class.extend({
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
 			icon = action.options.toolbarIcon;
-			icon.onAdd(action, toolbarContainer);
+			icon.onAdd(action, toolbarContainer, this._arguments);
 		}
 	}
 });
@@ -117,7 +114,6 @@ L.Toolbar.Control = L.Toolbar.extend({
 		this._control.addTo(map);
 
 		this.appendToContainer(this._control.getContainer());
-
 	},
 
 	onRemove: function(map) {

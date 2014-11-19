@@ -16,7 +16,6 @@ L.Toolbar.Control = L.Toolbar.extend({
 		this._control.addTo(map);
 
 		this.appendToContainer(this._control.getContainer());
-
 	},
 
 	onRemove: function(map) {
