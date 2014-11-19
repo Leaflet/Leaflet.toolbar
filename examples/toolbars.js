@@ -1,7 +1,8 @@
 L.Draw.DRAWTOOLBAR = [
 	function(map) {
 		return new L.Draw.Polyline(map, {
-			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polyline' })
+			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polyline' }),
+			subToolbar: new L.Toolbar(L.Draw._POLYSUBTOOLBAR)
 		});
 	},
 	function(map) {
@@ -10,6 +11,25 @@ L.Draw.DRAWTOOLBAR = [
 		});
 	}
 ];
+
+L.Draw._POLYSUBTOOLBAR = [
+	function(map, drawAction) {
+		return new L.Draw._Cancel(map, drawAction);
+	}
+];
+
+L.Draw._Cancel = L.ToolbarHandler.extend({
+	initialize: function(map, parent, options) {
+		this._parent = parent;
+	},
+
+	addHooks: function() {
+		this._parent.disable();
+		this.disable();
+	}
+});
+
+
 
 L.Draw.Edit = L.EditToolbar.Edit.extend({
 	enable: function() {
