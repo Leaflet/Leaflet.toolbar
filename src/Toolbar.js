@@ -25,20 +25,41 @@ L.Toolbar = L.Class.extend({
 	onAdd: function() {},
 
 	appendToContainer: function(container) {
-		var className = this.constructor.baseClass + ' ' + this.options.className,
-			toolbarContainer = L.DomUtil.create('ul', className, container),
+		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
+			className = baseClass + ' ' + this.options.className,
 			icon, action,
 			i, l;
 
 		this._container = container;
+		this._ul = L.DomUtil.create('ul', className, container);
 
 		l = this._actions.length;
 
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
 			icon = action.options.toolbarIcon;
-			icon.onAdd(action, toolbarContainer, this._arguments);
+			icon.onAdd(this, action, this._ul, this._arguments);
 		}
+	},
+
+	hide: function() {
+		this._ul.style.display = 'none';
+	},
+
+	show: function() {
+		this._ul.style.display = 'block';
+	},
+
+	_calculateDepth: function() {
+		var depth = 0,
+			toolbar = this.parentToolbar;
+
+		while (toolbar) {
+			depth += 1;
+			toolbar = toolbar.parentToolbar;
+		}
+
+		return depth;
 	}
 });
 

@@ -33,6 +33,12 @@ describe("L.Toolbar", function() {
 			expect(mapClicked).to.equal(false);
 		});
 	});
+
+	describe("#_calculateToolbarDepth", function() {
+		it("Should return 0 for a single toolbar", function() {
+			expect(toolbar._calculateDepth()).to.equal(0);
+		});
+	});
 });
 
 /* Factory function */

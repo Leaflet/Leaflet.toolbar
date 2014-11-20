@@ -1,8 +1,7 @@
 L.ToolbarIcon = L.Class.extend({
 
 	statics: {
-		baseClass: 'leaflet-toolbar-icon',
-		baseClassSecondary: 'leaflet-toolbar-secondary'
+		baseClass: 'leaflet-toolbar-icon'
 	},
 
 	options: {
@@ -15,9 +14,8 @@ L.ToolbarIcon = L.Class.extend({
 		L.setOptions(this, options);
 	},
 
-	onAdd: function(action, container, args) {
-		var actionButton, link,
-			subToolbar = action.options.subToolbar;
+	onAdd: function(toolbar, action, container, args) {
+		var actionButton, link;
 
 		actionButton = L.DomUtil.create('li', '', container);
 
@@ -35,9 +33,35 @@ L.ToolbarIcon = L.Class.extend({
 		L.DomEvent.on(link, 'click', action.enable, action);
 
 		/* Add secondary toolbar */
-		args.push(action);
-		subToolbar.addTo.apply(subToolbar, args);
-		subToolbar.appendToContainer(container);
+		this._addSubToolbar(toolbar, action, actionButton, args);
+
+
+	},
+
+	_addSubToolbar: function(toolbar, action, container, args) {
+		var subToolbar = action.options.subToolbar,
+			addHooks = action.addHooks,
+			removeHooks = action.removeHooks;
+
+		if (subToolbar._actions.length > 0) {
+			args.push(action);
+			subToolbar.parentToolbar = toolbar;
+
+			/* Modify action#addHooks to show the toolbar when the action is enabled. */
+			action.addHooks = function() {
+				subToolbar.show();
+				addHooks.call(this);
+			};
+
+			/* Modify action#removeHooks to hide the toolbar when the action is disabled. */
+			action.removeHooks = function() {
+				removeHooks.call(this);
+				subToolbar.hide();
+			};
+
+			subToolbar.addTo.apply(subToolbar, args);
+			subToolbar.appendToContainer(container);
+		}
 	}
 });
 

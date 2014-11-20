@@ -19,6 +19,10 @@ L.Draw._POLYSUBTOOLBAR = [
 ];
 
 L.Draw._Cancel = L.ToolbarHandler.extend({
+	options: {
+		toolbarIcon: new L.ToolbarIcon({ html: 'Cancel' })
+	},
+
 	initialize: function(map, parent, options) {
 		this._parent = parent;
 	},
@@ -26,7 +30,9 @@ L.Draw._Cancel = L.ToolbarHandler.extend({
 	addHooks: function() {
 		this._parent.disable();
 		this.disable();
-	}
+	},
+
+	removeHooks: function() {}
 });
 
 

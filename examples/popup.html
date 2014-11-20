@@ -20,16 +20,16 @@
 	<div id="map"></div>
 	<style>
 		.leaflet-draw-toolbar { margin-top: 0; }
-		.leaflet-draw-toolbar .leaflet-toolbar-action { 
+		.leaflet-draw-toolbar > li > .leaflet-toolbar-icon { 
 			background-image: url('../node_modules/leaflet-draw/dist/images/spritesheet.png');
 			background-repeat: no-repeat;
 		}
-		a.leaflet-draw-polyline { background-position: -2px -2px; }
-		a.leaflet-draw-polygon { background-position: -31px -2px; }
-		a.leaflet-draw-edit { background-position: -152px -2px; }
-		a.leaflet-draw-delete { background-position: -182px -2px; }
-		a.leaflet-draw-edit-edit { background-position: -152px -2px; }
-		a.leaflet-draw-edit-remove { background-position: -182px -2px; }	
+		.leaflet-draw-polyline { background-position: -2px -2px; }
+		.leaflet-draw-polygon { background-position: -31px -2px; }
+		.leaflet-draw-edit { background-position: -152px -2px; }
+		.leaflet-draw-delete { background-position: -182px -2px; }
+		.leaflet-draw-edit-edit { background-position: -152px -2px; }
+		.leaflet-draw-edit-remove { background-position: -182px -2px; }	
 	</style>	
 	<script>
 		var map = L.map('map').setView([41.7896,-87.5996], 15),

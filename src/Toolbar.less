@@ -9,17 +9,25 @@
 	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 }
 
+.leaflet-toolbar-icon() {
+	display: block;
+}
+
 /* Generic L.Toolbar */
-ul.leaflet-toolbar {
+.leaflet-toolbar-0 {
 	list-style: none;
 	padding-left: 0;
 	.leaflet-toolbar-box-shadow();
-	.leaflet-toolbar-icon {
-		display: block;
+	> li > .leaflet-toolbar-icon {
+		.leaflet-toolbar-icon();
 
 		width: @toolbar-icon-size;
 		height: @toolbar-icon-size;
 		line-height: @toolbar-icon-size;
+
+		margin-right: 0;
+		padding-right: 0;
+		border-right: 0;
 
 		text-align: center;
 		text-decoration: none;
@@ -50,43 +58,61 @@ ul.leaflet-toolbar {
 
 /* L.Toolbar.Control */
 .leaflet-control-toolbar {
-	.leaflet-toolbar-icon { border-bottom: 1px solid #ccc; }
+	> li > .leaflet-toolbar-icon {	border-bottom: 1px solid #ccc; }
 
-	/* Secondary toolbar */
-	ul.leaflet-toolbar {
-		display: none;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		position: absolute;
-		left: 26px; /* leaflet-draw-toolbar.left + leaflet-draw-toolbar.width */
-		top: 0;
-		white-space: nowrap;
-
-		li { display: inline-block;	}
-	}
-
-	li:first-child .leaflet-toolbar-icon { 
+	> li:first-child > .leaflet-toolbar-icon { 
 		border-top-left-radius: @toolbar-icon-radius;
 		border-top-right-radius: @toolbar-icon-radius; 
 	}
-	li:last-child .leaflet-toolbar-icon { 
+	> li:last-child > .leaflet-toolbar-icon { 
 		border-bottom-left-radius: @toolbar-icon-radius;
 		border-bottom-right-radius: @toolbar-icon-radius;
 		border-bottom-width: 0;
+	}
+
+	/* Secondary Toolbar */
+	.leaflet-toolbar-1 {
+		display: none;
+		list-style: none;
+
+		margin: 0;
+		padding: 0;
+
+		position: absolute;
+		left: @toolbar-icon-size; /* leaflet-draw-toolbar.left + leaflet-draw-toolbar.width */
+		top: 0;
+
+		white-space: nowrap;
+
+		height: @toolbar-icon-size;
+
+		> li { display: inline-block; }
+		> li > .leaflet-toolbar-icon {
+			.leaflet-toolbar-icon();
+
+			background-color: #919187;
+			border-left: 1px solid #AAA;
+			color: #FFF;
+			font: 11px/19px "Helvetica Neue", Arial, Helvetica, sans-serif;
+			line-height: @toolbar-icon-size;
+			text-decoration: none;
+			padding-left: 10px;
+			padding-right: 10px;
+			height: @toolbar-icon-size;		
+
+			&:hover { background-color: #A0A098; }
+		}
 	}
 }
 
 /* L.Toolbar.Popup */
 .leaflet-popup-toolbar {
-	a {
-		float: left;
-	}
-	li:first-child .leaflet-toolbar-icon { 
+	a { float: left; }
+	> li:first-child > .leaflet-toolbar-icon { 
 		border-top-left-radius: @toolbar-icon-radius;
 		border-bottom-left-radius: @toolbar-icon-radius; 
 	}
-	li:last-child .leaflet-toolbar-icon { 
+	> li:last-child > .leaflet-toolbar-icon { 
 		border-top-right-radius: @toolbar-icon-radius;
 		border-bottom-right-radius: @toolbar-icon-radius;
 		border-bottom-width: 0;

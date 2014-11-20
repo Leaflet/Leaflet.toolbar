@@ -3,7 +3,7 @@ L.Toolbar = L.Toolbar || {};
 L.Toolbar.Control = L.Toolbar.extend({
 
 	statics: {
-		baseClass: L.Toolbar.baseClass + ' leaflet-control-toolbar'
+		baseClass: 'leaflet-control-toolbar ' + L.Toolbar.baseClass
 	},
 
 	initialize: function(actions, options) {

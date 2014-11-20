@@ -5,7 +5,7 @@ L.Toolbar = L.Toolbar || {};
 L.Toolbar.Popup = L.Toolbar.extend({
 
 	statics: {
-		baseClass: L.Toolbar.baseClass + ' leaflet-popup-toolbar'
+		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
 	},
 
 	initialize: function(latlng, actions, options) {
@@ -49,7 +49,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 	_setStyles: function() {
 		var container = this._container,
-			toolbar = container.querySelectorAll('.leaflet-toolbar')[0],
+			toolbar = this._ul,
 			icons = container.querySelectorAll('.leaflet-toolbar-icon'),
 			buttonHeights = [],
 			toolbarWidth = 0,
