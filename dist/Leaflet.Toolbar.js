@@ -48,9 +48,6 @@ L.ToolbarIcon = L.Class.extend({
 			removeHooks = action.removeHooks;
 
 		if (subToolbar._actions.length > 0) {
-			args.push(action);
-			subToolbar.parentToolbar = toolbar;
-
 			/* Modify action#addHooks to show the toolbar when the action is enabled. */
 			action.addHooks = function() {
 				subToolbar.show();
@@ -62,6 +59,11 @@ L.ToolbarIcon = L.Class.extend({
 				removeHooks.call(this);
 				subToolbar.hide();
 			};
+
+			args = [].slice.call(args);
+			args.push(action);
+			
+			subToolbar.parentToolbar = toolbar;
 
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);

@@ -18,22 +18,27 @@
 	list-style: none;
 	padding-left: 0;
 	.leaflet-toolbar-box-shadow();
-	> li > .leaflet-toolbar-icon {
-		.leaflet-toolbar-icon();
 
-		width: @toolbar-icon-size;
-		height: @toolbar-icon-size;
-		line-height: @toolbar-icon-size;
+	> li { 
+		position: relative;
+		
+		> .leaflet-toolbar-icon {
+			.leaflet-toolbar-icon();
 
-		margin-right: 0;
-		padding-right: 0;
-		border-right: 0;
+			width: @toolbar-icon-size;
+			height: @toolbar-icon-size;
+			line-height: @toolbar-icon-size;
 
-		text-align: center;
-		text-decoration: none;
+			margin-right: 0;
+			padding-right: 0;
+			border-right: 0;
 
-		background-color: @toolbar-background-color;
-		&:hover { background-color: #f4f4f4; }
+			text-align: center;
+			text-decoration: none;
+
+			background-color: @toolbar-background-color;
+			&:hover { background-color: #f4f4f4; }
+		}
 	}
 }
 

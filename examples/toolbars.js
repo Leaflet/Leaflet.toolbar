@@ -1,18 +1,40 @@
 L.Draw.DRAWTOOLBAR = [
 	function(map) {
+		return new L.Draw.Polygon(map, {
+			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polygon' }),
+			subToolbar: new L.Toolbar(L.Draw._POLYSUBTOOLBAR)
+		});
+	},
+	function(map) {
 		return new L.Draw.Polyline(map, {
 			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polyline' }),
 			subToolbar: new L.Toolbar(L.Draw._POLYSUBTOOLBAR)
 		});
 	},
 	function(map) {
-		return new L.Draw.Polygon(map, {
-			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-polygon' })
+		return new L.Draw.Marker(map, {
+			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-marker' }),
+			subToolbar: new L.Toolbar([function(map, drawAction) { return new L.Draw._Cancel(map, drawAction); }])
+		});
+	},
+	function(map) {
+		return new L.Draw.Rectangle(map, {
+			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-rectangle' }),
+			subToolbar: new L.Toolbar([function(map, drawAction) { return new L.Draw._Cancel(map, drawAction); }])
+		});
+	},
+	function(map) {
+		return new L.Draw.Circle(map, {
+			toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-draw-circle' }),
+			subToolbar: new L.Toolbar([function(map, drawAction) { return new L.Draw._Cancel(map, drawAction); }])
 		});
 	}
 ];
 
 L.Draw._POLYSUBTOOLBAR = [
+	function(map, drawAction) {
+		return new L.Draw._RemoveLastPoint(map, drawAction);
+	},
 	function(map, drawAction) {
 		return new L.Draw._Cancel(map, drawAction);
 	}
@@ -23,16 +45,29 @@ L.Draw._Cancel = L.ToolbarHandler.extend({
 		toolbarIcon: new L.ToolbarIcon({ html: 'Cancel' })
 	},
 
-	initialize: function(map, parent, options) {
+	initialize: function(map, parent) {
 		this._parent = parent;
 	},
 
 	addHooks: function() {
 		this._parent.disable();
 		this.disable();
+	}
+});
+
+L.Draw._RemoveLastPoint = L.ToolbarHandler.extend({
+	options: {
+		toolbarIcon: new L.ToolbarIcon({ html: 'Delete last point' })
 	},
 
-	removeHooks: function() {}
+	initialize: function(map, parent) {
+		this._parent = parent;
+	},
+
+	addHooks: function() {
+		this._parent.deleteLastVertex();
+		this.disable();
+	}
 });
 
 

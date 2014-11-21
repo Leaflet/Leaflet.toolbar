@@ -21,6 +21,13 @@ describe("L.Toolbar", function() {
 
 			// expect(actionButtons.length).to.equal(l);
 		});
+
+		it("Should add nested toolbars correctly", function() {
+			toolbar = new L.Toolbar([
+				function() { return new L.ToolbarHandler({ subToolbar: new L.Toolbar() }); },
+				function() { return new L.ToolbarHandler({ subToolbar: new L.Toolbar() }); }
+			]);
+		});
 	});
 
 	describe("#_onClick", function() {
