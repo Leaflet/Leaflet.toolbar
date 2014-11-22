@@ -41,21 +41,21 @@ L.ToolbarIcon = L.Class.extend({
 			removeHooks = action.removeHooks;
 
 		if (subToolbar._actions.length > 0) {
-			/* Modify action#addHooks to show the toolbar when the action is enabled. */
 			action.addHooks = function() {
 				subToolbar.show();
 				addHooks.call(this);
 			};
 
-			/* Modify action#removeHooks to hide the toolbar when the action is disabled. */
 			action.removeHooks = function() {
 				removeHooks.call(this);
 				subToolbar.hide();
 			};
 
+			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(action);
 			
+			/* For calculating the nesting depth. */
 			subToolbar.parentToolbar = toolbar;
 
 			subToolbar.addTo.apply(subToolbar, args);

@@ -8,7 +8,7 @@ describe("L.Toolbar", function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		container = container = L.DomUtil.create('div');
 
-		toolbarTemplate = [function() { return new L.ToolbarHandler(); }];
+		toolbarTemplate = [function(map) { return new L.ToolbarHandler(map); }];
 		toolbar = new L.Toolbar(toolbarTemplate);
 
 		toolbar.addTo(map);

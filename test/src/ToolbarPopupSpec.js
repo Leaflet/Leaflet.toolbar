@@ -8,8 +8,8 @@ describe("L.Toolbar.Popup", function() {
 		/* need to add the <div> to document.body in order for external CSS stylesheets to be applied. */
 		map = new L.Map(L.DomUtil.create('div', 'map', document.body)).setView([41.7896,-87.5996], 15);
 		toolbar = new L.Toolbar.Popup(latlng, [
-			function() { return new L.ToolbarHandler(); },
-			function() { return new L.ToolbarHandler(); }
+			function(map) { return new L.ToolbarHandler(map); },
+			function(map) { return new L.ToolbarHandler(map); }
 		]);
 	});
 

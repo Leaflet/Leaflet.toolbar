@@ -45,21 +45,21 @@ L.ToolbarIcon = L.Class.extend({
 			removeHooks = action.removeHooks;
 
 		if (subToolbar._actions.length > 0) {
-			/* Modify action#addHooks to show the toolbar when the action is enabled. */
 			action.addHooks = function() {
 				subToolbar.show();
 				addHooks.call(this);
 			};
 
-			/* Modify action#removeHooks to hide the toolbar when the action is disabled. */
 			action.removeHooks = function() {
 				removeHooks.call(this);
 				subToolbar.hide();
 			};
 
+			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(action);
 			
+			/* For calculating the nesting depth. */
 			subToolbar.parentToolbar = toolbar;
 
 			subToolbar.addTo.apply(subToolbar, args);
@@ -86,6 +86,8 @@ L.Toolbar = L.Class.extend({
 
 	initialize: function(actions, options) {
 		L.setOptions(this, options);
+
+		/* So that this can be called without an arguments to create an empty toolbar: new L.Toolbar() */
 		this._actions = actions || [];
 	},
 
@@ -93,6 +95,7 @@ L.Toolbar = L.Class.extend({
 		this._arguments = [].slice.call(arguments);
 
 		map.addLayer(this);
+		return this;
 	},
 
 	onAdd: function() {},
@@ -136,8 +139,8 @@ L.Toolbar = L.Class.extend({
 	}
 });
 
-L.toolbar = function(actions) {
-	return new L.Toolbar(actions);
+L.toolbar = function(actions, options) {
+	return new L.Toolbar(actions, options);
 };
 L.ToolbarGroup = L.Toolbar.extend({});
 L.Toolbar = L.Toolbar || {};

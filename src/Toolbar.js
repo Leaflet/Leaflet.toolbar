@@ -13,6 +13,8 @@ L.Toolbar = L.Class.extend({
 
 	initialize: function(actions, options) {
 		L.setOptions(this, options);
+
+		/* So that this can be called without an arguments to create an empty toolbar: new L.Toolbar() */
 		this._actions = actions || [];
 	},
 
@@ -20,6 +22,7 @@ L.Toolbar = L.Class.extend({
 		this._arguments = [].slice.call(arguments);
 
 		map.addLayer(this);
+		return this;
 	},
 
 	onAdd: function() {},
@@ -63,6 +66,6 @@ L.Toolbar = L.Class.extend({
 	}
 });
 
-L.toolbar = function(actions) {
-	return new L.Toolbar(actions);
+L.toolbar = function(actions, options) {
+	return new L.Toolbar(actions, options);
 };

@@ -9,10 +9,10 @@ describe("L.ToolbarIcon", function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 
 		icon = new L.ToolbarIcon({ html: 'Test Icon' });
-		handler = new L.ToolbarHandler({ toolbarIcon: icon });
+		handler = new L.ToolbarHandler(map, { toolbarIcon: icon });
 
 		toolbarTemplate = [function() { return handler; }];
-		toolbar = new L.Toolbar().addTo(map);
+		toolbar = new L.Toolbar(toolbarTemplate).addTo(map);
 	});
 
 	describe("#onAdd", function() {
@@ -28,9 +28,32 @@ describe("L.ToolbarIcon", function() {
 	});
 
 	describe("#_addSubToolbar", function() {
-		it("", function() {
-			var container = L.DomUtil.create('div');
+		it("Should not add a <ul> element when the toolbar has no actions.", function() {
+			var container = L.DomUtil.create('div'),
+				subToolbar = handler.options.subToolbar,
+				ul;
+			
 			icon._addSubToolbar(toolbar, handler, container, [map]);
+			ul = container.querySelectorAll('ul');
+
+			expect(ul.length).to.equal(0);
+			expect(subToolbar._ul).to.be.an('undefined');
+		});
+
+		it("Should add a <ul> element when the toolbar has one action.", function() {
+			var container = L.DomUtil.create('div', '', document.body),
+				subToolbar = new L.Toolbar([function(map) { return new L.ToolbarHandler(map); }]),
+				ul;
+
+			handler = new L.ToolbarHandler(map);
+			L.setOptions(handler, { toolbarIcon: icon, subToolbar: subToolbar });
+			toolbar = new L.Toolbar([function() { return handler; }]).addTo(map);
+
+			icon._addSubToolbar(toolbar, handler, container, [map]);
+			ul = container.querySelectorAll('ul');
+
+			expect(ul.length).to.equal(1);
+			expect(L.DomUtil.hasClass(subToolbar._ul, 'leaflet-toolbar-1')).to.equal(true);
 		});
 	});
 });

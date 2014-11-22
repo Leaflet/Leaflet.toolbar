@@ -23,6 +23,10 @@
 .leaflet-toolbar-0 > li > .leaflet-toolbar-icon:hover {
   background-color: #f4f4f4;
 }
+.leaflet-toolbar-0 .leaflet-toolbar-1 {
+  display: none;
+  list-style: none;
+}
 .leaflet-toolbar-tip-container {
   margin: 0 auto;
   height: 12px;
@@ -54,8 +58,6 @@
   border-bottom-width: 0;
 }
 .leaflet-control-toolbar .leaflet-toolbar-1 {
-  display: none;
-  list-style: none;
   margin: 0;
   padding: 0;
   position: absolute;
