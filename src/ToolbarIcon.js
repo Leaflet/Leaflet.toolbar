@@ -24,7 +24,6 @@ L.ToolbarIcon = L.Class.extend({
 		link.setAttribute('href', '#');
 		link.setAttribute('title', this.options.tooltip);
 
-		/* TODO: Verify: does this.constructor work? */
 		L.DomUtil.addClass(link, this.constructor.baseClass);
 		if (this.options.className) {
 			L.DomUtil.addClass(link, this.options.className);
@@ -34,8 +33,6 @@ L.ToolbarIcon = L.Class.extend({
 
 		/* Add secondary toolbar */
 		this._addSubToolbar(toolbar, action, actionButton, args);
-
-
 	},
 
 	_addSubToolbar: function(toolbar, action, container, args) {

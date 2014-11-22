@@ -1,43 +1,46 @@
 describe("L.Toolbar", function() {
 	var map,
+		container,
+		toolbarTemplate,
 		toolbar;
 
 	beforeEach(function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		toolbar = new L.Toolbar([
-			function() { return new L.ToolbarHandler(); }
-		]);
+		container = container = L.DomUtil.create('div');
+
+		toolbarTemplate = [function() { return new L.ToolbarHandler(); }];
+		toolbar = new L.Toolbar(toolbarTemplate);
+
+		toolbar.addTo(map);
 	});
 
-	/* TODO: Fix this test. */
-	describe("#onAdd", function() {
-		it("Should create an <a/> element for each toolbar action.", function() {
-			// var l = toolbar._actions.length,
-			// 	actionButtons;
+	describe("#appendToContainer", function() {
+		it("Should create an icon for each toolbar action.", function() {
+			var icons;
 
-			toolbar.addTo(map);
-			toolbar.appendToContainer(L.DomUtil.create('div'));
-			// actionButtons = toolbar.getContainer().querySelectorAll('.leaflet-toolbar-icon');
+			toolbar.appendToContainer(container);
 
-			// expect(actionButtons.length).to.equal(l);
-		});
+			icons = container.querySelectorAll('.leaflet-toolbar-icon');
 
-		it("Should add nested toolbars correctly", function() {
-			toolbar = new L.Toolbar([
-				function() { return new L.ToolbarHandler({ subToolbar: new L.Toolbar() }); },
-				function() { return new L.ToolbarHandler({ subToolbar: new L.Toolbar() }); }
-			]);
+			expect(icons.length).to.equal(toolbarTemplate.length);
 		});
 	});
 
-	describe("#_onClick", function() {
-		it.skip("Should prevent click events from propagating up to the map", function() {
-			var mapClicked = false;
+	describe("#show", function() {
+		it("Should set the display of the toolbar container to 'block'", function() {
+			toolbar.appendToContainer(container);
 
-			map.on('click', function() { mapClicked = true; });
+			toolbar.show();
+			expect(toolbar._ul.style.display).to.equal('block');
+		});
+	});
 
-			toolbar._onClick({});
-			expect(mapClicked).to.equal(false);
+	describe("#hide", function() {
+		it("Should set the display of the toolbar container to 'block'", function() {
+			toolbar.appendToContainer(container);
+
+			toolbar.hide();
+			expect(toolbar._ul.style.display).to.equal('none');
 		});
 	});
 
