@@ -26,36 +26,6 @@ describe("L.ToolbarIcon", function() {
 			expect(iconText).to.equal('Test Icon');
 		});
 	});
-
-	describe("#_addSubToolbar", function() {
-		it("Should not add a <ul> element when the toolbar has no actions.", function() {
-			var container = L.DomUtil.create('div'),
-				subToolbar = handler.options.subToolbar,
-				ul;
-			
-			icon._addSubToolbar(toolbar, handler, container, [map]);
-			ul = container.querySelectorAll('ul');
-
-			expect(ul.length).to.equal(0);
-			expect(subToolbar._ul).to.be.an('undefined');
-		});
-
-		it("Should add a <ul> element when the toolbar has one action.", function() {
-			var container = L.DomUtil.create('div', '', document.body),
-				subToolbar = new L.Toolbar([function(map) { return new L.ToolbarHandler(map); }]),
-				ul;
-
-			handler = new L.ToolbarHandler(map);
-			L.setOptions(handler, { toolbarIcon: icon, subToolbar: subToolbar });
-			toolbar = new L.Toolbar([function() { return handler; }]).addTo(map);
-
-			icon._addSubToolbar(toolbar, handler, container, [map]);
-			ul = container.querySelectorAll('ul');
-
-			expect(ul.length).to.equal(1);
-			expect(L.DomUtil.hasClass(subToolbar._ul, 'leaflet-toolbar-1')).to.equal(true);
-		});
-	});
 });
 
 /* Factory function */
