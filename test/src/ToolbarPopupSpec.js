@@ -13,6 +13,15 @@ describe("L.Toolbar.Popup", function() {
 		]);
 	});
 
+	describe("#onRemove", function() {
+		it("Should remove the toolbar from the map.", function() {
+			toolbar.addTo(map);
+			map.removeLayer(toolbar);
+
+			expect(map.hasLayer(toolbar)).to.equal(false);
+		});
+	});
+
 	describe("#_setStyles", function() {
 		it("Sets the width of the toolbar to a nonzero value if there are toolbar actions.", function() {
 			var actionsLength = toolbar._actions.length,

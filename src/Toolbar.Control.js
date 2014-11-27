@@ -1,5 +1,3 @@
-L.Toolbar = L.Toolbar || {};
-
 L.Toolbar.Control = L.Toolbar.extend({
 
 	statics: {

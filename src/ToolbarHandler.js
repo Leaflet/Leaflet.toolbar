@@ -4,10 +4,6 @@ L.ToolbarHandler = L.Handler.extend({
 		subToolbar: new L.Toolbar()
 	},
 
-	onAdd: function () {},
-
-	omRemove: function() {},
-
 	addHooks: function() {
 		var subToolbar = this.options.subToolbar;
 
@@ -27,13 +23,13 @@ L.ToolbarHandler = L.Handler.extend({
 	_addSubToolbar: function(toolbar, container, args) {
 		var subToolbar = this.options.subToolbar;
 
+		/* For calculating the nesting depth. */
+		subToolbar.parentToolbar = toolbar;
+
 		if (subToolbar._actions.length > 0) {
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);
-			
-			/* For calculating the nesting depth. */
-			subToolbar.parentToolbar = toolbar;
 
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);

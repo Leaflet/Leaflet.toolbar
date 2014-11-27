@@ -48,14 +48,17 @@ describe("L.Toolbar", function() {
 		it("Should return 0 for a single toolbar", function() {
 			expect(toolbar._calculateDepth()).to.equal(0);
 		});
-	});
-});
 
-/* Factory function */
-describe("L.toolbar", function() {
-	it("Should return an instance of L.Toolbar", function() {
-		var toolbar = L.toolbar();
+		it("Should return 1 for a nested toolbar", function() {
+			var subToolbar = new L.Toolbar(),
+				handler = new L.ToolbarHandler(map);
 
-		expect(toolbar).to.be.an.instanceof(L.Toolbar);
+			L.setOptions(handler, { subToolbar: subToolbar });
+
+			toolbar = new L.Toolbar([function() { return handler; }]).addTo(map);
+			toolbar.appendToContainer(container);
+
+			expect(subToolbar._calculateDepth()).to.equal(1);
+		});
 	});
 });

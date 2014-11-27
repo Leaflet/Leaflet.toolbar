@@ -1,7 +1,5 @@
 // A convenience class for built-in popup toolbars.
 
-L.Toolbar = L.Toolbar || {};
-
 L.Toolbar.Popup = L.Toolbar.extend({
 
 	statics: {

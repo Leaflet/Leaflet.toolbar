@@ -65,7 +65,3 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
-
-L.toolbar = function(actions, options) {
-	return new L.Toolbar(actions, options);
-};

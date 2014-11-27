@@ -110,19 +110,11 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
-
-L.toolbar = function(actions, options) {
-	return new L.Toolbar(actions, options);
-};
 L.ToolbarHandler = L.Handler.extend({
 	options: {
 		toolbarIcon: new L.ToolbarIcon(),
 		subToolbar: new L.Toolbar()
 	},
-
-	onAdd: function () {},
-
-	omRemove: function() {},
 
 	addHooks: function() {
 		var subToolbar = this.options.subToolbar;
@@ -143,21 +135,19 @@ L.ToolbarHandler = L.Handler.extend({
 	_addSubToolbar: function(toolbar, container, args) {
 		var subToolbar = this.options.subToolbar;
 
+		/* For calculating the nesting depth. */
+		subToolbar.parentToolbar = toolbar;
+
 		if (subToolbar._actions.length > 0) {
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);
-			
-			/* For calculating the nesting depth. */
-			subToolbar.parentToolbar = toolbar;
 
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);
 		}
 	}
 });
-L.Toolbar = L.Toolbar || {};
-
 L.Toolbar.Control = L.Toolbar.extend({
 
 	statics: {
@@ -187,8 +177,6 @@ L.Control.Toolbar = L.Control.extend({
 	}
 });
 // A convenience class for built-in popup toolbars.
-
-L.Toolbar = L.Toolbar || {};
 
 L.Toolbar.Popup = L.Toolbar.extend({
 

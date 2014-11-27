@@ -6,12 +6,19 @@ describe("L.Toolbar.Control", function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		toolbar = new L.Toolbar.Control([
 			function(map) { return new L.ToolbarHandler(map); }
-		]);
+		]).addTo(map);
 	});
 
 	describe("#onAdd", function() {
-		it("Attaches toolbar action event listeners to the DOM.", function() {
-			toolbar.addTo(map);
+		it("Adds the toolbar to the map.", function() {
+			expect(map.hasLayer(toolbar)).to.equal(true);
+		});
+	});
+
+	describe("#onRemove", function() {
+		it("Removes the toolbar from the map", function() {
+			map.removeLayer(toolbar);
+			expect(map.hasLayer(toolbar)).to.equal(false);
 		});
 	});
 });
