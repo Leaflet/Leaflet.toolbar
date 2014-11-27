@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Flexible, extensible toolbars for Leaflet maps.",
   "scripts": {
-    "test": "grunt travis"
+    "test": "grunt travis",
+    "coveralls": "PHANTOM=`ls ./coverage | grep PhantomJS` && cat \"coverage/$PHANTOM/lcov.info\" | coveralls"    
   },
   "devDependencies": {
     "chai": "1.9.1",

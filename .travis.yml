@@ -3,3 +3,8 @@ node_js:
 - '0.10'
 before_install:
 - npm install -g grunt-cli
+after_script:
+- npm run coveralls
+env:
+  global:
+    secure: He1QzXAeCN5qC553u34s6QGuI00nwNx3wp0Oa1FgHEzAy52sVGit3VMp/eSvgGQIh+eMMYDP7BJAQiaUmfD9fVgxVdQDmh4uP///Mv63ZJ5bN/1TSeyJboAmLDdNJ2QwZXOLr3NtjKt8eASrvya90AtpS9K1Ld0NG6QRdORc3QI=
