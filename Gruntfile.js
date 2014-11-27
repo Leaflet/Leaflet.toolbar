@@ -117,7 +117,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     banner: '(function(window, document, undefined) {\n\n"use strict";\n\n',
-                    footer: '\n\n}(window, document));'
+                    footer: '\n\n})(window, document);'
                 },
                 src: [
                     'src/ToolbarIcon.js',

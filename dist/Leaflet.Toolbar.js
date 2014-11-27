@@ -1,3 +1,4 @@
+/* @flow */
 (function(window, document, undefined) {
 
 "use strict";
@@ -257,4 +258,4 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	}
 });
 
-}(window, document));
+})(window, document);
