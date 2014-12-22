@@ -114,7 +114,9 @@
 
 /* L.Toolbar.Popup */
 .leaflet-popup-toolbar {
-	a { float: left; }
+	position: relative;
+
+	> li { float: left; }
 	> li:first-child > .leaflet-toolbar-icon { 
 		border-top-left-radius: @toolbar-icon-radius;
 		border-bottom-left-radius: @toolbar-icon-radius; 
@@ -123,5 +125,21 @@
 		border-top-right-radius: @toolbar-icon-radius;
 		border-bottom-right-radius: @toolbar-icon-radius;
 		border-bottom-width: 0;
+	}
+
+	.leaflet-toolbar-1 {
+		position: absolute;
+		top: @toolbar-icon-size;
+		left: 0;
+
+		padding-left: 0;
+
+		> li > .leaflet-toolbar-icon {
+			position: relative;
+			float: left;
+
+			width: @toolbar-icon-size;
+			height: @toolbar-icon-size;
+		}	
 	}
 }
