@@ -6,12 +6,29 @@ describe("L.Toolbar", function() {
 
 	beforeEach(function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		container = container = L.DomUtil.create('div');
+		container = L.DomUtil.create('div');
 
 		toolbarTemplate = [function(map) { return new L.ToolbarHandler(map); }];
 		toolbar = new L.Toolbar(toolbarTemplate);
 
 		toolbar.addTo(map);
+	});
+
+	describe("#addTo", function() {
+		it("Should pass along its arguments to each toolbar action factory.", function(done) {
+			var testArg = { test: 'hello' };
+
+			toolbarTemplate = [function(arg1, arg2) {
+				expect(arg1).to.equal(map);
+				expect(arg2).to.equal(testArg);
+				done();
+			}];
+
+			toolbar = new L.Toolbar(toolbarTemplate);
+
+			toolbar.addTo(map, testArg);
+			toolbar.appendToContainer(container);
+		});
 	});
 
 	describe("#appendToContainer", function() {
