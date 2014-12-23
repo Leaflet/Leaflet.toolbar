@@ -2,7 +2,6 @@ Leaflet.Toolbar
 ===============
 
 [![Build Status](https://travis-ci.org/manleyjster/Leaflet.Toolbar.svg?branch=master)](https://travis-ci.org/manleyjster/Leaflet.Toolbar)
-
 [![Coverage Status](https://img.shields.io/coveralls/manleyjster/Leaflet.Toolbar.svg)](https://coveralls.io/r/manleyjster/Leaflet.Toolbar)
 
 Extensible, flexible toolbar class for Leaflet maps.
