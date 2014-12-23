@@ -9,29 +9,14 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="../node_modules/leaflet/dist/leaflet-src.js"></script>
-	<script src="../node_modules/leaflet-draw/dist/leaflet.draw-src.js"></script>
 	<script src="../dist/Leaflet.Toolbar.js"></script>
-	<script src="./toolbars.js"></script>	
+	<script src="../node_modules/leaflet-draw/dist/leaflet.draw-src.js"></script>
 	<style>
 		html, body, #map { margin: 0; height: 100%; width: 100%; }
 	</style>
 </head>
 <body>
 	<div id="map"></div>
-	<style>
-		.leaflet-draw-toolbar { margin-top: 0; }
-		.leaflet-draw-toolbar a { 
-			background-image: url('../node_modules/leaflet-draw/dist/images/spritesheet.png');
-			background-repeat: no-repeat;
-		}
-		.leaflet-draw-polyline { background-position: -2px -2px; }
-		.leaflet-draw-polygon { background-position: -31px -2px; }
-		.leaflet-draw-marker { background-position: -122px -2px; }
-		.leaflet-draw-rectangle { background-position: -62px -2px; }
-		.leaflet-draw-circle { background-position: -92px -2px; }		
-		.leaflet-draw-edit { background-position: -152px -2px; }
-		.leaflet-draw-delete { background-position: -182px -2px; }
-	</style>
 	<script>
 		var map = L.map('map').setView([41.7896,-87.5996], 15),
 			drawnItems = new L.FeatureGroup().addTo(map);
@@ -40,7 +25,7 @@
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 		}).addTo(map);
 
-		new L.Toolbar.Control(L.Draw.DRAWTOOLBAR, {
+		new L.DrawToolbar.Control({
 			position: 'topleft',
 			className: 'leaflet-draw-toolbar'
 		}).addTo(map);
