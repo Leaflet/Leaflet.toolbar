@@ -1,5 +1,4 @@
 L.Toolbar.Control = L.Toolbar.extend({
-
 	statics: {
 		baseClass: 'leaflet-control-toolbar ' + L.Toolbar.baseClass
 	},

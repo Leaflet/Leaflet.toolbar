@@ -1,10 +1,9 @@
 L.Toolbar = L.Class.extend({
-	
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
 
-	includes: [L.Mixin.Events],
+	includes: L.Mixin.Events,
 
 	options: {
 		className: '',
@@ -22,6 +21,7 @@ L.Toolbar = L.Class.extend({
 		this._arguments = [].slice.call(arguments);
 
 		map.addLayer(this);
+
 		return this;
 	},
 
@@ -40,6 +40,8 @@ L.Toolbar = L.Class.extend({
 
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
+			action.toolbar = this;
+
 			icon = action.options.toolbarIcon;
 			icon.onAdd(this, action, this._ul, this._arguments);
 		}

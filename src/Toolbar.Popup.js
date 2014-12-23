@@ -1,7 +1,6 @@
 // A convenience class for built-in popup toolbars.
 
 L.Toolbar.Popup = L.Toolbar.extend({
-
 	statics: {
 		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
 	},
@@ -25,10 +24,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this.appendToContainer(this._marker._icon);
 
-		L.DomEvent.on(this._container, 'click', function(event) {
-			L.DomEvent.stopPropagation(event);
-			map.removeLayer(this);
-		}, this);
+		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		this._setStyles();
 	},
@@ -48,7 +44,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	_setStyles: function() {
 		var container = this._container,
 			toolbar = this._ul,
-			icons = container.querySelectorAll('.leaflet-toolbar-icon'),
+			icons = toolbar.querySelectorAll('.leaflet-toolbar-icon'),
 			buttonHeights = [],
 			toolbarWidth = 0,
 			toolbarHeight,
@@ -57,8 +53,10 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = icons.length; i < l; i++) {
-			buttonHeights.push(parseInt(L.DomUtil.getStyle(icons[i], 'height'), 10));
-			toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'width')));
+			if (icons[i].parentNode.parentNode === toolbar) {
+				buttonHeights.push(parseInt(L.DomUtil.getStyle(icons[i], 'height'), 10));
+				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'width')));
+			}
 		}
 		toolbar.style.width = toolbarWidth + 'px';
 

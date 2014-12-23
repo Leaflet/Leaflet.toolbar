@@ -4,21 +4,34 @@ L.ToolbarHandler = L.Handler.extend({
 		subToolbar: new L.Toolbar()
 	},
 
-	addHooks: function() {
+	initialize: function(map, options) {
+		L.setOptions(this, options);
+		L.Handler.prototype.initialize.call(this, map);
+	},
+
+	enable: function() {
 		var subToolbar = this.options.subToolbar;
+
+		L.Handler.prototype.enable.call(this);
 
 		if (subToolbar._actions.length > 0) {
 			subToolbar.show();
 		}
 	},
 
-	removeHooks: function() {
+	disable: function() {
 		var subToolbar = this.options.subToolbar;
+
+		L.Handler.prototype.disable.call(this);
 
 		if (subToolbar._actions.length > 0) {
 			subToolbar.hide();
 		}
 	},
+
+	addHooks: function() {},
+	
+	removeHooks: function() {},
 
 	_addSubToolbar: function(toolbar, container, args) {
 		var subToolbar = this.options.subToolbar;
@@ -30,7 +43,7 @@ L.ToolbarHandler = L.Handler.extend({
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);
-
+			
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);
 		}
