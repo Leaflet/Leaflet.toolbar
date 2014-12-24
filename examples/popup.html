@@ -32,14 +32,24 @@
 		}).addTo(map);
 
 		L.EditToolbar.Popup.prototype.TOOLBAR.push(function(map, shape) {
-			return new L.ColorPicker(map, {
+			return new L.ToolbarHandler(map, {
+				toolbarIcon: { 
+					className: 'leaflet-color-picker', 
+					html: '<span class="fa fa-eyedropper"></span>' 
+				},
 				subToolbar: new L.Toolbar([
 					function(map, shape, parent) { 
-						return new L.Edit.Color(map, shape, { color: '#db1d0f' }); 
+						return new L.ColorPicker(map, shape, { color: '#db1d0f' }); 
 					},
 					function(map, shape, parent) {
-						return new L.Edit.Color(map, shape, { color: '#eeeeee' });
-					}
+						return new L.ColorPicker(map, shape, { color: '#025100' });
+					},
+					function(map, shape, parent) {
+						return new L.ColorPicker(map, shape, { color: '#ffff00' });
+					},
+					function(map, shape, parent) {
+						return new L.ColorPicker(map, shape, { color: '#0000ff' });
+					}										
 				])
 			});
 		});		

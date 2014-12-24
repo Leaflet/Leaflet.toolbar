@@ -47,27 +47,25 @@ L.ToolbarHandler = L.Handler.extend({
 	removeHooks: function() {},
 
 	_createIcon: function(toolbar, container, args) {
-		var iconOptions = this.options.toolbarIcon,
-			actionButton, link;
+		var iconOptions = this.options.toolbarIcon;
 
 		this.toolbar = toolbar;
+		this._icon = L.DomUtil.create('li', '', container);
+		this._link = L.DomUtil.create('a', '', this._icon);
 
-		actionButton = L.DomUtil.create('li', '', container);
+		this._link.innerHTML = iconOptions.html;
+		this._link.setAttribute('href', '#');
+		this._link.setAttribute('title', iconOptions.tooltip);
 
-		link = L.DomUtil.create('a', '', actionButton);
-		link.innerHTML = iconOptions.html;
-		link.setAttribute('href', '#');
-		link.setAttribute('title', iconOptions.tooltip);
-
-		L.DomUtil.addClass(link, this.constructor.baseClass);
+		L.DomUtil.addClass(this._link, this.constructor.baseClass);
 		if (iconOptions.className) {
-			L.DomUtil.addClass(link, iconOptions.className);
+			L.DomUtil.addClass(this._link, iconOptions.className);
 		}
 
-		L.DomEvent.on(link, 'click', this.enable, this);
+		L.DomEvent.on(this._link, 'click', this.enable, this);
 
 		/* Add secondary toolbar */
-		this._addSubToolbar(toolbar, actionButton, args);
+		this._addSubToolbar(toolbar, this._icon, args);
 	},
 
 	_addSubToolbar: function(toolbar, container, args) {
