@@ -31,5 +31,9 @@ L.ColorPicker = L.ToolbarHandler.extend({
 		});
 
 		this._link.appendChild(colorSwatch);
+
+		L.DomEvent.on(this._link, 'click', function() {
+			map.removeLayer(this.toolbar.parentToolbar);
+		}, this);
 	}
 });
