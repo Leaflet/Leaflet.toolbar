@@ -120,7 +120,6 @@ module.exports = function(grunt) {
                     footer: '\n\n})(window, document);'
                 },
                 src: [
-                    'src/ToolbarIcon.js',
                     'src/Toolbar.js',
                     'src/ToolbarHandler.js',
                     'src/Toolbar.*.js'

@@ -30,7 +30,7 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
-			icon, action,
+			action,
 			i, l;
 
 		this._container = container;
@@ -40,10 +40,8 @@ L.Toolbar = L.Class.extend({
 
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
-			action.toolbar = this;
 
-			icon = action.options.toolbarIcon;
-			icon.onAdd(this, action, this._ul, this._arguments);
+			action._createIcon(this, this._ul, this._arguments);
 		}
 	},
 

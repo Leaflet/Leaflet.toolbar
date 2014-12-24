@@ -2,48 +2,6 @@
 
 "use strict";
 
-L.ToolbarIcon = L.Class.extend({
-
-	statics: {
-		baseClass: 'leaflet-toolbar-icon'
-	},
-
-	options: {
-		html: '',
-		className: '',
-		hideOnClick: false,
-		tooltip: ''
-	},
-
-	initialize: function(options) {
-		L.setOptions(this, options);
-	},
-
-	onAdd: function(toolbar, action, container, args) {
-		var actionButton, link;
-
-		actionButton = L.DomUtil.create('li', '', container);
-
-		link = L.DomUtil.create('a', '', actionButton);
-		link.innerHTML = this.options.html;
-		link.setAttribute('href', '#');
-		link.setAttribute('title', this.options.tooltip);
-
-		L.DomUtil.addClass(link, this.constructor.baseClass);
-		if (this.options.className) {
-			L.DomUtil.addClass(link, this.options.className);
-		}
-
-		L.DomEvent.on(link, 'click', action.enable, action);
-
-		/* Add secondary toolbar */
-		action._addSubToolbar(toolbar, actionButton, args);
-	}
-});
-
-L.toolbarIcon = function(options) {
-	return new L.ToolbarIcon(options);
-};
 L.Toolbar = L.Class.extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
@@ -76,7 +34,7 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
-			icon, action,
+			action,
 			i, l;
 
 		this._container = container;
@@ -86,10 +44,8 @@ L.Toolbar = L.Class.extend({
 
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
-			action.toolbar = this;
 
-			icon = action.options.toolbarIcon;
-			icon.onAdd(this, action, this._ul, this._arguments);
+			action._createIcon(this, this._ul, this._arguments);
 		}
 	},
 
@@ -114,13 +70,26 @@ L.Toolbar = L.Class.extend({
 	}
 });
 L.ToolbarHandler = L.Handler.extend({
+	statics: {
+		baseClass: 'leaflet-toolbar-icon'
+	},
+
 	options: {
-		toolbarIcon: new L.ToolbarIcon(),
+		toolbarIcon: {
+			html: '',
+			className: '',
+			hideOnClick: false,
+			tooltip: ''
+		},
 		subToolbar: new L.Toolbar()
 	},
 
 	initialize: function(map, options) {
+		var defaultIconOptions = L.ToolbarHandler.prototype.options.toolbarIcon;
+
 		L.setOptions(this, options);
+		this.options.toolbarIcon = L.extend({}, defaultIconOptions, this.options.toolbarIcon);
+
 		L.Handler.prototype.initialize.call(this, map);
 	},
 
@@ -147,6 +116,30 @@ L.ToolbarHandler = L.Handler.extend({
 	addHooks: function() {},
 	
 	removeHooks: function() {},
+
+	_createIcon: function(toolbar, container, args) {
+		var iconOptions = this.options.toolbarIcon,
+			actionButton, link;
+
+		this.toolbar = toolbar;
+
+		actionButton = L.DomUtil.create('li', '', container);
+
+		link = L.DomUtil.create('a', '', actionButton);
+		link.innerHTML = iconOptions.html;
+		link.setAttribute('href', '#');
+		link.setAttribute('title', iconOptions.tooltip);
+
+		L.DomUtil.addClass(link, this.constructor.baseClass);
+		if (iconOptions.className) {
+			L.DomUtil.addClass(link, iconOptions.className);
+		}
+
+		L.DomEvent.on(link, 'click', this.enable, this);
+
+		/* Add secondary toolbar */
+		this._addSubToolbar(toolbar, actionButton, args);
+	},
 
 	_addSubToolbar: function(toolbar, container, args) {
 		var subToolbar = this.options.subToolbar;
