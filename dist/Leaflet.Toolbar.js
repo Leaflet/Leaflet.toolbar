@@ -98,6 +98,10 @@ L.ToolbarHandler = L.Handler.extend({
 
 		L.Handler.prototype.enable.call(this);
 
+		/* Ensure that only one action in a toolbar will be active at a time. */
+		if (this.toolbar._active) { this.toolbar._active.disable(); }
+		this.toolbar._active = this;
+
 		if (subToolbar._actions.length > 0) {
 			subToolbar.show();
 		}
