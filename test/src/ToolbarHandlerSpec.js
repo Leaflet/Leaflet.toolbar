@@ -80,6 +80,7 @@ describe("L.ToolbarHandler", function() {
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
+			handler.toolbar = toolbar;
 			handler.enable();
 			expect(ul.style.display).to.equal('block');
 		});
@@ -100,6 +101,7 @@ describe("L.ToolbarHandler", function() {
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
+			handler.toolbar = toolbar;
 			handler.enable();
 			handler.disable();
 
