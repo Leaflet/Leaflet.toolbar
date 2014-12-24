@@ -20,7 +20,6 @@ module.exports = function(config) {
       '../node_modules/chai/chai.js',
       '../node_modules/sinon/pkg/sinon-1.10.3.js',
       '../dist/Leaflet.Toolbar.css',
-      '../src/ToolbarIcon.js',
       '../src/Toolbar.js',
       '../src/ToolbarHandler.js',
       '../src/Toolbar.*.js',

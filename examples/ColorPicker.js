@@ -1,6 +1,9 @@
 L.ColorPicker = L.ToolbarHandler.extend({
 	options: {
-		toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-color-picker', html: '<span class="fa fa-eyedropper"></span>' })
+		toolbarIcon: { 
+			className: 'leaflet-color-picker', 
+			html: '<span class="fa fa-eyedropper"></span>' 
+		}
 	},
 
 	initialize: function(map, options) {
@@ -11,7 +14,7 @@ L.ColorPicker = L.ToolbarHandler.extend({
 
 L.Edit.Color = L.ToolbarHandler.extend({
 	options: {
-		toolbarIcon: new L.ToolbarIcon({ className: 'leaflet-color-swatch' })
+		toolbarIcon: { className: 'leaflet-color-swatch' }
 	},
 
 	initialize: function(map, shape, options) {

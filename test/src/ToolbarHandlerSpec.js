@@ -1,15 +1,41 @@
 describe("L.ToolbarHandler", function() {
 	var map,
 		container,
+		ul,
 		toolbar,
 		handler;
 
 	beforeEach(function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		container = L.DomUtil.create('div', 'leaflet-toolbar-0', document.body);
+		ul = L.DomUtil.create('ul');
 
-		handler = new L.ToolbarHandler(map);
+		handler = new L.ToolbarHandler(map, { toolbarIcon: {
+			html: 'Test Icon',
+			className: 'my-toolbar-icon'
+		}});
 		toolbar = new L.Toolbar([function() { return handler; }]);
+	});
+
+	describe("#_createIcon", function() {
+		it("Sets the content of the icon to the html option passed to the ToolbarIcon.", function() {
+			var iconText;
+
+			handler._createIcon(toolbar, ul, []);
+			iconText = ul.querySelectorAll('.leaflet-toolbar-icon')[0].innerHTML;
+
+			expect(iconText).to.equal('Test Icon');
+		});
+
+		it("Appends options.className to the base className", function() {
+			var iconButton;
+
+			handler._createIcon(toolbar, ul, []);
+			iconButton = ul.querySelectorAll('a')[0];
+
+			expect(L.DomUtil.hasClass(iconButton, 'leaflet-toolbar-icon')).to.equal(true);
+			expect(L.DomUtil.hasClass(iconButton, 'my-toolbar-icon')).to.equal(true);
+		});
 	});
 
 	describe("#_addSubToolbar", function() {
