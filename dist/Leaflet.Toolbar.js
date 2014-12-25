@@ -44,6 +44,7 @@ L.Toolbar = L.Class.extend({
 
 		for (i = 0; i < l; i++) {
 			action = this._actions[i].apply(undefined, this._arguments);
+			console.log(action.constructor.name);
 
 			action._createIcon(this, this._ul, this._arguments);
 		}
