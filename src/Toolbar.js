@@ -7,7 +7,8 @@ L.Toolbar = L.Class.extend({
 
 	options: {
 		className: '',
-		filter: function() { return true; }
+		filter: function() { return true; },
+		actions: {}
 	},
 
 	initialize: function(actions, options) {

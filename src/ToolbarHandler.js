@@ -91,4 +91,4 @@ L.ToolbarHandler = L.Handler.extend({
 
 L.ToolbarHandler.extendOptions = function(options) {
 	this.extend({ options: options });
-}
+};

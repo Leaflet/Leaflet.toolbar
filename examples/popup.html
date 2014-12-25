@@ -31,28 +31,18 @@
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 		}).addTo(map);
 
-		L.EditToolbar.Popup.prototype.TOOLBAR.push(function(map, shape) {
-			return new L.ToolbarHandler(map, {
-				toolbarIcon: { 
-					className: 'leaflet-color-picker', 
-					html: '<span class="fa fa-eyedropper"></span>' 
-				},
-				subToolbar: new L.Toolbar([
-					function(map, shape, parent) { 
-						return new L.ColorPicker(map, shape, { color: '#db1d0f' }); 
-					},
-					function(map, shape, parent) {
-						return new L.ColorPicker(map, shape, { color: '#025100' });
-					},
-					function(map, shape, parent) {
-						return new L.ColorPicker(map, shape, { color: '#ffff00' });
-					},
-					function(map, shape, parent) {
-						return new L.ColorPicker(map, shape, { color: '#0000ff' });
-					}										
-				])
-			});
-		});		
+		L.EditToolbar.Popup.prototype.TOOLBAR.push(L.ToolbarHandler.extendOptions({
+			toolbarIcon: { 
+				className: 'leaflet-color-picker', 
+				html: '<span class="fa fa-eyedropper"></span>' 
+			},
+			subToolbar: new L.Toolbar([
+				L.ColorPicker.extendOptions({ color: '#db1d0f' }),
+				L.ColorPicker.extendOptions({ color: '#025100' }),
+				L.ColorPicker.extendOptions({ color: '#ffff00' }),
+				L.ColorPicker.extendOptions({ color: '#0000ff' })
+			])
+		}));
 
 		new L.DrawToolbar.Control({ 
 			position: 'topleft',
