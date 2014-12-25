@@ -8,7 +8,7 @@ describe("L.Toolbar", function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		container = L.DomUtil.create('div');
 
-		toolbarTemplate = [function(map) { return new L.ToolbarHandler(map); }];
+		toolbarTemplate = [L.ToolbarHandler];
 		toolbar = new L.Toolbar(toolbarTemplate);
 
 		toolbar.addTo(map);
@@ -16,17 +16,16 @@ describe("L.Toolbar", function() {
 
 	describe("#addTo", function() {
 		it("Should pass along its arguments to each toolbar action factory.", function(done) {
-			var testArg = { test: 'hello' };
+			var TestHandler = L.ToolbarHandler.extend({
+				initialize: function(arg1) {
+					expect(arg1).to.equal(map);
+					done();
+				}
+			});
 
-			toolbarTemplate = [function(arg1, arg2) {
-				expect(arg1).to.equal(map);
-				expect(arg2).to.equal(testArg);
-				done();
-			}];
+			toolbar = new L.Toolbar([TestHandler]);
 
-			toolbar = new L.Toolbar(toolbarTemplate);
-
-			toolbar.addTo(map, testArg);
+			toolbar.addTo(map);
 			toolbar.appendToContainer(container);
 		});
 	});
@@ -68,11 +67,9 @@ describe("L.Toolbar", function() {
 
 		it("Should return 1 for a nested toolbar", function() {
 			var subToolbar = new L.Toolbar(),
-				handler = new L.ToolbarHandler(map);
+				TestHandler = L.ToolbarHandler.extend({ options: { subToolbar: subToolbar } });
 
-			L.setOptions(handler, { subToolbar: subToolbar });
-
-			toolbar = new L.Toolbar([function() { return handler; }]).addTo(map);
+			toolbar = new L.Toolbar([TestHandler]).addTo(map);
 			toolbar.appendToContainer(container);
 
 			expect(subToolbar._calculateDepth()).to.equal(1);

@@ -4,9 +4,7 @@ describe("L.Toolbar.Control", function() {
 
 	beforeEach(function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		toolbar = new L.Toolbar.Control([
-			function(map) { return new L.ToolbarHandler(map); }
-		]).addTo(map);
+		toolbar = new L.Toolbar.Control([L.ToolbarHandler]).addTo(map);
 	});
 
 	describe("#onAdd", function() {
