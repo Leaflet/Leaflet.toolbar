@@ -1,4 +1,4 @@
-describe("L.ToolbarHandler", function() {
+describe("L.ToolbarAction", function() {
 	var map,
 		container,
 		ul,
@@ -10,7 +10,7 @@ describe("L.ToolbarHandler", function() {
 		container = L.DomUtil.create('div', 'leaflet-toolbar-0', document.body);
 		ul = L.DomUtil.create('ul');
 
-		Handler = L.ToolbarHandler.extend({
+		Handler = L.ToolbarAction.extend({
 			options: {
 				toolbarIcon: {
 					html: 'Test Icon',
@@ -58,7 +58,7 @@ describe("L.ToolbarHandler", function() {
 		});
 
 		it("Should add a <ul> element when the toolbar has one action.", function() {
-			var subToolbar = new L.Toolbar([L.ToolbarHandler]),
+			var subToolbar = new L.Toolbar([L.ToolbarAction]),
 				TestHandler = Handler.extend({ options: { subToolbar: subToolbar } }),
 				ul;
 
@@ -74,11 +74,11 @@ describe("L.ToolbarHandler", function() {
 
 	describe("#addHooks", function() {
 		beforeEach(function() {
-			var subToolbar = new L.Toolbar([L.ToolbarHandler]),
-				handler = new L.ToolbarHandler();
+			var subToolbar = new L.Toolbar([L.ToolbarAction]),
+				handler = new L.ToolbarAction();
 
 			L.setOptions(handler, { subToolbar: subToolbar });
-			toolbar = new L.Toolbar([L.ToolbarHandler]).addTo(map);
+			toolbar = new L.Toolbar([L.ToolbarAction]).addTo(map);
 
 			handler._addSubToolbar(toolbar, container, [map]);
 		});
@@ -86,7 +86,7 @@ describe("L.ToolbarHandler", function() {
 		/* How to test this without access to the handler itself? */
 		it.skip("Should show the subToolbar when the handler is enabled.", function() {
 			var ul = container.querySelectorAll('ul')[0],
-				handler = new L.ToolbarHandler();
+				handler = new L.ToolbarAction();
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
@@ -98,11 +98,11 @@ describe("L.ToolbarHandler", function() {
 
 	describe("#removeHooks", function() {
 		beforeEach(function() {
-			var subToolbar = new L.Toolbar([L.ToolbarHandler]),
-				handler = new L.ToolbarHandler();
+			var subToolbar = new L.Toolbar([L.ToolbarAction]),
+				handler = new L.ToolbarAction();
 
 			L.setOptions(handler, { subToolbar: subToolbar });
-			toolbar = new L.Toolbar([L.ToolbarHandler]).addTo(map);
+			toolbar = new L.Toolbar([L.ToolbarAction]).addTo(map);
 
 			handler._addSubToolbar(toolbar, container, [map]);
 		});
@@ -110,7 +110,7 @@ describe("L.ToolbarHandler", function() {
 		/* How to test this without access to the handler itself? */
 		it.skip("Should hide the subToolbar when the hndler is disabled.", function() {
 			var ul = container.querySelectorAll('ul')[0],
-				handler = new L.ToolbarHandler();
+				handler = new L.ToolbarAction();
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
@@ -121,8 +121,21 @@ describe("L.ToolbarHandler", function() {
 			expect(ul.style.display).to.equal('none');
 		});
 	});
+
+	describe(".extendOptions", function() {
+		it("Should return a new constructor with parent options merged with those passed to .extendOptions", function() {
+			var H = L.ToolbarAction.extendOptions({ color: '#d1bd0f' }),
+				h = new H(map);
+
+			/* New option should be passed to the new constructor. */
+			expect(h.options.color).to.equal('#d1bd0f');
+
+			/* Options of the parent constructor should be retained. */
+			expect(h.options.toolbarIcon.html).to.equal('');
+		});
+	});
 });
 
-describe("L.toolbarHandler", function() {
+describe("L.ToolbarAction", function() {
 	
 });

@@ -8,7 +8,7 @@ describe("L.Toolbar", function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		container = L.DomUtil.create('div');
 
-		toolbarTemplate = [L.ToolbarHandler];
+		toolbarTemplate = [L.ToolbarAction];
 		toolbar = new L.Toolbar(toolbarTemplate);
 
 		toolbar.addTo(map);
@@ -16,7 +16,7 @@ describe("L.Toolbar", function() {
 
 	describe("#addTo", function() {
 		it("Should pass along its arguments to each toolbar action factory.", function(done) {
-			var TestHandler = L.ToolbarHandler.extend({
+			var TestHandler = L.ToolbarAction.extend({
 				initialize: function(arg1) {
 					expect(arg1).to.equal(map);
 					done();
@@ -67,7 +67,7 @@ describe("L.Toolbar", function() {
 
 		it("Should return 1 for a nested toolbar", function() {
 			var subToolbar = new L.Toolbar(),
-				TestHandler = L.ToolbarHandler.extend({ options: { subToolbar: subToolbar } });
+				TestHandler = L.ToolbarAction.extend({ options: { subToolbar: subToolbar } });
 
 			toolbar = new L.Toolbar([TestHandler]).addTo(map);
 			toolbar.appendToContainer(container);

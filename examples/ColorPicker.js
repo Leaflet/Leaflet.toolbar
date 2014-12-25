@@ -1,4 +1,4 @@
-L.ColorPicker = L.ToolbarHandler.extend({
+L.ColorPicker = L.ToolbarAction.extend({
 	options: {
 		toolbarIcon: { className: 'leaflet-color-swatch' }
 	},
@@ -7,11 +7,11 @@ L.ColorPicker = L.ToolbarHandler.extend({
 		this._shape = shape;
 
 		L.setOptions(this, options);
-		L.ToolbarHandler.prototype.initialize.call(this, map, options);
+		L.ToolbarAction.prototype.initialize.call(this, map, options);
 	},
 
 	addHooks: function() {
-		L.ToolbarHandler.prototype.addHooks.call(this);
+		L.ToolbarAction.prototype.addHooks.call(this);
 
 		this._shape.setStyle({ color: this.options.color });
 		this.disable();
@@ -21,7 +21,7 @@ L.ColorPicker = L.ToolbarHandler.extend({
 		var colorSwatch = L.DomUtil.create('div'),
 			width, height;
 
-		L.ToolbarHandler.prototype._createIcon.call(this, toolbar, container, args);
+		L.ToolbarAction.prototype._createIcon.call(this, toolbar, container, args);
 
 		L.extend(colorSwatch.style, {
 			backgroundColor: this.options.color,

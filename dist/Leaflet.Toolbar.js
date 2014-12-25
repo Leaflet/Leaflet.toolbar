@@ -86,7 +86,7 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
-L.ToolbarHandler = L.Handler.extend({
+L.ToolbarAction = L.Class.extend({
 	statics: {
 		baseClass: 'leaflet-toolbar-icon'
 	},
@@ -101,19 +101,18 @@ L.ToolbarHandler = L.Handler.extend({
 		subToolbar: new L.Toolbar()
 	},
 
-	initialize: function(map, options) {
-		var defaultIconOptions = L.ToolbarHandler.prototype.options.toolbarIcon;
+	initialize: function(options) {
+		var defaultIconOptions = L.ToolbarAction.prototype.options.toolbarIcon;
 
 		L.setOptions(this, options);
 		this.options.toolbarIcon = L.extend({}, defaultIconOptions, this.options.toolbarIcon);
-
-		L.Handler.prototype.initialize.call(this, map);
 	},
 
 	enable: function() {
 		var subToolbar = this.options.subToolbar;
 
-		L.Handler.prototype.enable.call(this);
+		if (this._enabled) { return; }
+		this._enabled = true;
 
 		/* Ensure that only one action in a toolbar will be active at a time. */
 		if (this.toolbar._active) { this.toolbar._active.disable(); }
@@ -122,21 +121,26 @@ L.ToolbarHandler = L.Handler.extend({
 		if (subToolbar._actions.length > 0) {
 			subToolbar.show();
 		}
+
+		if (this.addHooks) { this.addHooks(); }
 	},
 
 	disable: function() {
 		var subToolbar = this.options.subToolbar;
 
-		L.Handler.prototype.disable.call(this);
+		if (!this._enabled) { return; }
+		this._enabled = false;
 
 		if (subToolbar._actions.length > 0) {
 			subToolbar.hide();
 		}
+
+		if (this.removeHooks) { this.removeHooks(); }
 	},
 
-	addHooks: function() {},
-	
-	removeHooks: function() {},
+	enabled: function() {
+		return !!this._enabled;
+	},
 
 	_createIcon: function(toolbar, container, args) {
 		var iconOptions = this.options.toolbarIcon;
@@ -177,8 +181,20 @@ L.ToolbarHandler = L.Handler.extend({
 	}
 });
 
-L.ToolbarHandler.extendOptions = function(options) {
-	this.extend({ options: options });
+L.ToolbarAction.extendOptions = function(options) {
+	return this.extend({ options: options });
+};
+
+/* Shortcut for constructing one-off actions. */
+L.ToolbarAction.simpleAction = function(action, options) {
+	return L.ToolbarAction.extend({
+		options: options,
+
+		addHooks: function() {
+			action();
+			this.disable();
+		}
+	});
 };
 L.Toolbar.Control = L.Toolbar.extend({
 	statics: {

@@ -21,7 +21,7 @@ module.exports = function(config) {
       '../node_modules/sinon/pkg/sinon-1.10.3.js',
       '../dist/Leaflet.Toolbar.css',
       '../src/Toolbar.js',
-      '../src/ToolbarHandler.js',
+      '../src/ToolbarAction.js',
       '../src/Toolbar.*.js',
       '../test/SpecHelper.js',
       '../test/src/*Spec.js',
