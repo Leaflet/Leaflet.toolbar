@@ -35,31 +35,40 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
+			l = this._actions.length,
 			Action, action,
-			i, l;
+			i;
 
 		this._container = container;
 		this._ul = L.DomUtil.create('ul', className, container);
 
-		l = this._actions.length;
+		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		for (i = 0; i < l; i++) {
-			Action = this._initializeAction(this._actions[i]);
+			Action = this._getActionConstructor(this._actions[i]);
 
 			action = new Action();
 			action._createIcon(this, this._ul, this._arguments);
 		}
 	},
 
-	_initializeAction: function(Action) {
+	_getActionConstructor: function(Action) {
 		var args = this._arguments,
 			type = Action.prototype.type,
-			options = this.options.actions[type] ? this.options.actions[type] : {};
+			options = this.options.actions[type] ? this.options.actions[type] : {},
+			toolbar = this;
 
 		return Action.extend({
 			options: L.extend({}, Action.prototype.options, options),
 			initialize: function() {
 				Action.prototype.initialize.apply(this, args);
+			},
+			enable: function() {
+				/* Ensure that only one action in a toolbar will be active at a time. */
+				if (toolbar._active) { toolbar._active.disable(); }
+				toolbar._active = this;
+
+				Action.prototype.enable.call(this);
 			}
 		});
 	},
@@ -108,10 +117,6 @@ L.ToolbarAction = L.Handler.extend({
 
 	enable: function() {
 		var subToolbar = this.options.subToolbar;
-
-		/* Ensure that only one action in a toolbar will be active at a time. */
-		if (this.toolbar._active) { this.toolbar._active.disable(); }
-		this.toolbar._active = this;
 
 		if (this._enabled) { return; }
 		this._enabled = true;
@@ -242,9 +247,6 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._marker.addTo(map);
 
 		this.appendToContainer(this._marker._icon);
-
-		/* TODO: Move to L.Toolbar. */
-		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		this._setStyles();
 	},

@@ -23,10 +23,6 @@ L.ToolbarAction = L.Handler.extend({
 	enable: function() {
 		var subToolbar = this.options.subToolbar;
 
-		/* Ensure that only one action in a toolbar will be active at a time. */
-		if (this.toolbar._active) { this.toolbar._active.disable(); }
-		this.toolbar._active = this;
-
 		if (this._enabled) { return; }
 		this._enabled = true;
 

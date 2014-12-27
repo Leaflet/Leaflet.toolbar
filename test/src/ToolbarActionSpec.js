@@ -90,7 +90,6 @@ describe("L.ToolbarAction", function() {
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
-			action.toolbar = toolbar;
 			action.enable();
 			expect(ul.style.display).to.equal('block');
 		});
@@ -114,7 +113,6 @@ describe("L.ToolbarAction", function() {
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
-			action.toolbar = toolbar;
 			action.enable();
 			action.disable();
 
@@ -126,16 +124,12 @@ describe("L.ToolbarAction", function() {
 		it("Should enable the action.", function() {
 			var action = new L.ToolbarAction();
 
-			action.toolbar = toolbar;
-
 			action.enable();
 			expect(action.enabled()).to.equal(true);
 		});
 
 		it("Should re-enable the action after it is disabled.", function() {
 			var action = new L.ToolbarAction();
-
-			action.toolbar = toolbar;
 
 			action.enable();
 			action.disable();
@@ -151,8 +145,6 @@ describe("L.ToolbarAction", function() {
 	describe("#disable", function() {
 		it("Should disable the action.", function() {
 			var action = new L.ToolbarAction();
-
-			action.toolbar = toolbar;
 
 			action.enable();
 			action.disable();
