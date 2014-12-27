@@ -40,26 +40,24 @@ L.Toolbar = L.Class.extend({
 		l = this._actions.length;
 
 		for (i = 0; i < l; i++) {
-			Action = this._createHandler(this._actions[i]);
+			Action = this._initializeAction(this._actions[i]);
 
 			action = new Action();
 			action._createIcon(this, this._ul, this._arguments);
 		}
 	},
 
-	_createHandler: function(Handler) {
+	_initializeAction: function(Action) {
 		var args = this._arguments,
-			type = Handler.prototype.type,
-			options = this.options.actions[type] ? this.options.actions[type] : {},
+			type = Action.prototype.type,
+			options = this.options.actions[type] ? this.options.actions[type] : {};
 
-			H = Handler.extend({
-				options: L.extend({}, Handler.prototype.options, options),
-				initialize: function() {
-					Handler.prototype.initialize.apply(this, args);
-				}
-			});
-
-		return H;
+		return Action.extend({
+			options: L.extend({}, Action.prototype.options, options),
+			initialize: function() {
+				Action.prototype.initialize.apply(this, args);
+			}
+		});
 	},
 
 	hide: function() {

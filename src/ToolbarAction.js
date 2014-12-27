@@ -1,4 +1,4 @@
-L.ToolbarAction = L.Class.extend({
+L.ToolbarAction = L.Handler.extend({
 	statics: {
 		baseClass: 'leaflet-toolbar-icon'
 	},
@@ -23,18 +23,18 @@ L.ToolbarAction = L.Class.extend({
 	enable: function() {
 		var subToolbar = this.options.subToolbar;
 
-		if (this._enabled) { return; }
-		this._enabled = true;
-
 		/* Ensure that only one action in a toolbar will be active at a time. */
 		if (this.toolbar._active) { this.toolbar._active.disable(); }
 		this.toolbar._active = this;
 
+		if (this._enabled) { return; }
+		this._enabled = true;
+
+		if (this.addHooks) { this.addHooks(); }
+
 		if (subToolbar._actions.length > 0) {
 			subToolbar.show();
 		}
-
-		if (this.addHooks) { this.addHooks(); }
 	},
 
 	disable: function() {
@@ -43,15 +43,11 @@ L.ToolbarAction = L.Class.extend({
 		if (!this._enabled) { return; }
 		this._enabled = false;
 
+		if (this.removeHooks) { this.removeHooks(); }
+
 		if (subToolbar._actions.length > 0) {
 			subToolbar.hide();
 		}
-
-		if (this.removeHooks) { this.removeHooks(); }
-	},
-
-	enabled: function() {
-		return !!this._enabled;
 	},
 
 	_createIcon: function(toolbar, container, args) {

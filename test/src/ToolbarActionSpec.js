@@ -3,14 +3,14 @@ describe("L.ToolbarAction", function() {
 		container,
 		ul,
 		toolbar,
-		Handler;
+		Action;
 
 	beforeEach(function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		container = L.DomUtil.create('div', 'leaflet-toolbar-0', document.body);
 		ul = L.DomUtil.create('ul');
 
-		Handler = L.ToolbarAction.extend({
+		Action = L.ToolbarAction.extend({
 			options: {
 				toolbarIcon: {
 					html: 'Test Icon',
@@ -18,15 +18,15 @@ describe("L.ToolbarAction", function() {
 				}
 			}
 		});
-		toolbar = new L.Toolbar([Handler]);
+		toolbar = new L.Toolbar([Action]);
 	});
 
 	describe("#_createIcon", function() {
 		it("Sets the content of the icon to the html option passed to the ToolbarIcon.", function() {
 			var iconText,
-				handler = new Handler(map);
+				action = new Action(map);
 
-			handler._createIcon(toolbar, ul, []);
+			action._createIcon(toolbar, ul, []);
 			iconText = ul.querySelectorAll('.leaflet-toolbar-icon')[0].innerHTML;
 
 			expect(iconText).to.equal('Test Icon');
@@ -34,9 +34,9 @@ describe("L.ToolbarAction", function() {
 
 		it("Appends options.className to the base className", function() {
 			var iconButton,
-				handler = new Handler(map);
+				action = new Action(map);
 
-			handler._createIcon(toolbar, ul, []);
+			action._createIcon(toolbar, ul, []);
 			iconButton = ul.querySelectorAll('a')[0];
 
 			expect(L.DomUtil.hasClass(iconButton, 'leaflet-toolbar-icon')).to.equal(true);
@@ -46,11 +46,11 @@ describe("L.ToolbarAction", function() {
 
 	describe("#_addSubToolbar", function() {
 		it("Should not add a <ul> element when the toolbar has no actions.", function() {
-			var handler = new Handler(map),
-				subToolbar = handler.options.subToolbar,
+			var action = new Action(map),
+				subToolbar = action.options.subToolbar,
 				ul;
 			
-			handler._addSubToolbar(toolbar, container, [map]);
+			action._addSubToolbar(toolbar, container, [map]);
 			ul = container.querySelectorAll('ul');
 
 			expect(ul.length).to.equal(0);
@@ -59,12 +59,12 @@ describe("L.ToolbarAction", function() {
 
 		it("Should add a <ul> element when the toolbar has one action.", function() {
 			var subToolbar = new L.Toolbar([L.ToolbarAction]),
-				TestHandler = Handler.extend({ options: { subToolbar: subToolbar } }),
+				TestAction = Action.extend({ options: { subToolbar: subToolbar } }),
 				ul;
 
-			toolbar = new L.Toolbar([TestHandler]).addTo(map);
+			toolbar = new L.Toolbar([TestAction]).addTo(map);
 
-			TestHandler.prototype._addSubToolbar(toolbar, container, [map]);
+			TestAction.prototype._addSubToolbar(toolbar, container, [map]);
 			ul = container.querySelectorAll('ul');
 
 			expect(ul.length).to.equal(1);
@@ -75,23 +75,23 @@ describe("L.ToolbarAction", function() {
 	describe("#addHooks", function() {
 		beforeEach(function() {
 			var subToolbar = new L.Toolbar([L.ToolbarAction]),
-				handler = new L.ToolbarAction();
+				action = new L.ToolbarAction();
 
-			L.setOptions(handler, { subToolbar: subToolbar });
+			L.setOptions(action, { subToolbar: subToolbar });
 			toolbar = new L.Toolbar([L.ToolbarAction]).addTo(map);
 
-			handler._addSubToolbar(toolbar, container, [map]);
+			action._addSubToolbar(toolbar, container, [map]);
 		});
 
-		/* How to test this without access to the handler itself? */
-		it.skip("Should show the subToolbar when the handler is enabled.", function() {
+		/* How to test this without access to the action itself? */
+		it.skip("Should show the subToolbar when the action is enabled.", function() {
 			var ul = container.querySelectorAll('ul')[0],
-				handler = new L.ToolbarAction();
+				action = new L.ToolbarAction();
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
-			handler.toolbar = toolbar;
-			handler.enable();
+			action.toolbar = toolbar;
+			action.enable();
 			expect(ul.style.display).to.equal('block');
 		});
 	});
@@ -99,26 +99,65 @@ describe("L.ToolbarAction", function() {
 	describe("#removeHooks", function() {
 		beforeEach(function() {
 			var subToolbar = new L.Toolbar([L.ToolbarAction]),
-				handler = new L.ToolbarAction();
+				action = new L.ToolbarAction();
 
-			L.setOptions(handler, { subToolbar: subToolbar });
+			L.setOptions(action, { subToolbar: subToolbar });
 			toolbar = new L.Toolbar([L.ToolbarAction]).addTo(map);
 
-			handler._addSubToolbar(toolbar, container, [map]);
+			action._addSubToolbar(toolbar, container, [map]);
 		});
 
-		/* How to test this without access to the handler itself? */
+		/* How to test this without access to the action itself? */
 		it.skip("Should hide the subToolbar when the hndler is disabled.", function() {
 			var ul = container.querySelectorAll('ul')[0],
-				handler = new L.ToolbarAction();
+				action = new L.ToolbarAction();
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
-			handler.toolbar = toolbar;
-			handler.enable();
-			handler.disable();
+			action.toolbar = toolbar;
+			action.enable();
+			action.disable();
 
 			expect(ul.style.display).to.equal('none');
+		});
+	});
+
+	describe("#enable", function() {
+		it("Should enable the action.", function() {
+			var action = new L.ToolbarAction();
+
+			action.toolbar = toolbar;
+
+			action.enable();
+			expect(action.enabled()).to.equal(true);
+		});
+
+		it("Should re-enable the action after it is disabled.", function() {
+			var action = new L.ToolbarAction();
+
+			action.toolbar = toolbar;
+
+			action.enable();
+			action.disable();
+			action.enable();
+
+			/* Regression test: code written to maintain a single active action at a time 
+			 * was inadvertently disabling actions.
+			 */
+			expect(action.enabled()).to.equal(true);
+		});
+	});
+
+	describe("#disable", function() {
+		it("Should disable the action.", function() {
+			var action = new L.ToolbarAction();
+
+			action.toolbar = toolbar;
+
+			action.enable();
+			action.disable();
+
+			expect(action.enabled()).to.equal(false);
 		});
 	});
 

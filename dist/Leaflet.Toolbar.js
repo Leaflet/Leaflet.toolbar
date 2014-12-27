@@ -44,26 +44,24 @@ L.Toolbar = L.Class.extend({
 		l = this._actions.length;
 
 		for (i = 0; i < l; i++) {
-			Action = this._createHandler(this._actions[i]);
+			Action = this._initializeAction(this._actions[i]);
 
 			action = new Action();
 			action._createIcon(this, this._ul, this._arguments);
 		}
 	},
 
-	_createHandler: function(Handler) {
+	_initializeAction: function(Action) {
 		var args = this._arguments,
-			type = Handler.prototype.type,
-			options = this.options.actions[type] ? this.options.actions[type] : {},
+			type = Action.prototype.type,
+			options = this.options.actions[type] ? this.options.actions[type] : {};
 
-			H = Handler.extend({
-				options: L.extend({}, Handler.prototype.options, options),
-				initialize: function() {
-					Handler.prototype.initialize.apply(this, args);
-				}
-			});
-
-		return H;
+		return Action.extend({
+			options: L.extend({}, Action.prototype.options, options),
+			initialize: function() {
+				Action.prototype.initialize.apply(this, args);
+			}
+		});
 	},
 
 	hide: function() {
@@ -86,7 +84,7 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
-L.ToolbarAction = L.Class.extend({
+L.ToolbarAction = L.Handler.extend({
 	statics: {
 		baseClass: 'leaflet-toolbar-icon'
 	},
@@ -111,18 +109,18 @@ L.ToolbarAction = L.Class.extend({
 	enable: function() {
 		var subToolbar = this.options.subToolbar;
 
-		if (this._enabled) { return; }
-		this._enabled = true;
-
 		/* Ensure that only one action in a toolbar will be active at a time. */
 		if (this.toolbar._active) { this.toolbar._active.disable(); }
 		this.toolbar._active = this;
 
+		if (this._enabled) { return; }
+		this._enabled = true;
+
+		if (this.addHooks) { this.addHooks(); }
+
 		if (subToolbar._actions.length > 0) {
 			subToolbar.show();
 		}
-
-		if (this.addHooks) { this.addHooks(); }
 	},
 
 	disable: function() {
@@ -131,15 +129,11 @@ L.ToolbarAction = L.Class.extend({
 		if (!this._enabled) { return; }
 		this._enabled = false;
 
+		if (this.removeHooks) { this.removeHooks(); }
+
 		if (subToolbar._actions.length > 0) {
 			subToolbar.hide();
 		}
-
-		if (this.removeHooks) { this.removeHooks(); }
-	},
-
-	enabled: function() {
-		return !!this._enabled;
 	},
 
 	_createIcon: function(toolbar, container, args) {
@@ -249,6 +243,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this.appendToContainer(this._marker._icon);
 
+		/* TODO: Move to L.Toolbar. */
 		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		this._setStyles();

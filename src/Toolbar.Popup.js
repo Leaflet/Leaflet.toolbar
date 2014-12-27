@@ -24,6 +24,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this.appendToContainer(this._marker._icon);
 
+		/* TODO: Move to L.Toolbar. */
 		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		this._setStyles();
