@@ -11,8 +11,6 @@ L.ColorPicker = L.ToolbarAction.extend({
 	},
 
 	addHooks: function() {
-		L.ToolbarAction.prototype.addHooks.call(this);
-
 		this._shape.setStyle({ color: this.options.color });
 		this.disable();
 	},
