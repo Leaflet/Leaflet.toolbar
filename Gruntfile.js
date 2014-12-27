@@ -68,6 +68,14 @@ module.exports = function(grunt) {
             }
         },
 
+        uglify: {
+            dist: {
+                files: {
+                    'dist/Leaflet.Toolbar.min.js': ['dist/Leaflet.Toolbar.js']
+                }
+            }
+        },
+
         less: {
             source: {
                 files: {
@@ -142,7 +150,8 @@ module.exports = function(grunt) {
         'jshint',
         'karma:development:run',
         'coverage',
-        'concat:dist'
+        'concat:dist',
+        'uglify:dist'
     ]);
 
     grunt.registerTask('build:css', [ 'less' ]);
