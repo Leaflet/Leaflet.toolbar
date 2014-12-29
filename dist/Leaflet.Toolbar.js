@@ -213,7 +213,7 @@ L.Toolbar.Control = L.Toolbar.extend({
 	},
 
 	onRemove: function(map) {
-		map.removeLayer(this._control);
+		this._control.removeFrom(map);
 	}
 });
 
