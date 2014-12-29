@@ -34,12 +34,12 @@
 						className: 'leaflet-color-picker', 
 						html: '<span class="fa fa-eyedropper"></span>' 
 					},
-					subToolbar: new L.Toolbar([
+					subToolbar: new L.Toolbar({ actions: [
 						L.ColorPicker.extendOptions({ color: '#db1d0f' }),
 						L.ColorPicker.extendOptions({ color: '#025100' }),
 						L.ColorPicker.extendOptions({ color: '#ffff00' }),
 						L.ColorPicker.extendOptions({ color: '#0000ff' })
-					])
+					]})
 				})
 			];
 
