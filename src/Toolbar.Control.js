@@ -3,8 +3,8 @@ L.Toolbar.Control = L.Toolbar.extend({
 		baseClass: 'leaflet-control-toolbar ' + L.Toolbar.baseClass
 	},
 
-	initialize: function(actions, options) {
-		L.Toolbar.prototype.initialize.call(this, actions, options);
+	initialize: function(options) {
+		L.Toolbar.prototype.initialize.call(this, options);
 
 		this._control = new L.Control.Toolbar(this.options);
 	},

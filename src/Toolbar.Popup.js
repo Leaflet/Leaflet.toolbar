@@ -5,8 +5,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
 	},
 
-	initialize: function(latlng, actions, options) {
-		L.Toolbar.prototype.initialize.call(this, actions, options);
+	initialize: function(latlng, options) {
+		L.Toolbar.prototype.initialize.call(this, options);
 
 		var	toolbarOptions = L.extend(this.options, {
 				icon: new L.DivIcon({

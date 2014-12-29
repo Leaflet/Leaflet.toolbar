@@ -7,10 +7,9 @@ describe("L.Toolbar.Popup", function() {
 
 		/* need to add the <div> to document.body in order for external CSS stylesheets to be applied. */
 		map = new L.Map(L.DomUtil.create('div', 'map', document.body)).setView([41.7896,-87.5996], 15);
-		toolbar = new L.Toolbar.Popup(latlng, [
-			L.ToolbarAction,
-			L.ToolbarAction
-		]);
+		toolbar = new L.Toolbar.Popup(latlng, {
+			actions: [L.ToolbarAction, L.ToolbarAction ]
+		});
 	});
 
 	describe("#onRemove", function() {
@@ -24,7 +23,7 @@ describe("L.Toolbar.Popup", function() {
 
 	describe("#_setStyles", function() {
 		it("Sets the width of the toolbar to a nonzero value if there are toolbar actions.", function() {
-			var actionsLength = toolbar._actions.length,
+			var actionsLength = toolbar.options.actions.length,
 				toolbarContainer,
 				toolbarButtons,
 				toolbarWidth,

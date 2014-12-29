@@ -9,7 +9,7 @@ describe("L.Toolbar", function() {
 		container = L.DomUtil.create('div');
 
 		toolbarTemplate = [L.ToolbarAction];
-		toolbar = new L.Toolbar(toolbarTemplate);
+		toolbar = new L.Toolbar({ actions: toolbarTemplate });
 
 		toolbar.addTo(map);
 	});
@@ -23,7 +23,7 @@ describe("L.Toolbar", function() {
 				}
 			});
 
-			toolbar = new L.Toolbar([TestHandler]);
+			toolbar = new L.Toolbar({ actions: [TestHandler] });
 
 			toolbar.addTo(map);
 			toolbar.appendToContainer(container);
@@ -42,20 +42,20 @@ describe("L.Toolbar", function() {
 		});
 	});
 
-	describe("#show", function() {
+	describe("#_show", function() {
 		it("Should set the display of the toolbar container to 'block'", function() {
 			toolbar.appendToContainer(container);
 
-			toolbar.show();
+			toolbar._show();
 			expect(toolbar._ul.style.display).to.equal('block');
 		});
 	});
 
-	describe("#hide", function() {
+	describe("#_hide", function() {
 		it("Should set the display of the toolbar container to 'block'", function() {
 			toolbar.appendToContainer(container);
 
-			toolbar.hide();
+			toolbar._hide();
 			expect(toolbar._ul.style.display).to.equal('none');
 		});
 	});
@@ -69,7 +69,7 @@ describe("L.Toolbar", function() {
 			var subToolbar = new L.Toolbar(),
 				TestHandler = L.ToolbarAction.extend({ options: { subToolbar: subToolbar } });
 
-			toolbar = new L.Toolbar([TestHandler]).addTo(map);
+			toolbar = new L.Toolbar({ actions: [TestHandler] }).addTo(map);
 			toolbar.appendToContainer(container);
 
 			expect(subToolbar._calculateDepth()).to.equal(1);

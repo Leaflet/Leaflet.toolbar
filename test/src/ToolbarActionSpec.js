@@ -18,7 +18,7 @@ describe("L.ToolbarAction", function() {
 				}
 			}
 		});
-		toolbar = new L.Toolbar([Action]);
+		toolbar = new L.Toolbar({ actions: [Action] });
 	});
 
 	describe("#_createIcon", function() {
@@ -58,11 +58,11 @@ describe("L.ToolbarAction", function() {
 		});
 
 		it("Should add a <ul> element when the toolbar has one action.", function() {
-			var subToolbar = new L.Toolbar([L.ToolbarAction]),
+			var subToolbar = new L.Toolbar({ actions: [L.ToolbarAction] }),
 				TestAction = Action.extend({ options: { subToolbar: subToolbar } }),
 				ul;
 
-			toolbar = new L.Toolbar([TestAction]).addTo(map);
+			toolbar = new L.Toolbar({ actions: [TestAction] }).addTo(map);
 
 			TestAction.prototype._addSubToolbar(toolbar, container, [map]);
 			ul = container.querySelectorAll('ul');
@@ -74,11 +74,11 @@ describe("L.ToolbarAction", function() {
 
 	describe("#addHooks", function() {
 		beforeEach(function() {
-			var subToolbar = new L.Toolbar([L.ToolbarAction]),
+			var subToolbar = new L.Toolbar({ actions: [L.ToolbarAction] }),
 				action = new L.ToolbarAction();
 
 			L.setOptions(action, { subToolbar: subToolbar });
-			toolbar = new L.Toolbar([L.ToolbarAction]).addTo(map);
+			toolbar = new L.Toolbar({ actions: [L.ToolbarAction] }).addTo(map);
 
 			action._addSubToolbar(toolbar, container, [map]);
 		});
@@ -97,11 +97,11 @@ describe("L.ToolbarAction", function() {
 
 	describe("#removeHooks", function() {
 		beforeEach(function() {
-			var subToolbar = new L.Toolbar([L.ToolbarAction]),
+			var subToolbar = new L.Toolbar({ actions: [L.ToolbarAction] }),
 				action = new L.ToolbarAction();
 
 			L.setOptions(action, { subToolbar: subToolbar });
-			toolbar = new L.Toolbar([L.ToolbarAction]).addTo(map);
+			toolbar = new L.Toolbar({ actions: [L.ToolbarAction] }).addTo(map);
 
 			action._addSubToolbar(toolbar, container, [map]);
 		});
@@ -165,8 +165,4 @@ describe("L.ToolbarAction", function() {
 			expect(h.options.toolbarIcon.html).to.equal('');
 		});
 	});
-});
-
-describe("L.ToolbarAction", function() {
-	
 });

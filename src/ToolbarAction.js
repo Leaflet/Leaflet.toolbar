@@ -7,7 +7,6 @@ L.ToolbarAction = L.Handler.extend({
 		toolbarIcon: {
 			html: '',
 			className: '',
-			hideOnClick: false,
 			tooltip: ''
 		},
 		subToolbar: new L.Toolbar()
@@ -28,8 +27,8 @@ L.ToolbarAction = L.Handler.extend({
 
 		if (this.addHooks) { this.addHooks(); }
 
-		if (subToolbar._actions.length > 0) {
-			subToolbar.show();
+		if (subToolbar.options.actions.length > 0) {
+			subToolbar._show();
 		}
 	},
 
@@ -41,8 +40,8 @@ L.ToolbarAction = L.Handler.extend({
 
 		if (this.removeHooks) { this.removeHooks(); }
 
-		if (subToolbar._actions.length > 0) {
-			subToolbar.hide();
+		if (subToolbar.options.actions.length > 0) {
+			subToolbar._hide();
 		}
 	},
 
@@ -74,7 +73,7 @@ L.ToolbarAction = L.Handler.extend({
 		/* For calculating the nesting depth. */
 		subToolbar.parentToolbar = toolbar;
 
-		if (subToolbar._actions.length > 0) {
+		if (subToolbar.options.actions.length > 0) {
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);

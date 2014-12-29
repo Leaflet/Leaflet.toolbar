@@ -12,14 +12,11 @@ L.Toolbar = L.Class.extend({
 	options: {
 		className: '',
 		filter: function() { return true; },
-		actions: {}
+		actions: []
 	},
 
-	initialize: function(actions, options) {
+	initialize: function(options) {
 		L.setOptions(this, options);
-
-		/* So that this can be called without an arguments to create an empty toolbar: new L.Toolbar() */
-		this._actions = actions || [];
 	},
 
 	addTo: function(map) {
@@ -35,7 +32,7 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
-			l = this._actions.length,
+			l = this.options.actions.length,
 			Action, action,
 			i;
 
@@ -45,7 +42,7 @@ L.Toolbar = L.Class.extend({
 		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		for (i = 0; i < l; i++) {
-			Action = this._getActionConstructor(this._actions[i]);
+			Action = this._getActionConstructor(this.options.actions[i]);
 
 			action = new Action();
 			action._createIcon(this, this._ul, this._arguments);
@@ -73,11 +70,13 @@ L.Toolbar = L.Class.extend({
 		});
 	},
 
-	hide: function() {
+	/* Used to hide subToolbars without removing them from the map. */
+	_hide: function() {
 		this._ul.style.display = 'none';
 	},
 
-	show: function() {
+	/* Used to show subToolbars without removing them from the map. */
+	_show: function() {
 		this._ul.style.display = 'block';
 	},
 
@@ -102,7 +101,6 @@ L.ToolbarAction = L.Handler.extend({
 		toolbarIcon: {
 			html: '',
 			className: '',
-			hideOnClick: false,
 			tooltip: ''
 		},
 		subToolbar: new L.Toolbar()
@@ -123,8 +121,8 @@ L.ToolbarAction = L.Handler.extend({
 
 		if (this.addHooks) { this.addHooks(); }
 
-		if (subToolbar._actions.length > 0) {
-			subToolbar.show();
+		if (subToolbar.options.actions.length > 0) {
+			subToolbar._show();
 		}
 	},
 
@@ -136,8 +134,8 @@ L.ToolbarAction = L.Handler.extend({
 
 		if (this.removeHooks) { this.removeHooks(); }
 
-		if (subToolbar._actions.length > 0) {
-			subToolbar.hide();
+		if (subToolbar.options.actions.length > 0) {
+			subToolbar._hide();
 		}
 	},
 
@@ -169,7 +167,7 @@ L.ToolbarAction = L.Handler.extend({
 		/* For calculating the nesting depth. */
 		subToolbar.parentToolbar = toolbar;
 
-		if (subToolbar._actions.length > 0) {
+		if (subToolbar.options.actions.length > 0) {
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);
@@ -200,8 +198,8 @@ L.Toolbar.Control = L.Toolbar.extend({
 		baseClass: 'leaflet-control-toolbar ' + L.Toolbar.baseClass
 	},
 
-	initialize: function(actions, options) {
-		L.Toolbar.prototype.initialize.call(this, actions, options);
+	initialize: function(options) {
+		L.Toolbar.prototype.initialize.call(this, options);
 
 		this._control = new L.Control.Toolbar(this.options);
 	},
@@ -229,8 +227,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
 	},
 
-	initialize: function(latlng, actions, options) {
-		L.Toolbar.prototype.initialize.call(this, actions, options);
+	initialize: function(latlng, options) {
+		L.Toolbar.prototype.initialize.call(this, options);
 
 		var	toolbarOptions = L.extend(this.options, {
 				icon: new L.DivIcon({

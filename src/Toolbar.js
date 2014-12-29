@@ -8,14 +8,11 @@ L.Toolbar = L.Class.extend({
 	options: {
 		className: '',
 		filter: function() { return true; },
-		actions: {}
+		actions: []
 	},
 
-	initialize: function(actions, options) {
+	initialize: function(options) {
 		L.setOptions(this, options);
-
-		/* So that this can be called without an arguments to create an empty toolbar: new L.Toolbar() */
-		this._actions = actions || [];
 	},
 
 	addTo: function(map) {
@@ -31,7 +28,7 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
-			l = this._actions.length,
+			l = this.options.actions.length,
 			Action, action,
 			i;
 
@@ -41,7 +38,7 @@ L.Toolbar = L.Class.extend({
 		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
 
 		for (i = 0; i < l; i++) {
-			Action = this._getActionConstructor(this._actions[i]);
+			Action = this._getActionConstructor(this.options.actions[i]);
 
 			action = new Action();
 			action._createIcon(this, this._ul, this._arguments);
@@ -69,11 +66,13 @@ L.Toolbar = L.Class.extend({
 		});
 	},
 
-	hide: function() {
+	/* Used to hide subToolbars without removing them from the map. */
+	_hide: function() {
 		this._ul.style.display = 'none';
 	},
 
-	show: function() {
+	/* Used to show subToolbars without removing them from the map. */
+	_show: function() {
 		this._ul.style.display = 'block';
 	},
 
