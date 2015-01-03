@@ -51,12 +51,9 @@ L.Toolbar = L.Class.extend({
 
 	_getActionConstructor: function(Action) {
 		var args = this._arguments,
-			type = Action.prototype.type,
-			options = this.options.actions[type] ? this.options.actions[type] : {},
 			toolbar = this;
 
 		return Action.extend({
-			options: L.extend({}, Action.prototype.options, options),
 			initialize: function() {
 				Action.prototype.initialize.apply(this, args);
 			},
@@ -180,18 +177,6 @@ L.ToolbarAction = L.Handler.extend({
 
 L.ToolbarAction.extendOptions = function(options) {
 	return this.extend({ options: options });
-};
-
-/* Shortcut for constructing one-off actions. */
-L.ToolbarAction.simpleAction = function(action, options) {
-	return L.ToolbarAction.extend({
-		options: options,
-
-		addHooks: function() {
-			action();
-			this.disable();
-		}
-	});
 };
 L.Toolbar.Control = L.Toolbar.extend({
 	statics: {

@@ -47,12 +47,9 @@ L.Toolbar = L.Class.extend({
 
 	_getActionConstructor: function(Action) {
 		var args = this._arguments,
-			type = Action.prototype.type,
-			options = this.options.actions[type] ? this.options.actions[type] : {},
 			toolbar = this;
 
 		return Action.extend({
-			options: L.extend({}, Action.prototype.options, options),
 			initialize: function() {
 				Action.prototype.initialize.apply(this, args);
 			},
