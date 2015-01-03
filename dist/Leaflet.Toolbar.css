@@ -73,8 +73,8 @@
 .leaflet-control-toolbar .leaflet-toolbar-1 > li > .leaflet-toolbar-icon {
   display: block;
   background-color: #919187;
-  border-left: 1px solid #AAA;
-  color: #FFF;
+  border-left: 1px solid #aaa;
+  color: #fff;
   font: 11px/19px "Helvetica Neue", Arial, Helvetica, sans-serif;
   line-height: 26px;
   text-decoration: none;
@@ -83,7 +83,7 @@
   height: 26px;
 }
 .leaflet-control-toolbar .leaflet-toolbar-1 > li > .leaflet-toolbar-icon:hover {
-  background-color: #A0A098;
+  background-color: #a0a098;
 }
 /* L.Toolbar.Popup */
 .leaflet-popup-toolbar {
