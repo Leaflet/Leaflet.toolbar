@@ -87,15 +87,3 @@ L.ToolbarAction = L.Handler.extend({
 L.ToolbarAction.extendOptions = function(options) {
 	return this.extend({ options: options });
 };
-
-/* Shortcut for constructing one-off actions. */
-L.ToolbarAction.simpleAction = function(action, options) {
-	return L.ToolbarAction.extend({
-		options: options,
-
-		addHooks: function() {
-			action();
-			this.disable();
-		}
-	});
-};
