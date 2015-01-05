@@ -4,23 +4,33 @@ Leaflet.Toolbar
 [![Build Status](https://travis-ci.org/manleyjster/Leaflet.Toolbar.svg?branch=master)](https://travis-ci.org/manleyjster/Leaflet.Toolbar)
 [![Coverage Status](https://img.shields.io/coveralls/manleyjster/Leaflet.Toolbar.svg)](https://coveralls.io/r/manleyjster/Leaflet.Toolbar)
 
-Extensible, flexible toolbar class for Leaflet maps.
+Leaflet.Toolbar provides flexible, extensible toolbar interfaces for Leaflet maps.
 
-Why Leaflet.Toolbar?
----------------
+### Usage
 
-Leaflet.draw exports an `L.Toolbar` class, but it wasn't designed to serve as a general-purpose constructor for Leaflet toolbars.  For example:
-* Icons for all toolbar actions are given CSS classes prefixed with `leaflet-draw`.  Plugin developers who want to create other kinds of toolbars (i.e. *not* for Leaflet.draw) aren't able to customize the CSS classes associated with each action.
-* It is only designed to create `L.Control`-style toolbars fixed in one of the corners of the map. This makes it hard to use the Leaflet.draw version of `L.Toolbar` to create other kinds of toolbars, such as popup toolbars attached to vector layers.
-* Toolbar behavior is not clearly separated from toolbar action behavior.  For example, toolbar buttons to cancel polyline and polygon drawing are described in `DrawToolbar.js` and created in `Toolbar.js`, rather than in `Draw.Polyline.js`, etc.
+Include Leaflet.Toolbar in your JavaScript project using `npm install leaflet-toolbar`.
 
-Furthermore, extending the default `Leaflet.draw` toolbar is cumbersome.  It's easy to create custom toolbars using only a subset of the `Leaflet.draw` actions, but in order to add custom actions to the `Leaflet.draw` toolbar, developers must define a new class extending `L.Control.Draw` and override `L.Control.Draw#getModeHandlers`.
+Leaflet.Toolbar exports two toolbar styles that can be used out of the box: a popup-style toolbar, and a control-style toolbar.  To instantiate a control-style toolbar and add it to the map, use:
+```javascript
+new L.Toolbar.Control({ 
+	actions: [MyToolbarAction1, MyToolbarAction2, ...] 
+}).addTo(map);
+```
 
-This plugin is designed to address all of the above limitations and to make it easy for Leaflet developers to create custom toolbars.  In addition, this plugin is designed to be compatible with existing `Leaflet.draw` toolbar actions.
+For more information, see the [API Reference](https://github.com/manleyjster/Leaflet.Toolbar/wiki/API-Reference) and [Building custom toolbars](https://github.com/manleyjster/Leaflet.Toolbar/wiki/Building-custom-toolbars) on the wiki.
 
-What is a toolbar?
----------------
+### Contributing
 
-A toolbar is a UI element which exposes to users a set of actions.  Actions are triggered by clicks and may change the state of the map, add new layers to the map, or change the state of existing layers.
+Contributors are welcomed!
 
+Once you've cloned this repo, you'll need to run `npm install` in the project root to install the development dependencies using `npm`.
 
+Leaflet.Toolbar uses `grunt` to run development and build tasks. You'll need to have the grunt command line interface installed: `npm install -g grunt-cli`. Once you've done this, running `grunt` without any arguments in the project root will watch the project source and lint, test, and build whenever the source files are modified.  Additional tasks that may be useful for development are specified in the [`Gruntfile`](https://github.com/manleyjster/Leaflet.Toolbar/blob/master/Gruntfile.js).
+
+Contributors are encouraged to open pull requests early to facilitate discussion about proposed changes.
+
+Please follow the [Leaflet contribution guide](https://github.com/Leaflet/Leaflet/blob/master/CONTRIBUTING.md).
+
+### Thanks
+
+Thanks to [@jacobtoye](https://github.com/jacobtoye) for the excellent Leaflet.draw library which was the inspiration for Leaflet.Toolbar. And, of course, thanks to [@mourner](https://github.com/mourner) for a fantastic open-source mapping library.
