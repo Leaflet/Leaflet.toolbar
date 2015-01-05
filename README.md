@@ -10,6 +10,13 @@ Leaflet.Toolbar provides flexible, extensible toolbar interfaces for Leaflet map
 
 Include Leaflet.Toolbar in your JavaScript project using `npm install leaflet-toolbar`.
 
+You can then include Leaflet.Toolbar in your web application by adding the following HTML tags (paths below are relative to your project's root):
+
+```
+<script src="node_modules/leaflet-toolbar/dist/Leaflet.Toolbar.js"></script>
+<link rel="stylesheet" href="node_modules/leaflet-toolbar/dist/Leaflet.Toolbar.css"/>
+```
+
 Leaflet.Toolbar exports two toolbar styles that can be used out of the box: a popup-style toolbar, and a control-style toolbar.  To instantiate a control-style toolbar and add it to the map, use:
 ```javascript
 new L.Toolbar.Control({ 
