@@ -37,9 +37,6 @@
     "sinon": "1.10.3",
     "uglify-js": "~2.4.3"
   },
-  "peerDependencies": {
-    "grunt-cli": "0.1.13"
-  },
   "directories": {
     "examples": "./examples",
     "distribution": "./dist",
