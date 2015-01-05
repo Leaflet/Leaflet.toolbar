@@ -31,7 +31,7 @@
     "karma-phantomjs-launcher": "0.1.4",
     "karma-safari-launcher": "^0.1.1",
     "leaflet": "~0.7.0",
-    "leaflet-draw": "manleyjster/Leaflet.draw#leaflet-toolbar",
+    "leaflet-draw": "manleyjster/Leaflet.draw#leaflet-toolbar-plugin",
     "matchdep": "~0.3.0",
     "mocha": "~1.14.0",
     "sinon": "1.10.3",
