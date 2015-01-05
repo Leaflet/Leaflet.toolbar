@@ -6,6 +6,10 @@ Leaflet.Toolbar
 
 Leaflet.Toolbar provides flexible, extensible toolbar interfaces for Leaflet maps.
 
+### Examples
+
+View examples for [control-style](http://manleyjster.github.io/Leaflet.Toolbar/examples/control.html) and [popup-style](http://manleyjster.github.io/Leaflet.Toolbar/examples/popup.html) toolbars using Leaflet.draw.
+
 ### Usage
 
 Include Leaflet.Toolbar in your JavaScript project using `npm install leaflet-toolbar`.
