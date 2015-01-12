@@ -45,15 +45,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/manleyjster/Leaflet.Illustrate.git"
+    "url": "https://github.com/Leaflet/Leaflet.toolbar.git"
   },
   "keywords": [
     "maps",
     "leaflet",
-    "client",
-    "annotate",
-    "illustrate",
-    "draw"
+    "toolbar",
+    "user-interface"
   ],
   "author": "Justin Manley",
   "license": "MIT",

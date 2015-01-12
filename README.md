@@ -1,14 +1,14 @@
 Leaflet.Toolbar
 ===============
 
-[![Build Status](https://travis-ci.org/manleyjster/Leaflet.Toolbar.svg?branch=master)](https://travis-ci.org/manleyjster/Leaflet.Toolbar)
-[![Coverage Status](https://img.shields.io/coveralls/manleyjster/Leaflet.Toolbar.svg)](https://coveralls.io/r/manleyjster/Leaflet.Toolbar)
+[![Build Status](https://travis-ci.org/Leaflet/Leaflet.toolbar.svg?branch=master)](https://travis-ci.org/Leaflet/Leaflet.toolbar)
+[![Coverage Status](https://img.shields.io/coveralls/Leaflet/Leaflet.toolbar.svg)](https://coveralls.io/r/Leaflet/Leaflet.toolbar)
 
 Leaflet.Toolbar provides flexible, extensible toolbar interfaces for Leaflet maps.
 
 ### Examples
 
-View examples for [control-style](http://manleyjster.github.io/Leaflet.Toolbar/examples/control.html) and [popup-style](http://manleyjster.github.io/Leaflet.Toolbar/examples/popup.html) toolbars using Leaflet.draw.
+View examples for [control-style](http://leaflet.github.io/Leaflet.Toolbar/examples/control.html) and [popup-style](http://leaflet.github.io/Leaflet.Toolbar/examples/popup.html) toolbars using Leaflet.draw.
 
 ### Usage
 
@@ -28,7 +28,7 @@ new L.Toolbar.Control({
 }).addTo(map);
 ```
 
-For more information, see the [API Reference](https://github.com/manleyjster/Leaflet.Toolbar/wiki/API-Reference) and [Building custom toolbars](https://github.com/manleyjster/Leaflet.Toolbar/wiki/Building-custom-toolbars) on the wiki.
+For more information, see the [API Reference](https://github.com/leaflet/Leaflet.Toolbar/wiki/API-Reference) and [Building custom toolbars](https://github.com/leaflet/Leaflet.Toolbar/wiki/Building-custom-toolbars) on the wiki.
 
 ### Contributing
 
@@ -36,7 +36,7 @@ Contributors are welcomed!
 
 Once you've cloned this repo, you'll need to run `npm install` in the project root to install the development dependencies using `npm`.
 
-Leaflet.Toolbar uses `grunt` to run development and build tasks. You'll need to have the grunt command line interface installed: `npm install -g grunt-cli`. Once you've done this, running `grunt` without any arguments in the project root will watch the project source and lint, test, and build whenever the source files are modified.  Additional tasks that may be useful for development are specified in the [`Gruntfile`](https://github.com/manleyjster/Leaflet.Toolbar/blob/master/Gruntfile.js).
+Leaflet.Toolbar uses `grunt` to run development and build tasks. You'll need to have the grunt command line interface installed: `npm install -g grunt-cli`. Once you've done this, running `grunt` without any arguments in the project root will watch the project source and lint, test, and build whenever the source files are modified.  Additional tasks that may be useful for development are specified in the [`Gruntfile`](https://github.com/leaflet/Leaflet.Toolbar/blob/master/Gruntfile.js).
 
 Contributors are encouraged to open pull requests early to facilitate discussion about proposed changes.
 
