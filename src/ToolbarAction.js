@@ -20,29 +20,17 @@ L.ToolbarAction = L.Handler.extend({
 	},
 
 	enable: function() {
-		var subToolbar = this.options.subToolbar;
-
 		if (this._enabled) { return; }
 		this._enabled = true;
 
 		if (this.addHooks) { this.addHooks(); }
-
-		if (subToolbar.options.actions.length > 0) {
-			subToolbar._show();
-		}
 	},
 
 	disable: function() {
-		var subToolbar = this.options.subToolbar;
-
 		if (!this._enabled) { return; }
 		this._enabled = false;
 
 		if (this.removeHooks) { this.removeHooks(); }
-
-		if (subToolbar.options.actions.length > 0) {
-			subToolbar._hide();
-		}
 	},
 
 	_createIcon: function(toolbar, container, args) {
@@ -68,7 +56,9 @@ L.ToolbarAction = L.Handler.extend({
 	},
 
 	_addSubToolbar: function(toolbar, container, args) {
-		var subToolbar = this.options.subToolbar;
+		var subToolbar = this.options.subToolbar,
+			addHooks = this.addHooks,
+			removeHooks = this.removeHooks;
 
 		/* For calculating the nesting depth. */
 		subToolbar.parentToolbar = toolbar;
@@ -80,6 +70,16 @@ L.ToolbarAction = L.Handler.extend({
 			
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);
+
+			this.addHooks = function(map) {
+				addHooks.call(this, map);
+				subToolbar._show();
+			};
+
+			this.removeHooks = function(map) {
+				removeHooks.call(this, map);
+				subToolbar._hide();
+			};
 		}
 	}
 });
