@@ -75,4 +75,14 @@ describe("L.Toolbar", function() {
 			expect(subToolbar._calculateDepth()).to.equal(1);
 		});
 	});
+
+});
+
+describe("L.toolbar", function() {
+    describe("class factory", function() {
+        it("creates L.Toolbar instance", function() {
+            var options = {actions: []};
+            expect(L.toolbar(options)).to.eql(new L.Toolbar(options));
+        });
+    });
 });
