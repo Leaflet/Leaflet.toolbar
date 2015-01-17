@@ -25,3 +25,7 @@ L.Control.Toolbar = L.Control.extend({
 		return L.DomUtil.create('div', '');
 	}
 });
+
+L.toolbar.control = function(options) {
+    return new L.Toolbar.Control(options);
+};
