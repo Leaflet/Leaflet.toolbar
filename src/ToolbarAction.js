@@ -9,7 +9,7 @@ L.ToolbarAction = L.Handler.extend({
 			className: '',
 			tooltip: ''
 		},
-		subToolbar: L.toolbar()
+		subToolbar: L.Toolbar()
 	},
 
 	initialize: function(options) {
