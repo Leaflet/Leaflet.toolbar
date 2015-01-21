@@ -75,5 +75,4 @@ describe("L.Toolbar", function() {
 			expect(subToolbar._calculateDepth()).to.equal(1);
 		});
 	});
-
 });
