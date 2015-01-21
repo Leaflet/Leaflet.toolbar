@@ -77,12 +77,3 @@ describe("L.Toolbar", function() {
 	});
 
 });
-
-describe("L.toolbar", function() {
-    describe("class factory", function() {
-        it("creates L.Toolbar instance", function() {
-            var options = {actions: []};
-            expect(L.toolbar(options)).to.eql(new L.Toolbar(options));
-        });
-    });
-});
