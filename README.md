@@ -23,8 +23,8 @@ You can then include Leaflet.Toolbar in your web application by adding the follo
 
 Leaflet.Toolbar exports two toolbar styles that can be used out of the box: a popup-style toolbar, and a control-style toolbar.  To instantiate a control-style toolbar and add it to the map, use:
 ```javascript
-new L.Toolbar.Control({ 
-	actions: [MyToolbarAction1, MyToolbarAction2, ...] 
+new L.Toolbar.Control({
+	actions: [MyToolbarAction1, MyToolbarAction2, ...]
 }).addTo(map);
 ```
 
@@ -37,6 +37,8 @@ Contributors are welcomed!
 Once you've cloned this repo, you'll need to run `npm install` in the project root to install the development dependencies using `npm`.
 
 Leaflet.Toolbar uses `grunt` to run development and build tasks. You'll need to have the grunt command line interface installed: `npm install -g grunt-cli`. Once you've done this, running `grunt` without any arguments in the project root will watch the project source and lint, test, and build whenever the source files are modified.  Additional tasks that may be useful for development are specified in the [`Gruntfile`](https://github.com/leaflet/Leaflet.Toolbar/blob/master/Gruntfile.js).
+
+Run the test suite using `npm test`.
 
 Contributors are encouraged to open pull requests early to facilitate discussion about proposed changes.
 
