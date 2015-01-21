@@ -85,3 +85,5 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
+
+L.toolbar = {};
