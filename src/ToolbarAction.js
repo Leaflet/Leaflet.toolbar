@@ -67,7 +67,7 @@ L.ToolbarAction = L.Handler.extend({
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);
-			
+
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);
 

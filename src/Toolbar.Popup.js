@@ -74,3 +74,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		container.style.marginTop = (-anchor.y) + 'px';
 	}
 });
+
+L.toolbar.popup = function(options) {
+    return new L.Toolbar.Popup(options);
+};

@@ -54,3 +54,12 @@ describe("L.Toolbar.Popup", function() {
 		});
 	});
 });
+
+describe("L.toolbar.popup", function() {
+    describe("class factory", function() {
+        it("creates L.Toolbar.Popup instance", function() {
+            var options = {position: 'bottomleft'};
+            expect(L.toolbar.popup(options)).to.eql(new L.Toolbar.Popup(options));
+        });
+    });
+});
