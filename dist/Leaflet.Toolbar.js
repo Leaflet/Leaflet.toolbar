@@ -163,12 +163,12 @@ L.ToolbarAction = L.Handler.extend({
 			subToolbar.appendToContainer(container);
 
 			this.addHooks = function(map) {
-				addHooks.call(this, map);
+				if (typeof addHooks === 'function') { addHooks.call(this, map); }
 				subToolbar._show();
 			};
 
 			this.removeHooks = function(map) {
-				removeHooks.call(this, map);
+				if (typeof removeHooks === 'function') { removeHooks.call(this, map); }
 				subToolbar._hide();
 			};
 		}
