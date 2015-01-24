@@ -17,6 +17,7 @@ L.Toolbar = L.Class.extend({
 
 	initialize: function(options) {
 		L.setOptions(this, options);
+		this._toolbar_type = this.constructor._toolbar_class_id;
 	},
 
 	addTo: function(map) {
@@ -27,7 +28,20 @@ L.Toolbar = L.Class.extend({
 		return this;
 	},
 
-	onAdd: function() {},
+	onAdd: function(map) {
+		var currentToolbar = map._toolbars[this._toolbar_type];
+
+		if (this._calculateDepth() === 0) {
+			if (currentToolbar) { map.removeLayer(currentToolbar); }
+			map._toolbars[this._toolbar_type] = this;
+		}
+	},
+
+	onRemove: function(map) {
+		if (this._calculateDepth() === 0) {
+			delete map._toolbars[this._toolbar_type];
+		}
+	},
 
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
@@ -88,6 +102,23 @@ L.Toolbar = L.Class.extend({
 
 		return depth;
 	}
+});
+
+var toolbar_class_id = 0;
+
+L.Toolbar.extend = function extend(props) {
+	var statics = L.extend({}, props.statics, {
+		"_toolbar_class_id": toolbar_class_id
+	});
+
+	toolbar_class_id += 1;
+	L.extend(props, { statics: statics });
+
+	return L.Class.extend.call(this, props);
+};
+
+L.Map.addInitHook(function() {
+	this._toolbars = {};
 });
 L.ToolbarAction = L.Handler.extend({
 	statics: {
@@ -192,10 +223,13 @@ L.Toolbar.Control = L.Toolbar.extend({
 	onAdd: function(map) {
 		this._control.addTo(map);
 
+		L.Toolbar.prototype.onAdd.call(this, map);
+
 		this.appendToContainer(this._control.getContainer());
 	},
 
 	onRemove: function(map) {
+		L.Toolbar.prototype.onRemove.call(this, map);
 		this._control.removeFrom(map);
 	}
 });
@@ -229,6 +263,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._map = map;
 		this._marker.addTo(map);
 
+		L.Toolbar.prototype.onAdd.call(this, map);
+
 		this.appendToContainer(this._marker._icon);
 
 		this._setStyles();
@@ -236,6 +272,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 	onRemove: function(map) {
 		map.removeLayer(this._marker);
+
+		L.Toolbar.prototype.onRemove.call(this, map);
 
 		delete this._map;
 	},
