@@ -10,8 +10,6 @@ describe("L.Toolbar", function() {
 
 		toolbarTemplate = [L.ToolbarAction];
 		toolbar = new L.Toolbar({ actions: toolbarTemplate });
-
-		toolbar.addTo(map);
 	});
 
 	describe("#onAdd", function() {
@@ -35,20 +33,22 @@ describe("L.Toolbar", function() {
 
 	describe("#addTo", function() {
 		it("Should add a toolbar to the map.", function() {
+			toolbar.addTo(map);
 			expect(map.hasLayer(toolbar)).to.equal(true);
 		});
 
 		it("Should pass along its arguments to each toolbar action factory.", function(done) {
 			var TestHandler = L.ToolbarAction.extend({
-				initialize: function(arg1) {
+				initialize: function(arg1, arg2) {
 					expect(arg1).to.equal(map);
+					expect(arg2).to.equal(2);
 					done();
 				}
 			});
 
 			toolbar = new L.Toolbar({ actions: [TestHandler] });
 
-			toolbar.addTo(map);
+			toolbar.addTo(map, 2);
 			toolbar.appendToContainer(container);
 		});
 	});
@@ -67,6 +67,7 @@ describe("L.Toolbar", function() {
 
 	describe("#_show", function() {
 		it("Should set the display of the toolbar container to 'block'", function() {
+			toolbar.addTo(map);
 			toolbar.appendToContainer(container);
 
 			toolbar._show();
@@ -76,6 +77,7 @@ describe("L.Toolbar", function() {
 
 	describe("#_hide", function() {
 		it("Should set the display of the toolbar container to 'block'", function() {
+			toolbar.addTo(map);
 			toolbar.appendToContainer(container);
 
 			toolbar._hide();
@@ -85,6 +87,7 @@ describe("L.Toolbar", function() {
 
 	describe("#_calculateToolbarDepth", function() {
 		it("Should return 0 for a single toolbar", function() {
+			toolbar.addTo(map);
 			expect(toolbar._calculateDepth()).to.equal(0);
 		});
 

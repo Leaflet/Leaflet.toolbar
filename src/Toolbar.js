@@ -37,9 +37,7 @@ L.Toolbar = L.Class.extend({
 		if (this._calculateDepth() === 0) {
 			delete map._toolbars[this._toolbar_type];
 		}
-	},
 
-	onRemove: function() {
 		/* Cleanup event listeners. */
 		for (var i = 0, l = this._disabledEvents.length; i < l; i++) {
 			L.DomEvent.off(this._ul, this._disabledEvents[i], L.DomEvent.stopPropagation);
@@ -111,6 +109,8 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
+
+L.toolbar = {};
 
 var toolbar_class_id = 0;
 
