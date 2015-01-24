@@ -14,7 +14,30 @@ describe("L.Toolbar", function() {
 		toolbar.addTo(map);
 	});
 
+	describe("#onAdd", function() {
+		it.skip("Should replace the current toolbar when a duplicate is added to the map.", function() {
+			var toolbar1 = new L.Toolbar().addTo(map);
+
+			new L.Toolbar().addTo(map);
+			expect(map.hasLayer(toolbar1)).to.equal(false);
+		});
+
+		it.skip("Should allow multiple toolbars of different types on the map.", function() {
+			var Toolbar1 = L.Toolbar.extend({}),
+				Toolbar2 = L.Toolbar.extend({}),
+				toolbar1 = new Toolbar1().addTo(map);
+
+			new Toolbar2().addTo(map);
+
+			expect(map.hasLayer(toolbar1)).to.equal(true);
+		});
+	});
+
 	describe("#addTo", function() {
+		it("Should add a toolbar to the map.", function() {
+			expect(map.hasLayer(toolbar)).to.equal(true);
+		});
+
 		it("Should pass along its arguments to each toolbar action factory.", function(done) {
 			var TestHandler = L.ToolbarAction.extend({
 				initialize: function(arg1) {
