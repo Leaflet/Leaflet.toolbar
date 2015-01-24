@@ -12,10 +12,13 @@ L.Toolbar.Control = L.Toolbar.extend({
 	onAdd: function(map) {
 		this._control.addTo(map);
 
+		L.Toolbar.prototype.onAdd.call(this, map);
+
 		this.appendToContainer(this._control.getContainer());
 	},
 
 	onRemove: function(map) {
+		L.Toolbar.prototype.onRemove.call(this, map);
 		this._control.removeFrom(map);
 	}
 });

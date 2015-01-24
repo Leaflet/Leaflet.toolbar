@@ -22,6 +22,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._map = map;
 		this._marker.addTo(map);
 
+		L.Toolbar.prototype.onAdd.call(this, map);
+
 		this.appendToContainer(this._marker._icon);
 
 		this._setStyles();
@@ -29,6 +31,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 	onRemove: function(map) {
 		map.removeLayer(this._marker);
+
+		L.Toolbar.prototype.onRemove.call(this, map);
 
 		delete this._map;
 	},
