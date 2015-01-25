@@ -166,3 +166,13 @@ describe("L.ToolbarAction", function() {
 		});
 	});
 });
+
+describe("L.toolbarAction", function() {
+	describe("class factory", function() {
+		it("Creates an L.ToolbarAction instance.", function() {
+			var options = { toolbarIcon: { html: 'hello' } };
+
+			expect(L.toolbarAction(options)).to.deep.equal(new L.ToolbarAction(options));
+		});
+	});
+});

@@ -84,6 +84,10 @@ L.ToolbarAction = L.Handler.extend({
 	}
 });
 
+L.toolbarAction = function toolbarAction(options) {
+	return new L.ToolbarAction(options);
+};
+
 L.ToolbarAction.extendOptions = function(options) {
 	return this.extend({ options: options });
 };
