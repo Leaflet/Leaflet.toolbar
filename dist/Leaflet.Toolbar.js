@@ -32,16 +32,22 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
-			l = this.options.actions.length,
 			Action, action,
-			i;
+
+			disabledEvents = ['click', 'mousemove', 'dblclick'],
+
+			i, j, l, m;
 
 		this._container = container;
 		this._ul = L.DomUtil.create('ul', className, container);
 
-		L.DomEvent.on(this._ul, 'click', L.DomEvent.stopPropagation);
+		/* Ensure that clicks, drags, etc. don't bubble up to the map. */
+		for (j = 0, m = disabledEvents.length; j < m; j++) {
+			L.DomEvent.on(this._ul, disabledEvents[j], L.DomEvent.stopPropagation);
+		}
 
-		for (i = 0; i < l; i++) {
+		/* Instantiate each toolbar action and add its corresponding toolbar icon. */
+		for (i = 0, l = this.options.actions.length; i < l; i++) {
 			Action = this._getActionConstructor(this.options.actions[i]);
 
 			action = new Action();
@@ -89,6 +95,9 @@ L.Toolbar = L.Class.extend({
 		return depth;
 	}
 });
+
+L.toolbar = {};
+
 L.ToolbarAction = L.Handler.extend({
 	statics: {
 		baseClass: 'leaflet-toolbar-icon'
@@ -158,7 +167,7 @@ L.ToolbarAction = L.Handler.extend({
 			/* Make a copy of args so as not to pollute the args array used by other actions. */
 			args = [].slice.call(args);
 			args.push(this);
-			
+
 			subToolbar.addTo.apply(subToolbar, args);
 			subToolbar.appendToContainer(container);
 
@@ -178,6 +187,7 @@ L.ToolbarAction = L.Handler.extend({
 L.ToolbarAction.extendOptions = function(options) {
 	return this.extend({ options: options });
 };
+
 L.Toolbar.Control = L.Toolbar.extend({
 	statics: {
 		baseClass: 'leaflet-control-toolbar ' + L.Toolbar.baseClass
@@ -205,6 +215,11 @@ L.Control.Toolbar = L.Control.extend({
 		return L.DomUtil.create('div', '');
 	}
 });
+
+L.toolbar.control = function(options) {
+    return new L.Toolbar.Control(options);
+};
+
 // A convenience class for built-in popup toolbars.
 
 L.Toolbar.Popup = L.Toolbar.extend({
@@ -281,5 +296,10 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		container.style.marginTop = (-anchor.y) + 'px';
 	}
 });
+
+L.toolbar.popup = function(options) {
+    return new L.Toolbar.Popup(options);
+};
+
 
 })(window, document);
