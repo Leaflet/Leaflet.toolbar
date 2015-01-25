@@ -29,21 +29,27 @@ L.Toolbar = L.Class.extend({
 
 	onAdd: function() {},
 
+	onRemove: function() {
+		/* Cleanup event listeners. */
+		for (var i = 0, l = this._disabledEvents.length; i < l; i++) {
+			L.DomEvent.off(this._ul, this._disabledEvents[i], L.DomEvent.stopPropagation);
+		}
+	},
+
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
 			Action, action,
-
-			disabledEvents = ['click', 'mousemove', 'dblclick'],
-
 			i, j, l, m;
 
 		this._container = container;
 		this._ul = L.DomUtil.create('ul', className, container);
 
 		/* Ensure that clicks, drags, etc. don't bubble up to the map. */
-		for (j = 0, m = disabledEvents.length; j < m; j++) {
-			L.DomEvent.on(this._ul, disabledEvents[j], L.DomEvent.stopPropagation);
+		this._disabledEvents = ['click', 'mousemove', 'dblclick'];
+
+		for (j = 0, m = this._disabledEvents.length; j < m; j++) {
+			L.DomEvent.on(this._ul, this._disabledEvents[j], L.DomEvent.stopPropagation);
 		}
 
 		/* Instantiate each toolbar action and add its corresponding toolbar icon. */
@@ -183,6 +189,10 @@ L.ToolbarAction = L.Handler.extend({
 		}
 	}
 });
+
+L.toolbarAction = function toolbarAction(options) {
+	return new L.ToolbarAction(options);
+};
 
 L.ToolbarAction.extendOptions = function(options) {
 	return this.extend({ options: options });
