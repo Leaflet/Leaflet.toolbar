@@ -71,7 +71,7 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: {
-                    'dist/Leaflet.Toolbar.min.js': ['dist/Leaflet.Toolbar.js']
+                    'dist/leaflet.toolbar.js': ['dist/leaflet.toolbar-src.js']
                 }
             }
         },
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
         less: {
             source: {
                 files: {
-                    'dist/Leaflet.Toolbar.css': 'src/Toolbar.less'
+                    'dist/leaflet.toolbar.css': 'src/Toolbar.less'
                 }
             }
         },
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
                     'src/ToolbarAction.js',
                     'src/Toolbar.*.js'
                 ],
-                dest: 'dist/Leaflet.Toolbar.js',
+                dest: 'dist/leaflet.toolbar-src.js',
             }
         }
     });
