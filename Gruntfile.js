@@ -68,6 +68,13 @@ module.exports = function(grunt) {
             }
         },
 
+        autoprefixer: {
+            dist: {
+                src:    'dist/leaflet.toolbar.css',
+                dest:   'dist/leaflet.toolbar.css'
+            }
+        },
+
         uglify: {
             dist: {
                 files: {
@@ -153,7 +160,7 @@ module.exports = function(grunt) {
         'uglify:dist'
     ]);
 
-    grunt.registerTask('build:css', [ 'less' ]);
+    grunt.registerTask('build:css', [ 'less', 'autoprefixer' ]);
 
     grunt.registerTask('coverage', 'Custom commmand-line reporter for karma-coverage', function() {
         var coverageReports = grunt.file.expand('coverage/*/coverage.txt'),
