@@ -59,18 +59,7 @@
 			drawnItems.addLayer(layer);
 
 			layer.on('click', function(event) {
-				var latlng = event.latlng;
-
-				/* Override event.latlng to open the popup just above markers. */
-				if (layer instanceof L.Marker) {
-					height = parseFloat(L.DomUtil.getStyle(layer._icon, 'height'));
-					latlng = map.layerPointToLatLng(map
-						.latLngToLayerPoint(latlng)
-						.add(L.point(0, -height))
-					);
-				}
-
-				new L.EditToolbar.Popup(latlng, {
+				new L.EditToolbar.Popup(event.latlng, {
 					className: 'leaflet-draw-toolbar',
 					actions: editActions
 				}).addTo(map, layer);

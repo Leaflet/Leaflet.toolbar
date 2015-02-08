@@ -237,17 +237,23 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
 	},
 
+	options: {
+		anchor: [0, 0]
+	},
+
 	initialize: function(latlng, options) {
 		L.Toolbar.prototype.initialize.call(this, options);
 
-		var	toolbarOptions = L.extend(this.options, {
-				icon: new L.DivIcon({
-					html: '',
-					className: this.options.className
-				})
-			});
-
-		this._marker = new L.Marker(latlng, toolbarOptions);
+		/* 
+		 * Developers can't pass a DivIcon in the options for L.Toolbar.Popup
+		 * (the use of DivIcons is an implementation detail which may change).
+		 */
+		this._marker = new L.Marker(latlng, {
+			icon : new L.DivIcon({
+				className: this.options.className,
+				iconAnchor: [0, 0]
+			})
+		});
 	},
 
 	onAdd: function(map) {
@@ -274,12 +280,13 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	_setStyles: function() {
 		var container = this._container,
 			toolbar = this._ul,
+			anchor = L.point(this.options.anchor),
 			icons = toolbar.querySelectorAll('.leaflet-toolbar-icon'),
 			buttonHeights = [],
 			toolbarWidth = 0,
 			toolbarHeight,
 			tipSize,
-			anchor;
+			tipAnchor;
 
 		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = icons.length; i < l; i++) {
@@ -296,14 +303,14 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
 
-		/* Set the anchor point. */
+		/* Set the tipAnchor point. */
 		toolbarHeight = Math.max.apply(undefined, buttonHeights);
 		tipSize = parseInt(L.DomUtil.getStyle(this._tip, 'width'), 10);
+		tipAnchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
 
-		anchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
-
-		container.style.marginLeft = (-anchor.x) + 'px';
-		container.style.marginTop = (-anchor.y) + 'px';
+		/* The anchor option allows app developers to adjust the toolbar's position. */
+		container.style.marginLeft = (anchor.x - tipAnchor.x) + 'px';
+		container.style.marginTop = (anchor.y - tipAnchor.y) + 'px';
 	}
 });
 
