@@ -15,8 +15,6 @@ if [ $current_branch = "master" ]; then
 	git add node_modules/leaflet-draw node_modules/leaflet examples dist .travis.yml
 	git commit -m "Update gh-pages branch on $(date +"%m-%d-%Y") at $(date +"%H:%M:%S")."
 
-	git push origin gh-pages
-
 	git checkout master # return to the master branch
 fi
 

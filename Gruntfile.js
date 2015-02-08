@@ -141,6 +141,12 @@ module.exports = function(grunt) {
                 ],
                 dest: 'dist/leaflet.toolbar-src.js',
             }
+        },
+
+        shell: {
+            target: {
+                command: './update-gh-pages.sh'
+            }
         }
     });
 
@@ -185,4 +191,6 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    grunt.registerTask('gh-pages:update', ['shell']);
 };

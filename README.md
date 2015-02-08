@@ -38,9 +38,15 @@ Once you've cloned this repo, you'll need to run `npm install` in the project ro
 
 Leaflet.Toolbar uses `grunt` to run development and build tasks. You'll need to have the grunt command line interface installed: `npm install -g grunt-cli`. Once you've done this, running `grunt` without any arguments in the project root will watch the project source and lint, test, and build whenever the source files are modified.  Additional tasks that may be useful for development are specified in the [`Gruntfile`](https://github.com/leaflet/Leaflet.Toolbar/blob/master/Gruntfile.js).
 
+### Testing
+
 Run the test suite using `npm test`.
 
-Contributors are encouraged to open pull requests early to facilitate discussion about proposed changes.
+### Documentation and Examples
+
+The examples in the gh-pages branch can be updated using Grunt: `grunt gh-pages:update`. This will create a new commit in the `gh-pages` branch. If you wish to make changes to these examples public, you must subsequently run `git push origin gh-pages`.
+
+Contributors are encouraged to open pull requests early to facilitate discussion about proposed changes!
 
 Please follow the [Leaflet contribution guide](https://github.com/Leaflet/Leaflet/blob/master/CONTRIBUTING.md).
 
