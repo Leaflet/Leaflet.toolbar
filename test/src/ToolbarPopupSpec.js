@@ -19,6 +19,10 @@ describe("L.Toolbar.Popup", function() {
 
 			expect(map.hasLayer(toolbar)).to.equal(false);
 		});
+
+		it.skip("Should not throw an error if toolbar removal is triggered by clicking a toolbar icon.", function() {
+			/* Need to be able to trigger a click event on a toolbar icon. */
+		});
 	});
 
 	describe("#_setStyles", function() {

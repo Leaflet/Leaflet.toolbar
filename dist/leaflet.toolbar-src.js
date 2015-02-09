@@ -38,13 +38,18 @@ L.Toolbar = L.Class.extend({
 	},
 
 	onRemove: function(map) {
+		/* 
+		 * TODO: Cleanup event listeners. 
+		 * For some reason, this throws:
+		 * "Uncaught TypeError: Cannot read property 'dragging' of null"
+		 * on this._marker when a toolbar icon is clicked.
+		 */
+		// for (var i = 0, l = this._disabledEvents.length; i < l; i++) {
+		// 	L.DomEvent.off(this._ul, this._disabledEvents[i], L.DomEvent.stopPropagation);
+		// }
+
 		if (this._calculateDepth() === 0) {
 			delete map._toolbars[this._toolbar_type];
-		}
-
-		/* Cleanup event listeners. */
-		for (var i = 0, l = this._disabledEvents.length; i < l; i++) {
-			L.DomEvent.off(this._ul, this._disabledEvents[i], L.DomEvent.stopPropagation);
 		}
 	},
 
