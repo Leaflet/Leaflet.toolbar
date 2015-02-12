@@ -17,6 +17,7 @@ L.Toolbar = L.Class.extend({
 
 	initialize: function(options) {
 		L.setOptions(this, options);
+		this._toolbar_type = this.constructor._toolbar_class_id;
 	},
 
 	addTo: function(map) {
@@ -27,12 +28,28 @@ L.Toolbar = L.Class.extend({
 		return this;
 	},
 
-	onAdd: function() {},
+	onAdd: function(map) {
+		var currentToolbar = map._toolbars[this._toolbar_type];
 
-	onRemove: function() {
-		/* Cleanup event listeners. */
-		for (var i = 0, l = this._disabledEvents.length; i < l; i++) {
-			L.DomEvent.off(this._ul, this._disabledEvents[i], L.DomEvent.stopPropagation);
+		if (this._calculateDepth() === 0) {
+			if (currentToolbar) { map.removeLayer(currentToolbar); }
+			map._toolbars[this._toolbar_type] = this;
+		}
+	},
+
+	onRemove: function(map) {
+		/* 
+		 * TODO: Cleanup event listeners. 
+		 * For some reason, this throws:
+		 * "Uncaught TypeError: Cannot read property 'dragging' of null"
+		 * on this._marker when a toolbar icon is clicked.
+		 */
+		// for (var i = 0, l = this._disabledEvents.length; i < l; i++) {
+		// 	L.DomEvent.off(this._ul, this._disabledEvents[i], L.DomEvent.stopPropagation);
+		// }
+
+		if (this._calculateDepth() === 0) {
+			delete map._toolbars[this._toolbar_type];
 		}
 	},
 
@@ -103,6 +120,23 @@ L.Toolbar = L.Class.extend({
 });
 
 L.toolbar = {};
+
+var toolbar_class_id = 0;
+
+L.Toolbar.extend = function extend(props) {
+	var statics = L.extend({}, props.statics, {
+		"_toolbar_class_id": toolbar_class_id
+	});
+
+	toolbar_class_id += 1;
+	L.extend(props, { statics: statics });
+
+	return L.Class.extend.call(this, props);
+};
+
+L.Map.addInitHook(function() {
+	this._toolbars = {};
+});
 
 L.ToolbarAction = L.Handler.extend({
 	statics: {
@@ -212,10 +246,13 @@ L.Toolbar.Control = L.Toolbar.extend({
 	onAdd: function(map) {
 		this._control.addTo(map);
 
+		L.Toolbar.prototype.onAdd.call(this, map);
+
 		this.appendToContainer(this._control.getContainer());
 	},
 
 	onRemove: function(map) {
+		L.Toolbar.prototype.onRemove.call(this, map);
 		this._control.removeFrom(map);
 	}
 });
@@ -237,22 +274,30 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
 	},
 
+	options: {
+		anchor: [0, 0]
+	},
+
 	initialize: function(latlng, options) {
 		L.Toolbar.prototype.initialize.call(this, options);
 
-		var	toolbarOptions = L.extend(this.options, {
-				icon: new L.DivIcon({
-					html: '',
-					className: this.options.className
-				})
-			});
-
-		this._marker = new L.Marker(latlng, toolbarOptions);
+		/* 
+		 * Developers can't pass a DivIcon in the options for L.Toolbar.Popup
+		 * (the use of DivIcons is an implementation detail which may change).
+		 */
+		this._marker = new L.Marker(latlng, {
+			icon : new L.DivIcon({
+				className: this.options.className,
+				iconAnchor: [0, 0]
+			})
+		});
 	},
 
 	onAdd: function(map) {
 		this._map = map;
 		this._marker.addTo(map);
+
+		L.Toolbar.prototype.onAdd.call(this, map);
 
 		this.appendToContainer(this._marker._icon);
 
@@ -261,6 +306,8 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 	onRemove: function(map) {
 		map.removeLayer(this._marker);
+
+		L.Toolbar.prototype.onRemove.call(this, map);
 
 		delete this._map;
 	},
@@ -274,12 +321,13 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	_setStyles: function() {
 		var container = this._container,
 			toolbar = this._ul,
+			anchor = L.point(this.options.anchor),
 			icons = toolbar.querySelectorAll('.leaflet-toolbar-icon'),
 			buttonHeights = [],
 			toolbarWidth = 0,
 			toolbarHeight,
 			tipSize,
-			anchor;
+			tipAnchor;
 
 		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = icons.length; i < l; i++) {
@@ -296,14 +344,14 @@ L.Toolbar.Popup = L.Toolbar.extend({
 
 		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
 
-		/* Set the anchor point. */
+		/* Set the tipAnchor point. */
 		toolbarHeight = Math.max.apply(undefined, buttonHeights);
 		tipSize = parseInt(L.DomUtil.getStyle(this._tip, 'width'), 10);
+		tipAnchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
 
-		anchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
-
-		container.style.marginLeft = (-anchor.x) + 'px';
-		container.style.marginTop = (-anchor.y) + 'px';
+		/* The anchor option allows app developers to adjust the toolbar's position. */
+		container.style.marginLeft = (anchor.x - tipAnchor.x) + 'px';
+		container.style.marginTop = (anchor.y - tipAnchor.y) + 'px';
 	}
 });
 

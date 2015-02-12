@@ -1,0 +1,1 @@
+L.ToolbarGroup = L.Toolbar.extend({});
