@@ -44,7 +44,7 @@ Run the test suite using `npm test`.
 
 ### Documentation and Examples
 
-The examples in the gh-pages branch can be updated using Grunt: `grunt gh-pages:update`. This will create a new commit in the `gh-pages` branch. If you wish to make changes to these examples public, you must subsequently run `git push origin gh-pages`.
+The examples in the gh-pages branch can be updated using Grunt: `grunt gh-pages`. This will create a new commit *and* push that commit to your gh-pages branch on GitHub. If you'd like to simply preview the gh-pages branch, you can run `grunt gh-pages --gh-pages-push false`.
 
 Contributors are encouraged to open pull requests early to facilitate discussion about proposed changes!
 

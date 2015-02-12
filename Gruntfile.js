@@ -143,10 +143,13 @@ module.exports = function(grunt) {
             }
         },
 
-        shell: {
-            target: {
-                command: './update-gh-pages.sh'
-            }
+        'gh-pages': {
+            src: [
+                'dist/**', 
+                'examples/**', 
+                'node_modules/leaflet/**', 
+                'node_modules/leaflet-draw/**'
+            ]
         }
     });
 
@@ -191,6 +194,4 @@ module.exports = function(grunt) {
             }
         }
     });
-
-    grunt.registerTask('gh-pages:update', ['shell']);
 };
