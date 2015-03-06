@@ -145,9 +145,9 @@ module.exports = function(grunt) {
 
         'gh-pages': {
             src: [
-                'dist/**', 
-                'examples/**', 
-                'node_modules/leaflet/**', 
+                'dist/**',
+                'examples/**',
+                'node_modules/leaflet/**',
                 'node_modules/leaflet-draw/**'
             ]
         }
