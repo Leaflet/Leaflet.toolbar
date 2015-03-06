@@ -1,4 +1,4 @@
-L.Toolbar = L.Class.extend({
+L.Toolbar = (L.Layer || L.Class).extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
