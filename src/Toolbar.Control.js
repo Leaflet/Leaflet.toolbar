@@ -19,7 +19,8 @@ L.Toolbar.Control = L.Toolbar.extend({
 
 	onRemove: function(map) {
 		L.Toolbar.prototype.onRemove.call(this, map);
-		this._control.removeFrom(map);
+		if (this._control.remove) {this._control.remove();}  // Leaflet 1.0
+		else {this._control.removeFrom(map);}
 	}
 });
 
