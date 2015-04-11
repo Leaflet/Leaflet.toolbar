@@ -12,10 +12,8 @@ describe("L.ToolbarAction", function() {
 
 		Action = L.ToolbarAction.extend({
 			options: {
-				toolbarIcon: {
-					html: 'Test Icon',
-					className: 'my-toolbar-icon'
-				}
+				html: 'Test Icon',
+				className: 'my-toolbar-icon'
 			}
 		});
 		toolbar = new L.Toolbar({ actions: [Action] });
@@ -42,6 +40,13 @@ describe("L.ToolbarAction", function() {
 			expect(L.DomUtil.hasClass(iconButton, 'leaflet-toolbar-icon')).to.equal(true);
 			expect(L.DomUtil.hasClass(iconButton, 'my-toolbar-icon')).to.equal(true);
 		});
+
+		it("Support toolbarIcon options for retrocompat", function() {
+			var toolbar = new L.ToolbarAction({toolbarIcon: {html: 'click me'}});
+
+			expect(toolbar.options.html).to.equal('click me');
+		});
+
 	});
 
 	describe("#_addSubToolbar", function() {
@@ -162,7 +167,7 @@ describe("L.ToolbarAction", function() {
 			expect(h.options.color).to.equal('#d1bd0f');
 
 			/* Options of the parent constructor should be retained. */
-			expect(h.options.toolbarIcon.html).to.equal('');
+			expect(h.options.html).to.equal('');
 		});
 	});
 });
@@ -170,7 +175,7 @@ describe("L.ToolbarAction", function() {
 describe("L.toolbarAction", function() {
 	describe("class factory", function() {
 		it("Creates an L.ToolbarAction instance.", function() {
-			var options = { toolbarIcon: { html: 'hello' } };
+			var options = { html: 'hello' };
 
 			expect(L.toolbarAction(options)).to.deep.equal(new L.ToolbarAction(options));
 		});
