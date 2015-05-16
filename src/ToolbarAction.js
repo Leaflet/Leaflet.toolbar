@@ -4,49 +4,45 @@ L.ToolbarAction = L.Handler.extend({
 	},
 
 	options: {
-		toolbarIcon: {
-			html: '',
-			className: '',
-			tooltip: ''
-		},
+		html: '',
+		className: '',
+		tooltip: '',
 		subToolbar: new L.Toolbar()
 	},
 
 	initialize: function(options) {
-		var defaultIconOptions = L.ToolbarAction.prototype.options.toolbarIcon;
-
 		L.setOptions(this, options);
-		this.options.toolbarIcon = L.extend({}, defaultIconOptions, this.options.toolbarIcon);
+
+		// Retrocompat.
+		L.setOptions(this, this.options.toolbarIcon);
+		// End retrocompat.
 	},
 
-	enable: function() {
-		if (this._enabled) { return; }
-		this._enabled = true;
-
-		if (this.addHooks) { this.addHooks(); }
+	addHooks: function () {
+		if (this.options.onEnable) {
+			this.options.onEnable.call(this);
+		}
 	},
 
-	disable: function() {
-		if (!this._enabled) { return; }
-		this._enabled = false;
-
-		if (this.removeHooks) { this.removeHooks(); }
+	removeHooks: function () {
+		if (this.options.onDisable) {
+			this.options.onDisable.call(this);
+		}
 	},
 
 	_createIcon: function(toolbar, container, args) {
-		var iconOptions = this.options.toolbarIcon;
 
 		this.toolbar = toolbar;
 		this._icon = L.DomUtil.create('li', '', container);
 		this._link = L.DomUtil.create('a', '', this._icon);
 
-		this._link.innerHTML = iconOptions.html;
+		this._link.innerHTML = this.options.html;
 		this._link.setAttribute('href', '#');
-		this._link.setAttribute('title', iconOptions.tooltip);
+		this._link.setAttribute('title', this.options.tooltip);
 
 		L.DomUtil.addClass(this._link, this.constructor.baseClass);
-		if (iconOptions.className) {
-			L.DomUtil.addClass(this._link, iconOptions.className);
+		if (this.options.className) {
+			L.DomUtil.addClass(this._link, this.options.className);
 		}
 
 		L.DomEvent.on(this._link, 'click', this.enable, this);
@@ -91,3 +87,7 @@ L.toolbarAction = function toolbarAction(options) {
 L.ToolbarAction.extendOptions = function(options) {
 	return this.extend({ options: options });
 };
+
+L.Toolbar.mergeOptions({
+	toolbarActionClass: L.ToolbarAction
+});

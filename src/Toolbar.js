@@ -52,7 +52,7 @@ L.Toolbar = L.Class.extend({
 	appendToContainer: function(container) {
 		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
-			Action, action,
+			Action, action, actions = [],
 			i, j, l, m;
 
 		this._container = container;
@@ -71,12 +71,16 @@ L.Toolbar = L.Class.extend({
 
 			action = new Action();
 			action._createIcon(this, this._ul, this._arguments);
+			actions.push(action);
 		}
+		return actions;
 	},
 
 	_getActionConstructor: function(Action) {
 		var args = this._arguments,
 			toolbar = this;
+
+		if (typeof Action === 'object') { Action = this.options.toolbarActionClass.extend({options: Action}); }
 
 		return Action.extend({
 			initialize: function() {

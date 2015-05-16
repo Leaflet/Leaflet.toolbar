@@ -51,6 +51,22 @@ describe("L.Toolbar", function() {
 			toolbar.addTo(map, 2);
 			toolbar.appendToContainer(container);
 		});
+
+		it("Should allow defining actions from an options object.", function() {
+			var spy = sinon.spy();
+			toolbar = new L.Toolbar({ actions: [{
+				html: '&#9873;',
+				tooltip: 'Back to center',
+				className: 'custom-class',
+				onEnable: spy
+			}] });
+
+			toolbar.addTo(map);
+			var actions = toolbar.appendToContainer(container);
+			expect(container.querySelectorAll('.custom-class').length).to.equal(1);
+			actions[0].enable();
+			expect(spy.calledOnce).to.equal(true);
+		});
 	});
 
 	describe("#appendToContainer", function() {
