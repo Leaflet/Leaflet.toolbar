@@ -19,7 +19,8 @@ L.ToolbarAction = L.Handler.extend({
 		this.options.toolbarIcon = L.extend({}, defaultIconOptions, this.options.toolbarIcon);
 	},
 
-	enable: function() {
+	enable: function(e) {
+		L.DomEvent.preventDefault(e);
 		if (this._enabled) { return; }
 		this._enabled = true;
 
