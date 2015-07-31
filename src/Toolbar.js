@@ -82,12 +82,12 @@ L.Toolbar = L.Class.extend({
 			initialize: function() {
 				Action.prototype.initialize.apply(this, args);
 			},
-			enable: function() {
+			enable: function(e) {
 				/* Ensure that only one action in a toolbar will be active at a time. */
 				if (toolbar._active) { toolbar._active.disable(); }
 				toolbar._active = this;
 
-				Action.prototype.enable.call(this);
+				Action.prototype.enable.call(this, e);
 			}
 		});
 	},
