@@ -20,7 +20,7 @@ L.ToolbarAction = L.Handler.extend({
 	},
 
 	enable: function(e) {
-		L.DomEvent.preventDefault(e);
+		if (e) { L.DomEvent.preventDefault(e); }
 		if (this._enabled) { return; }
 		this._enabled = true;
 
