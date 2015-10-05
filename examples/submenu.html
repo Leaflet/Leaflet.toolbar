@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="../node_modules/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="../dist/leaflet.toolbar.css"/>
+    <script src="../node_modules/leaflet/dist/leaflet-src.js"></script>
+    <script src="../dist/leaflet.toolbar-src.js"></script>
+    <style>
+        html, body, #map { margin: 0; height: 100%; width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([41.7896, -87.5996], 15);
+
+        L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '<a href="http://openstreetmap.org/copyright">OpenStreetMap Contributors</a>'
+        }).addTo(map);
+
+
+        var MyCustomAction1 = L.ToolbarAction.extend({
+          options: {
+            toolbarIcon: {
+              html: 'World'
+            }
+          },
+          addHooks: function () {
+            map.setView([0, 0], 0);
+            console.log('Toolbar', toolbar);
+            toolbar.disable(); // ??????
+          }
+        });
+
+        var MyCustomAction2 = L.ToolbarAction.extend({
+          options: {
+            toolbarIcon: {
+                html: 'Eiffel Tower',
+                tooltip: 'Go to the Eiffel Tower'
+            }
+          },
+          addHooks: function () {
+            map.setView([48.85815, 2.29420], 19);
+            console.log('Toolbar', toolbar);
+            toolbar.disable(); // ??????
+          }
+        });
+
+
+        var MyCustomActionX = L.ToolbarAction.extend({
+          options: {
+            toolbarIcon: {
+                html: '<i class="fa fa-times"></i>',
+                tooltip: 'Cancel'
+            }
+          },
+          addHooks: function () {
+            console.log('Toolbar', toolbar);
+            toolbar.disable(); // ??????
+          }
+        });
+
+        var MyCustomAction = L.ToolbarAction.extend({
+          options: {
+            toolbarIcon: {
+              className: 'fa fa-eye',
+            },
+            subToolbar: new L.Toolbar({ actions: [
+              MyCustomAction1,
+              MyCustomAction2,
+              MyCustomActionX
+            ]})
+          },
+          addHooks: function () {
+            // ideally toggle open/close
+          }
+        });
+
+        var toolbar = new L.Toolbar.Control({
+            position: 'topleft',
+            actions: [
+              MyCustomAction
+            ]
+          }).addTo(map);
+    </script>
+</body>
+</html>
