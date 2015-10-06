@@ -29,8 +29,7 @@
           },
           addHooks: function () {
             map.setView([0, 0], 0);
-            console.log('Toolbar', toolbar);
-            toolbar.disable(); // ??????
+            toolbar._active.disable();
           }
         });
 
@@ -43,8 +42,7 @@
           },
           addHooks: function () {
             map.setView([48.85815, 2.29420], 19);
-            console.log('Toolbar', toolbar);
-            toolbar.disable(); // ??????
+            toolbar._active.disable();
           }
         });
 
@@ -57,8 +55,7 @@
             }
           },
           addHooks: function () {
-            console.log('Toolbar', toolbar);
-            toolbar.disable(); // ??????
+            toolbar._active.disable();
           }
         });
 
@@ -74,7 +71,7 @@
             ]})
           },
           addHooks: function () {
-            // ideally toggle open/close
+            // TODO, toggle visibility?
           }
         });
 
