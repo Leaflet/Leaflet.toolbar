@@ -2,7 +2,7 @@
 
 "use strict";
 
-L.Toolbar = L.Class.extend({
+L.Toolbar = (L.Layer || L.Class).extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
@@ -86,12 +86,12 @@ L.Toolbar = L.Class.extend({
 			initialize: function() {
 				Action.prototype.initialize.apply(this, args);
 			},
-			enable: function() {
+			enable: function(e) {
 				/* Ensure that only one action in a toolbar will be active at a time. */
 				if (toolbar._active) { toolbar._active.disable(); }
 				toolbar._active = this;
 
-				Action.prototype.enable.call(this);
+				Action.prototype.enable.call(this, e);
 			}
 		});
 	},
@@ -159,7 +159,8 @@ L.ToolbarAction = L.Handler.extend({
 		this.options.toolbarIcon = L.extend({}, defaultIconOptions, this.options.toolbarIcon);
 	},
 
-	enable: function() {
+	enable: function(e) {
+		if (e) { L.DomEvent.preventDefault(e); }
 		if (this._enabled) { return; }
 		this._enabled = true;
 
@@ -253,7 +254,8 @@ L.Toolbar.Control = L.Toolbar.extend({
 
 	onRemove: function(map) {
 		L.Toolbar.prototype.onRemove.call(this, map);
-		this._control.removeFrom(map);
+		if (this._control.remove) {this._control.remove();}  // Leaflet 1.0
+		else {this._control.removeFrom(map);}
 	}
 });
 
