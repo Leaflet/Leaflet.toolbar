@@ -8,7 +8,11 @@
     <script src="../node_modules/leaflet/dist/leaflet-src.js"></script>
     <script src="../dist/leaflet.toolbar-src.js"></script>
     <style>
-        html, body, #map { margin: 0; height: 100%; width: 100%; }
+        html, body, #map { 
+            margin: 0; 
+            height: 100%; 
+            width: 100%; 
+        }
     </style>
 </head>
 <body>
@@ -21,66 +25,79 @@
         }).addTo(map);
 
 
-        var MyCustomAction1 = L.ToolbarAction.extend({
-          options: {
-            toolbarIcon: {
-              html: 'World'
+        /* A sub-action which completes as soon as it is activated.
+         * Sub-actions receive their parent action as an argument to
+         * their `initialize` function. We save a reference to this
+         * parent action so we can disable it as soon as the sub-action
+         * completes.
+         */
+        var ImmediateSubAction = L.ToolbarAction.extend({
+            initialize: function(map, myAction) {
+                this.map = map;
+                this.myAction = myAction;
+                L.ToolbarAction.prototype.initialize.call(this);                
+            },
+            addHooks: function() {
+                this.myAction.disable();
             }
-          },
-          addHooks: function () {
-            map.setView([0, 0], 0);
-            toolbar._active.disable();
-          }
         });
 
-        var MyCustomAction2 = L.ToolbarAction.extend({
-          options: {
-            toolbarIcon: {
-                html: 'Eiffel Tower',
-                tooltip: 'Go to the Eiffel Tower'
+        var World = ImmediateSubAction.extend({
+            options: {
+                toolbarIcon: {
+                    html: 'World',
+                    tooltip: 'See the whole world'
+                }
+            },
+            addHooks: function () {
+                this.map.setView([0, 0], 0);
+                ImmediateSubAction.prototype.addHooks.call(this);
             }
-          },
-          addHooks: function () {
-            map.setView([48.85815, 2.29420], 19);
-            toolbar._active.disable();
-          }
+        });
+
+        var Eiffel = ImmediateSubAction.extend({
+            options: {
+                toolbarIcon: {
+                    html: 'Eiffel Tower',
+                    tooltip: 'Go to the Eiffel Tower'
+                }
+            },
+            addHooks: function () {
+                this.map.setView([48.85815, 2.29420], 19);
+                ImmediateSubAction.prototype.addHooks.call(this);
+            }
         });
 
 
-        var MyCustomActionX = L.ToolbarAction.extend({
-          options: {
-            toolbarIcon: {
-                html: '<i class="fa fa-times"></i>',
-                tooltip: 'Cancel'
+        var Cancel = ImmediateSubAction.extend({
+            options: {
+                toolbarIcon: {
+                    html: '<i class="fa fa-times"></i>',
+                    tooltip: 'Cancel'
+                }   
             }
-          },
-          addHooks: function () {
-            toolbar._active.disable();
-          }
         });
 
         var MyCustomAction = L.ToolbarAction.extend({
-          options: {
-            toolbarIcon: {
-              className: 'fa fa-eye',
-            },
-            subToolbar: new L.Toolbar({ actions: [
-              MyCustomAction1,
-              MyCustomAction2,
-              MyCustomActionX
-            ]})
-          },
-          addHooks: function () {
-            // TODO, toggle visibility?
-          }
+            options: {
+                toolbarIcon: {
+                    className: 'fa fa-eye',
+                },
+                /* Use L.Toolbar for sub-toolbars. A sub-toolbar is,
+                 * by definition, contained inside another toolbar, so it
+                 * doesn't need the additional styling and behavior of a
+                 * L.Toolbar.Control or L.Toolbar.Popup.
+                 */
+                subToolbar: new L.Toolbar({ 
+                    actions: [World, Eiffel, Cancel]
+                })
+            }
         });
 
-        var toolbar = new L.Toolbar.Control({
+        new L.Toolbar.Control({
             position: 'topleft',
-            actions: [
-              MyCustomAction
-            ]
-          }).addTo(map);
+            actions: [MyCustomAction]
+        }).addTo(map);
     </script>
 </body>
 </html>
