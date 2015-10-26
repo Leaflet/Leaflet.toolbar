@@ -6,6 +6,10 @@ Leaflet.Toolbar
 
 Leaflet.Toolbar provides flexible, extensible toolbar interfaces for Leaflet maps.
 
+## Install
+
+To install the plugin run `npm install leaflet-toolbar` via command line in your project. You must also require this in your project like so: `var leaflet-toolbar = require('leaflet-toolbar');`
+
 ### Examples
 
 View examples for [control-style](http://leaflet.github.io/Leaflet.toolbar/examples/control.html) and [popup-style](http://leaflet.github.io/Leaflet.toolbar/examples/popup.html) toolbars using Leaflet.draw. There is also a [very minimal](http://leaflet.github.io/Leaflet.toolbar/examples/minimal.html) example, to get started.
