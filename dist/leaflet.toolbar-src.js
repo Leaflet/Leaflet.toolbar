@@ -2,7 +2,7 @@
 
 "use strict";
 
-L.Toolbar = (L.Layer || L.Class).extend({
+L.Toolbar = (L.Toolbar ||L.Layer || L.Class).extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
@@ -16,6 +16,7 @@ L.Toolbar = (L.Layer || L.Class).extend({
 	},
 
 	initialize: function(options) {
+		this._modes = {};
 		L.setOptions(this, options);
 		this._toolbar_type = this.constructor._toolbar_class_id;
 	},
