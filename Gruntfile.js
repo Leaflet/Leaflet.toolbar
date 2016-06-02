@@ -70,8 +70,16 @@ module.exports = function(grunt) {
 
         autoprefixer: {
             dist: {
-                src:    'dist/leaflet.toolbar.css',
-                dest:   'dist/leaflet.toolbar.css'
+                src:    'dist/leaflet.toolbar-src.css',
+                dest:   'dist/leaflet.toolbar-src.css'
+            }
+        },
+
+        cssmin: {
+            target: {
+                files: {
+                    'dist/leaflet.toolbar.css': ['dist/leaflet.toolbar-src.css']
+                }
             }
         },
 
@@ -86,7 +94,7 @@ module.exports = function(grunt) {
         less: {
             source: {
                 files: {
-                    'dist/leaflet.toolbar.css': 'src/Toolbar.less'
+                    'dist/leaflet.toolbar-src.css': 'src/Toolbar.less'
                 }
             }
         },
@@ -179,7 +187,7 @@ module.exports = function(grunt) {
         'uglify:dist'
     ]);
 
-    grunt.registerTask('build:css', [ 'less', 'autoprefixer' ]);
+    grunt.registerTask('build:css', [ 'less', 'autoprefixer', 'cssmin' ]);
 
     grunt.registerTask('coverage', 'Custom commmand-line reporter for karma-coverage', function() {
         var coverageReports = grunt.file.expand('coverage/*/coverage.txt'),
