@@ -6,6 +6,7 @@
     "test": "grunt travis",
     "coveralls": "PHANTOM=`ls ./coverage | grep PhantomJS` && cat \"coverage/$PHANTOM/lcov.info\" | coveralls"
   },
+  "main": "dist/leaflet.toolbar.js",
   "devDependencies": {
     "autoprefixer": "^5.1.0",
     "chai": "1.9.1",
