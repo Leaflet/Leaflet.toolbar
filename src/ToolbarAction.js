@@ -44,6 +44,9 @@ L.ToolbarAction = L.Handler.extend({
 		this._link.innerHTML = iconOptions.html;
 		this._link.setAttribute('href', '#');
 		this._link.setAttribute('title', iconOptions.tooltip);
+        if(iconOptions.id) {
+            this._link.setAttribute('id', iconOptions.id);
+        }
 
 		L.DomUtil.addClass(this._link, this.constructor.baseClass);
 		if (iconOptions.className) {
