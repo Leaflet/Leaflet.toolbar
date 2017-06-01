@@ -25,7 +25,19 @@ describe("Reusable Controls", function() {
             addHooks: function () {
                 this.toolbar.switchPosition();
             }
-        });
+        }),
+        click = function (el){
+            var ev = document.createEvent("MouseEvent");
+                 ev.initMouseEvent(
+                     "click",
+                     true /* bubble */, true /* cancelable */,
+                     window, null,
+                     0, 0, 0, 0, /* coordinates */
+                     false, false, false, false, /* modifier keys */
+                     0 /*left*/, null
+                );
+            el.dispatchEvent(ev);
+        };
 
     beforeEach(function() {
         var container = L.DomUtil.create('div');
@@ -54,10 +66,16 @@ describe("Reusable Controls", function() {
 
     describe("#onClick", function() {
         it("is clicked via HTMLElement.click.", function() {
-            var icon = L.DomUtil.get('move-toolbar-icon');
-            expect(icon.click).to.be.an.instanceof(Function);
             expect(toolbar._control.getPosition()).to.equal(startpos);
-            icon.click();
+            var icon = L.DomUtil.get('move-toolbar-icon');
+            // PhantomJS version <2 ?
+            if(icon.click) {
+                expect(icon.click).to.be.an.instanceof(Function);
+                icon.click();
+            }
+            else {
+                click(icon);
+            }
             expect(toolbar._control.getPosition()).not.to.equal(startpos);
             expect(toolbar._control.getPosition()).to.equal("bottomleft");
         });
