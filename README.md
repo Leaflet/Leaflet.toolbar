@@ -8,7 +8,7 @@ Leaflet.Toolbar provides flexible, extensible toolbar interfaces for Leaflet map
 
 ### Examples
 
-View examples for [control-style](http://leaflet.github.io/Leaflet.toolbar/examples/control.html) and [popup-style](http://leaflet.github.io/Leaflet.toolbar/examples/popup.html) toolbars using Leaflet.draw. There is also a [very minimal](http://leaflet.github.io/Leaflet.toolbar/examples/minimal.html) example, to get started.
+View examples for [control-style](https://justinmanley.github.io/leaflet-draw-toolbar/examples/control.html) and [popup-style](https://justinmanley.github.io/leaflet-draw-toolbar/examples/popup.html) toolbars using Leaflet.draw, as well as a [minimal example](http://leaflet.github.io/Leaflet.toolbar/examples/minimal.html). NOTE: If you want to use this library with Leaflet.draw, you should use the toolbars provided with [leaflet-draw-toolbar](https://github.com/justinmanley/leaflet-draw-toolbar).
 
 ### Usage
 
