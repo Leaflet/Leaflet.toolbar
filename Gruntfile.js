@@ -79,7 +79,8 @@ module.exports = function(grunt) {
         cssmin: {
             target: {
                 files: {
-                    'dist/leaflet.toolbar.css': ['dist/leaflet.toolbar-src.css']
+                    'dist/leaflet.toolbar.css': ['dist/leaflet.toolbar-src.css'],
+                    'dist/leaflet.toolbar.min.css': ['dist/leaflet.toolbar-src.css']
                 }
             }
         },
@@ -87,7 +88,8 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: {
-                    'dist/leaflet.toolbar.js': ['dist/leaflet.toolbar-src.js']
+                    'dist/leaflet.toolbar.js': ['dist/leaflet.toolbar-src.js'],
+                    'dist/leaflet.toolbar.min.js': ['dist/leaflet.toolbar-src.js']
                 }
             }
         },
