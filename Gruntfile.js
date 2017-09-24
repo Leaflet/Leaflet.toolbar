@@ -43,6 +43,7 @@ module.exports = function(grunt) {
                 smarttabs: true,
                 globals: {
                     L: false,
+                    LeafletToolbar: true,
 
                     // Mocha
 

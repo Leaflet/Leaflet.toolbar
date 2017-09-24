@@ -1,4 +1,4 @@
-L.Toolbar = (L.Layer || L.Class).extend({
+window.LeafletToolbar = (L.Layer || L.Class).extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
@@ -119,7 +119,7 @@ L.toolbar = {};
 
 var toolbar_class_id = 0;
 
-L.Toolbar.extend = function extend(props) {
+LeafletToolbar.extend = function extend(props) {
 	var statics = L.extend({}, props.statics, {
 		"_toolbar_class_id": toolbar_class_id
 	});

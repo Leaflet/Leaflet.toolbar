@@ -18,7 +18,7 @@
   border-right: 0;
   text-align: center;
   text-decoration: none;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 .leaflet-toolbar-0 > li > .leaflet-toolbar-icon:hover {
   background-color: #f4f4f4;
@@ -37,10 +37,9 @@
   width: 12px;
   height: 12px;
   margin: -6px auto 0;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
   -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
           transform: rotate(45deg);
 }
 /* L.Toolbar.Control */

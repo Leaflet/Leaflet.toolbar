@@ -1,8 +1,8 @@
 // A convenience class for built-in popup toolbars.
 
-L.Toolbar.Popup = L.Toolbar.extend({
+LeafletToolbar.Popup = LeafletToolbar.extend({
 	statics: {
-		baseClass: 'leaflet-popup-toolbar ' + L.Toolbar.baseClass
+		baseClass: 'leaflet-popup-toolbar ' + LeafletToolbar.baseClass
 	},
 
 	options: {
@@ -10,10 +10,10 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	},
 
 	initialize: function(latlng, options) {
-		L.Toolbar.prototype.initialize.call(this, options);
+		LeafletToolbar.prototype.initialize.call(this, options);
 
 		/* 
-		 * Developers can't pass a DivIcon in the options for L.Toolbar.Popup
+		 * Developers can't pass a DivIcon in the options for LeafletToolbar.Popup
 		 * (the use of DivIcons is an implementation detail which may change).
 		 */
 		this._marker = new L.Marker(latlng, {
@@ -28,7 +28,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 		this._map = map;
 		this._marker.addTo(map);
 
-		L.Toolbar.prototype.onAdd.call(this, map);
+		LeafletToolbar.prototype.onAdd.call(this, map);
 
 		this.appendToContainer(this._marker._icon);
 
@@ -38,7 +38,7 @@ L.Toolbar.Popup = L.Toolbar.extend({
 	onRemove: function(map) {
 		map.removeLayer(this._marker);
 
-		L.Toolbar.prototype.onRemove.call(this, map);
+		LeafletToolbar.prototype.onRemove.call(this, map);
 
 		delete this._map;
 	},
@@ -87,5 +87,5 @@ L.Toolbar.Popup = L.Toolbar.extend({
 });
 
 L.toolbar.popup = function(options) {
-    return new L.Toolbar.Popup(options);
+    return new LeafletToolbar.Popup(options);
 };
