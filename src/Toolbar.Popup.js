@@ -59,31 +59,36 @@ LeafletToolbar.Popup = LeafletToolbar.extend({
 			toolbarHeight,
 			tipSize,
 			tipAnchor;
-
 		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = icons.length; i < l; i++) {
 			if (icons[i].parentNode.parentNode === toolbar) {
 				buttonHeights.push(parseInt(L.DomUtil.getStyle(icons[i], 'height'), 10));
 				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'width')));
+				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'border-right-width')));
 			}
 		}
 		toolbar.style.width = toolbarWidth + 'px';
 
 		/* Create and place the toolbar tip. */
 		this._tipContainer = L.DomUtil.create('div', 'leaflet-toolbar-tip-container', container);
-		this._tipContainer.style.width = toolbarWidth + 'px';
+		this._tipContainer.style.width = toolbarWidth +
+			Math.ceil(parseFloat(L.DomUtil.getStyle(toolbar, 'border-left-width'))) +
+			'px';
 
 		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
 
 		/* Set the tipAnchor point. */
 		toolbarHeight = Math.max.apply(undefined, buttonHeights);
+		// Ensure that the border completely surrounds its relative-positioned children.
+		toolbar.style.height = toolbarHeight + 'px';
 		tipSize = parseInt(L.DomUtil.getStyle(this._tip, 'width'), 10);
-		tipAnchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
+        // The tip should be anchored exactly where the click event was received.
+		tipAnchor = new L.Point(toolbarWidth/2, toolbarHeight + 1.414*tipSize);
 
 		/* The anchor option allows app developers to adjust the toolbar's position. */
 		container.style.marginLeft = (anchor.x - tipAnchor.x) + 'px';
 		container.style.marginTop = (anchor.y - tipAnchor.y) + 'px';
-	}
+	},
 });
 
 L.toolbar.popup = function(options) {

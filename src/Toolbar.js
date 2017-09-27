@@ -1,9 +1,8 @@
+// L.Layer was introduced in Leaflet 1.0 and is not present in earlier releases.
 window.LeafletToolbar = (L.Layer || L.Class).extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
-
-	includes: L.Mixin.Events,
 
 	options: {
 		className: '',
@@ -58,8 +57,16 @@ window.LeafletToolbar = (L.Layer || L.Class).extend({
 		this._container = container;
 		this._ul = L.DomUtil.create('ul', className, container);
 
-		/* Ensure that clicks, drags, etc. don't bubble up to the map. */
-		this._disabledEvents = ['click', 'mousemove', 'dblclick'];
+		// Ensure that clicks, drags, etc. don't bubble up to the map.
+		// These are the map events that the L.Draw.Polyline handler listens for.
+		// Note that L.Draw.Polyline listens to 'mouseup', not 'mousedown', but
+		// if only 'mouseup' is silenced, then the map gets stuck in a halfway
+		// state because it receives a 'mousedown' event and is waiting for the
+		// corresponding 'mouseup' event.
+		this._disabledEvents = [
+			'click', 'mousemove', 'dblclick',
+			'mousedown', 'mouseup', 'touchstart'
+		];
 
 		for (j = 0, m = this._disabledEvents.length; j < m; j++) {
 			L.DomEvent.on(this._ul, this._disabledEvents[j], L.DomEvent.stopPropagation);
@@ -114,6 +121,13 @@ window.LeafletToolbar = (L.Layer || L.Class).extend({
 		return depth;
 	}
 });
+
+// L.Mixin.Events is replaced by L.Evented in Leaflet 1.0. L.Layer (also
+// introduced in Leaflet 1.0) inherits from L.Evented, so if L.Layer is
+// present, then LeafletToolbar will already support events.
+if (!L.Evented) {
+    LeafletToolbar.include(L.Mixin.Events);
+}
 
 L.toolbar = {};
 

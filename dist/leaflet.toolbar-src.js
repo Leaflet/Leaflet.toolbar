@@ -2,12 +2,11 @@
 
 "use strict";
 
+// L.Layer was introduced in Leaflet 1.0 and is not present in earlier releases.
 window.LeafletToolbar = (L.Layer || L.Class).extend({
 	statics: {
 		baseClass: 'leaflet-toolbar'
 	},
-
-	includes: L.Mixin.Events,
 
 	options: {
 		className: '',
@@ -62,8 +61,16 @@ window.LeafletToolbar = (L.Layer || L.Class).extend({
 		this._container = container;
 		this._ul = L.DomUtil.create('ul', className, container);
 
-		/* Ensure that clicks, drags, etc. don't bubble up to the map. */
-		this._disabledEvents = ['click', 'mousemove', 'dblclick'];
+		// Ensure that clicks, drags, etc. don't bubble up to the map.
+		// These are the map events that the L.Draw.Polyline handler listens for.
+		// Note that L.Draw.Polyline listens to 'mouseup', not 'mousedown', but
+		// if only 'mouseup' is silenced, then the map gets stuck in a halfway
+		// state because it receives a 'mousedown' event and is waiting for the
+		// corresponding 'mouseup' event.
+		this._disabledEvents = [
+			'click', 'mousemove', 'dblclick',
+			'mousedown', 'mouseup', 'touchstart'
+		];
 
 		for (j = 0, m = this._disabledEvents.length; j < m; j++) {
 			L.DomEvent.on(this._ul, this._disabledEvents[j], L.DomEvent.stopPropagation);
@@ -118,6 +125,13 @@ window.LeafletToolbar = (L.Layer || L.Class).extend({
 		return depth;
 	}
 });
+
+// L.Mixin.Events is replaced by L.Evented in Leaflet 1.0. L.Layer (also
+// introduced in Leaflet 1.0) inherits from L.Evented, so if L.Layer is
+// present, then LeafletToolbar will already support events.
+if (!L.Evented) {
+    LeafletToolbar.include(L.Mixin.Events);
+}
 
 L.toolbar = {};
 
@@ -330,31 +344,36 @@ LeafletToolbar.Popup = LeafletToolbar.extend({
 			toolbarHeight,
 			tipSize,
 			tipAnchor;
-
 		/* Calculate the dimensions of the toolbar. */
 		for (var i = 0, l = icons.length; i < l; i++) {
 			if (icons[i].parentNode.parentNode === toolbar) {
 				buttonHeights.push(parseInt(L.DomUtil.getStyle(icons[i], 'height'), 10));
 				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'width')));
+				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'border-right-width')));
 			}
 		}
 		toolbar.style.width = toolbarWidth + 'px';
 
 		/* Create and place the toolbar tip. */
 		this._tipContainer = L.DomUtil.create('div', 'leaflet-toolbar-tip-container', container);
-		this._tipContainer.style.width = toolbarWidth + 'px';
+		this._tipContainer.style.width = toolbarWidth +
+			Math.ceil(parseFloat(L.DomUtil.getStyle(toolbar, 'border-left-width'))) +
+			'px';
 
 		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
 
 		/* Set the tipAnchor point. */
 		toolbarHeight = Math.max.apply(undefined, buttonHeights);
+		// Ensure that the border completely surrounds its relative-positioned children.
+		toolbar.style.height = toolbarHeight + 'px';
 		tipSize = parseInt(L.DomUtil.getStyle(this._tip, 'width'), 10);
-		tipAnchor = new L.Point(toolbarWidth/2, toolbarHeight + 0.7071*tipSize);
+        // The tip should be anchored exactly where the click event was received.
+		tipAnchor = new L.Point(toolbarWidth/2, toolbarHeight + 1.414*tipSize);
 
 		/* The anchor option allows app developers to adjust the toolbar's position. */
 		container.style.marginLeft = (anchor.x - tipAnchor.x) + 'px';
 		container.style.marginTop = (anchor.y - tipAnchor.y) + 'px';
-	}
+	},
 });
 
 L.toolbar.popup = function(options) {

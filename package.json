@@ -7,6 +7,9 @@
     "coveralls": "PHANTOM=`ls ./coverage | grep PhantomJS` && cat \"coverage/$PHANTOM/lcov.info\" | coveralls"
   },
   "main": "dist/leaflet.toolbar.js",
+  "peerDependencies": {
+	"leaflet": "*"  
+  },
   "devDependencies": {
     "autoprefixer": "~7.1.4",
     "chai": "~4.1.2",
@@ -35,7 +38,7 @@
     "karma-mocha-reporter": "~2.2.4",
     "karma-phantomjs-launcher": "~1.0.4",
     "karma-safari-launcher": "~1.0.0",
-    "leaflet": "~0.7.7",
+    "leaflet": "~1.2.0",
     "matchdep": "~2.0.0",
     "mocha": "~3.5.2",
     "sinon": "~3.2.1",
