@@ -23,7 +23,7 @@ You can then include Leaflet.Toolbar in your web application by adding the follo
 
 Leaflet.Toolbar exports two toolbar styles that can be used out of the box: a popup-style toolbar, and a control-style toolbar.  To instantiate a control-style toolbar and add it to the map, use:
 ```javascript
-new L.Toolbar.Control({
+new LeafletToolbar.Control({
 	actions: [MyToolbarAction1, MyToolbarAction2, ...]
 }).addTo(map);
 ```
