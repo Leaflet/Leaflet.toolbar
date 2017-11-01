@@ -157,8 +157,9 @@ module.exports = function(grunt) {
                 },
                 src: [
                     'src/Toolbar.js',
-                    'src/ToolbarAction.js',
-                    'src/Toolbar.*.js'
+                    'src/Action.js',
+                    'src/Control.js',
+					'src/Popup.js'
                 ],
                 dest: 'dist/leaflet.toolbar-src.js',
             }

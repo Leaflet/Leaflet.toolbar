@@ -1,4 +1,4 @@
-describe("LeafletToolbar", function() {
+describe("L.Toolbar2", function() {
 	var map,
 		container,
 		toolbarTemplate,
@@ -8,21 +8,21 @@ describe("LeafletToolbar", function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
 		container = L.DomUtil.create('div');
 
-		toolbarTemplate = [LeafletToolbar.ToolbarAction];
-		toolbar = new LeafletToolbar({ actions: toolbarTemplate });
+		toolbarTemplate = [L.Toolbar2.Action];
+		toolbar = new L.Toolbar2({ actions: toolbarTemplate });
 	});
 
 	describe("#onAdd", function() {
 		it.skip("Should replace the current toolbar when a duplicate is added to the map.", function() {
-			var toolbar1 = new LeafletToolbar().addTo(map);
+			var toolbar1 = new L.Toolbar2().addTo(map);
 
-			new LeafletToolbar().addTo(map);
+			new L.Toolbar2().addTo(map);
 			expect(map.hasLayer(toolbar1)).to.equal(false);
 		});
 
 		it.skip("Should allow multiple toolbars of different types on the map.", function() {
-			var Toolbar1 = LeafletToolbar.extend({}),
-				Toolbar2 = LeafletToolbar.extend({}),
+			var Toolbar1 = L.Toolbar2.extend({}),
+				Toolbar2 = L.Toolbar2.extend({}),
 				toolbar1 = new Toolbar1().addTo(map);
 
 			new Toolbar2().addTo(map);
@@ -38,7 +38,7 @@ describe("LeafletToolbar", function() {
 		});
 
 		it("Should pass along its arguments to each toolbar action factory.", function(done) {
-			var TestHandler = LeafletToolbar.ToolbarAction.extend({
+			var TestHandler = L.Toolbar2.Action.extend({
 				initialize: function(arg1, arg2) {
 					expect(arg1).to.equal(map);
 					expect(arg2).to.equal(2);
@@ -46,7 +46,7 @@ describe("LeafletToolbar", function() {
 				}
 			});
 
-			toolbar = new LeafletToolbar({ actions: [TestHandler] });
+			toolbar = new L.Toolbar2({ actions: [TestHandler] });
 
 			toolbar.addTo(map, 2);
 			toolbar.appendToContainer(container);
@@ -92,10 +92,10 @@ describe("LeafletToolbar", function() {
 		});
 
 		it("Should return 1 for a nested toolbar", function() {
-			var subToolbar = new LeafletToolbar(),
-				TestHandler = LeafletToolbar.ToolbarAction.extend({ options: { subToolbar: subToolbar } });
+			var subToolbar = new L.Toolbar2(),
+				TestHandler = L.Toolbar2.Action.extend({ options: { subToolbar: subToolbar } });
 
-			toolbar = new LeafletToolbar({ actions: [TestHandler] }).addTo(map);
+			toolbar = new L.Toolbar2({ actions: [TestHandler] }).addTo(map);
 			toolbar.appendToContainer(container);
 
 			expect(subToolbar._calculateDepth()).to.equal(1);

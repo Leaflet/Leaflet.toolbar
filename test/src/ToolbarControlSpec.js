@@ -1,10 +1,10 @@
-describe("LeafletToolbar.Control", function() {
+describe("L.Toolbar2.Control", function() {
 	var map,
 		toolbar;
 
 	beforeEach(function() {
 		map = new L.Map(L.DomUtil.create('div')).setView([41.7896,-87.5996], 15);
-		toolbar = new LeafletToolbar.Control([LeafletToolbar.ToolbarAction]).addTo(map);
+		toolbar = new L.Toolbar2.Control([L.Toolbar2.Action]).addTo(map);
 	});
 
 	describe("#onAdd", function() {
@@ -23,9 +23,9 @@ describe("LeafletToolbar.Control", function() {
 
 describe("L.toolbar.control", function() {
     describe("class factory", function() {
-        it("creates LeafletToolbar.Control instance", function() {
+        it("creates L.Toolbar2.Control instance", function() {
             var options = {position: 'bottomleft'};
-            expect(L.toolbar.control(options)).to.eql(new LeafletToolbar.Control(options));
+            expect(L.toolbar.control(options)).to.eql(new L.Toolbar2.Control(options));
         });
     });
 });

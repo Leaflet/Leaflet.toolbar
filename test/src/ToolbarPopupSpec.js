@@ -1,4 +1,4 @@
-describe("LeafletToolbar.Popup", function() {
+describe("L.Toolbar2.Popup", function() {
 	var map,
 		toolbar;
 
@@ -7,8 +7,8 @@ describe("LeafletToolbar.Popup", function() {
 
 		/* need to add the <div> to document.body in order for external CSS stylesheets to be applied. */
 		map = new L.Map(L.DomUtil.create('div', 'map', document.body)).setView([41.7896,-87.5996], 15);
-		toolbar = new LeafletToolbar.Popup(latlng, {
-			actions: [LeafletToolbar.ToolbarAction, LeafletToolbar.ToolbarAction]
+		toolbar = new L.Toolbar2.Popup(latlng, {
+			actions: [L.Toolbar2.Action, L.Toolbar2.Action]
 		});
 	});
 
@@ -61,9 +61,9 @@ describe("LeafletToolbar.Popup", function() {
 
 describe("L.toolbar.popup", function() {
     describe("class factory", function() {
-        it("creates LeafletToolbar.Popup instance", function() {
+        it("creates L.Toolbar2.Popup instance", function() {
             var options = {position: 'bottomleft'};
-            expect(L.toolbar.popup(options)).to.eql(new LeafletToolbar.Popup(options));
+            expect(L.toolbar.popup(options)).to.eql(new L.Toolbar2.Popup(options));
         });
     });
 });

@@ -1,10 +1,10 @@
-LeafletToolbar.Control = LeafletToolbar.extend({
+L.Toolbar2.Control = L.Toolbar2.extend({
 	statics: {
-		baseClass: 'leaflet-control-toolbar ' + LeafletToolbar.baseClass
+		baseClass: 'leaflet-control-toolbar ' + L.Toolbar2.baseClass
 	},
 
 	initialize: function(options) {
-		LeafletToolbar.prototype.initialize.call(this, options);
+		L.Toolbar2.prototype.initialize.call(this, options);
 
 		this._control = new L.Control.Toolbar(this.options);
 	},
@@ -12,13 +12,13 @@ LeafletToolbar.Control = LeafletToolbar.extend({
 	onAdd: function(map) {
 		this._control.addTo(map);
 
-		LeafletToolbar.prototype.onAdd.call(this, map);
+		L.Toolbar2.prototype.onAdd.call(this, map);
 
 		this.appendToContainer(this._control.getContainer());
 	},
 
 	onRemove: function(map) {
-		LeafletToolbar.prototype.onRemove.call(this, map);
+		L.Toolbar2.prototype.onRemove.call(this, map);
 		if (this._control.remove) {this._control.remove();}  // Leaflet 1.0
 		else {this._control.removeFrom(map);}
 	}
@@ -31,5 +31,5 @@ L.Control.Toolbar = L.Control.extend({
 });
 
 L.toolbar.control = function(options) {
-    return new LeafletToolbar.Control(options);
+    return new L.Toolbar2.Control(options);
 };

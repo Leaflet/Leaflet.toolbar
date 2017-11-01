@@ -1,4 +1,4 @@
-describe("LeafletToolbar.ToolbarAction", function() {
+describe("L.Toolbar2.Action", function() {
 	var map,
 		container,
 		ul,
@@ -10,7 +10,7 @@ describe("LeafletToolbar.ToolbarAction", function() {
 		container = L.DomUtil.create('div', 'leaflet-toolbar-0', document.body);
 		ul = L.DomUtil.create('ul');
 
-		Action = LeafletToolbar.ToolbarAction.extend({
+		Action = L.Toolbar2.Action.extend({
 			options: {
 				toolbarIcon: {
 					html: 'Test Icon',
@@ -18,7 +18,7 @@ describe("LeafletToolbar.ToolbarAction", function() {
 				}
 			}
 		});
-		toolbar = new LeafletToolbar({ actions: [Action] });
+		toolbar = new L.Toolbar2({ actions: [Action] });
 	});
 
 	describe("#_createIcon", function() {
@@ -58,11 +58,11 @@ describe("LeafletToolbar.ToolbarAction", function() {
 		});
 
 		it("Should add a <ul> element when the toolbar has one action.", function() {
-			var subToolbar = new LeafletToolbar({ actions: [LeafletToolbar.ToolbarAction] }),
+			var subToolbar = new L.Toolbar2({ actions: [L.Toolbar2.Action] }),
 				TestAction = Action.extend({ options: { subToolbar: subToolbar } }),
 				ul;
 
-			toolbar = new LeafletToolbar({ actions: [TestAction] }).addTo(map);
+			toolbar = new L.Toolbar2({ actions: [TestAction] }).addTo(map);
 
 			TestAction.prototype._addSubToolbar(toolbar, container, [map]);
 			ul = container.querySelectorAll('ul');
@@ -74,11 +74,11 @@ describe("LeafletToolbar.ToolbarAction", function() {
 
 	describe("#addHooks", function() {
 		beforeEach(function() {
-			var subToolbar = new LeafletToolbar({ actions: [LeafletToolbar.ToolbarAction] }),
-				action = new LeafletToolbar.ToolbarAction();
+			var subToolbar = new L.Toolbar2({ actions: [L.Toolbar2.Action] }),
+				action = new L.Toolbar2.Action();
 
 			L.setOptions(action, { subToolbar: subToolbar });
-			toolbar = new LeafletToolbar({ actions: [LeafletToolbar.ToolbarAction] }).addTo(map);
+			toolbar = new L.Toolbar2({ actions: [L.Toolbar2.Action] }).addTo(map);
 
 			action._addSubToolbar(toolbar, container, [map]);
 		});
@@ -86,7 +86,7 @@ describe("LeafletToolbar.ToolbarAction", function() {
 		/* How to test this without access to the action itself? */
 		it.skip("Should show the subToolbar when the action is enabled.", function() {
 			var ul = container.querySelectorAll('ul')[0],
-				action = new LeafletToolbar.ToolbarAction();
+				action = new L.Toolbar2.Action();
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
@@ -97,11 +97,11 @@ describe("LeafletToolbar.ToolbarAction", function() {
 
 	describe("#removeHooks", function() {
 		beforeEach(function() {
-			var subToolbar = new LeafletToolbar({ actions: [LeafletToolbar.ToolbarAction] }),
-				action = new LeafletToolbar.ToolbarAction();
+			var subToolbar = new L.Toolbar2({ actions: [L.Toolbar2.Action] }),
+				action = new L.Toolbar2.Action();
 
 			L.setOptions(action, { subToolbar: subToolbar });
-			toolbar = new LeafletToolbar({ actions: [LeafletToolbar.ToolbarAction] }).addTo(map);
+			toolbar = new L.Toolbar2({ actions: [L.Toolbar2.Action] }).addTo(map);
 
 			action._addSubToolbar(toolbar, container, [map]);
 		});
@@ -109,7 +109,7 @@ describe("LeafletToolbar.ToolbarAction", function() {
 		/* How to test this without access to the action itself? */
 		it.skip("Should hide the subToolbar when the hndler is disabled.", function() {
 			var ul = container.querySelectorAll('ul')[0],
-				action = new LeafletToolbar.ToolbarAction();
+				action = new L.Toolbar2.Action();
 
 			expect(getComputedStyle(ul).display).to.equal('none');
 
@@ -122,14 +122,14 @@ describe("LeafletToolbar.ToolbarAction", function() {
 
 	describe("#enable", function() {
 		it("Should enable the action.", function() {
-			var action = new LeafletToolbar.ToolbarAction();
+			var action = new L.Toolbar2.Action();
 
 			action.enable();
 			expect(action.enabled()).to.equal(true);
 		});
 
 		it("Should re-enable the action after it is disabled.", function() {
-			var action = new LeafletToolbar.ToolbarAction();
+			var action = new L.Toolbar2.Action();
 
 			action.enable();
 			action.disable();
@@ -144,7 +144,7 @@ describe("LeafletToolbar.ToolbarAction", function() {
 
 	describe("#disable", function() {
 		it("Should disable the action.", function() {
-			var action = new LeafletToolbar.ToolbarAction();
+			var action = new L.Toolbar2.Action();
 
 			action.enable();
 			action.disable();
@@ -155,7 +155,7 @@ describe("LeafletToolbar.ToolbarAction", function() {
 
 	describe(".extendOptions", function() {
 		it("Should return a new constructor with parent options merged with those passed to .extendOptions", function() {
-			var H = LeafletToolbar.ToolbarAction.extendOptions({ color: '#d1bd0f' }),
+			var H = L.Toolbar2.Action.extendOptions({ color: '#d1bd0f' }),
 				h = new H(map);
 
 			/* New option should be passed to the new constructor. */
@@ -169,10 +169,10 @@ describe("LeafletToolbar.ToolbarAction", function() {
 
 describe("L.toolbarAction", function() {
 	describe("class factory", function() {
-		it("Creates an LeafletToolbar.ToolbarAction instance.", function() {
+		it("Creates an L.Toolbar2.Action instance.", function() {
 			var options = { toolbarIcon: { html: 'hello' } };
 
-			expect(L.toolbarAction(options)).to.deep.equal(new LeafletToolbar.ToolbarAction(options));
+			expect(L.toolbarAction(options)).to.deep.equal(new L.Toolbar2.Action(options));
 		});
 	});
 });

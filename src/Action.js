@@ -1,4 +1,4 @@
-LeafletToolbar.ToolbarAction = L.Handler.extend({
+L.Toolbar2.Action = L.Handler.extend({
 	statics: {
 		baseClass: 'leaflet-toolbar-icon'
 	},
@@ -9,11 +9,11 @@ LeafletToolbar.ToolbarAction = L.Handler.extend({
 			className: '',
 			tooltip: ''
 		},
-		subToolbar: new LeafletToolbar()
+		subToolbar: new L.Toolbar2()
 	},
 
 	initialize: function(options) {
-		var defaultIconOptions = LeafletToolbar.ToolbarAction.prototype.options.toolbarIcon;
+		var defaultIconOptions = L.Toolbar2.Action.prototype.options.toolbarIcon;
 
 		L.setOptions(this, options);
 		this.options.toolbarIcon = L.extend({}, defaultIconOptions, this.options.toolbarIcon);
@@ -86,9 +86,9 @@ LeafletToolbar.ToolbarAction = L.Handler.extend({
 });
 
 L.toolbarAction = function toolbarAction(options) {
-	return new LeafletToolbar.ToolbarAction(options);
+	return new L.Toolbar2.Action(options);
 };
 
-LeafletToolbar.ToolbarAction.extendOptions = function(options) {
+L.Toolbar2.Action.extendOptions = function(options) {
 	return this.extend({ options: options });
 };
