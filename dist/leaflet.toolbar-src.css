@@ -23,6 +23,7 @@
   text-align: center;
   text-decoration: none;
   background-color: #fff;
+  box-sizing: initial;
 }
 .leaflet-toolbar-0 > li > .leaflet-toolbar-icon:hover {
   background-color: #f4f4f4;
