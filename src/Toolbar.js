@@ -12,7 +12,6 @@ window.L.Toolbar2 = (L.Layer || L.Class).extend({
 
 	initialize: function(options) {
 		L.setOptions(this, options);
-		this._toolbar_type = this.constructor._toolbar_class_id;
 	},
 
 	addTo: function(map) {
@@ -24,11 +23,13 @@ window.L.Toolbar2 = (L.Layer || L.Class).extend({
 	},
 
 	onAdd: function(map) {
-		var currentToolbar = map._toolbars[this._toolbar_type];
+		var isPopup = this.constructor.baseClass.split(" ")[0].includes('leaflet-popup-toolbar');
+		var toolbarId = isPopup ? 'leaflet-popup-toolbar' : this._leaflet_id;
+		var currentToolbar = map._toolbars[toolbarId];
 
 		if (this._calculateDepth() === 0) {
 			if (currentToolbar) { map.removeLayer(currentToolbar); }
-			map._toolbars[this._toolbar_type] = this;
+			map._toolbars[toolbarId] = this;
 		}
 	},
 
@@ -44,7 +45,9 @@ window.L.Toolbar2 = (L.Layer || L.Class).extend({
 		// }
 
 		if (this._calculateDepth() === 0) {
-			delete map._toolbars[this._toolbar_type];
+			var isPopup = this.constructor.baseClass.split(" ")[0].includes('leaflet-popup-toolbar');
+			var toolbarId = isPopup ? 'leaflet-popup-toolbar' : this._leaflet_id;
+			delete map._toolbars[toolbarId];
 		}
 	},
 
@@ -131,14 +134,10 @@ if (!L.Evented) {
 
 L.toolbar = {};
 
-var toolbar_class_id = 0;
 
 L.Toolbar2.extend = function extend(props) {
-	var statics = L.extend({}, props.statics, {
-		"_toolbar_class_id": toolbar_class_id
-	});
+	var statics = L.extend({}, props.statics);
 
-	toolbar_class_id += 1;
 	L.extend(props, { statics: statics });
 
 	return L.Class.extend.call(this, props);
