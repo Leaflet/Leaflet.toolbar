@@ -1,6 +1,7 @@
 L.Toolbar2.Control = L.Toolbar2.extend({
 	statics: {
-		baseClass: 'leaflet-control-toolbar ' + L.Toolbar2.baseClass
+		baseClass: 'leaflet-control-toolbar ' + L.Toolbar2.baseClass,
+        baseClassH: 'leaflet-control-toolbar-horizontal ' + L.Toolbar2.baseClass
 	},
 
 	initialize: function(options) {

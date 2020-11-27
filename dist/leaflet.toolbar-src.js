@@ -10,6 +10,7 @@ window.L.Toolbar2 = (L.Layer || L.Class).extend({
 
 	options: {
 		className: '',
+        type: 'vertical',   /* or 'horizontal' */
 		filter: function() { return true; },
 		actions: []
 	},
@@ -53,7 +54,13 @@ window.L.Toolbar2 = (L.Layer || L.Class).extend({
 	},
 
 	appendToContainer: function(container) {
-		var baseClass = this.constructor.baseClass + '-' + this._calculateDepth(),
+        var _baseClass;
+        if (this.options.type === 'horizontal' && this.constructor.baseClassH) {
+            _baseClass = this.constructor.baseClassH;
+        } else {
+            _baseClass = this.constructor.baseClass;
+        }
+		var baseClass = _baseClass + '-' + this._calculateDepth(),
 			className = baseClass + ' ' + this.options.className,
 			Action, action,
 			i, j, l, m;
@@ -249,7 +256,8 @@ L.Toolbar2.Action.extendOptions = function(options) {
 
 L.Toolbar2.Control = L.Toolbar2.extend({
 	statics: {
-		baseClass: 'leaflet-control-toolbar ' + L.Toolbar2.baseClass
+		baseClass: 'leaflet-control-toolbar ' + L.Toolbar2.baseClass,
+        baseClassH: 'leaflet-control-toolbar-horizontal ' + L.Toolbar2.baseClass
 	},
 
 	initialize: function(options) {
