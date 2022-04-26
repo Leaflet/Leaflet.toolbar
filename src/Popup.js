@@ -64,7 +64,6 @@ L.Toolbar2.Popup = L.Toolbar2.extend({
 			if (icons[i].parentNode.parentNode === toolbar) {
 				buttonHeights.push(parseInt(L.DomUtil.getStyle(icons[i], 'height'), 10));
 				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'width')));
-				toolbarWidth += Math.ceil(parseFloat(L.DomUtil.getStyle(icons[i], 'border-right-width')));
 			}
 		}
 		toolbar.style.width = toolbarWidth + 'px';
@@ -73,6 +72,7 @@ L.Toolbar2.Popup = L.Toolbar2.extend({
 		this._tipContainer = L.DomUtil.create('div', 'leaflet-toolbar-tip-container', container);
 		this._tipContainer.style.width = toolbarWidth +
 			Math.ceil(parseFloat(L.DomUtil.getStyle(toolbar, 'border-left-width'))) +
+            Math.ceil(parseFloat(L.DomUtil.getStyle(toolbar, 'border-right-width'))) +
 			'px';
 
 		this._tip = L.DomUtil.create('div', 'leaflet-toolbar-tip', this._tipContainer);
